@@ -36,7 +36,7 @@ public class Semester
     /// <summary>
     /// Получает список учебных дисциплин в семестре вместе с их учебной нагрузкой.
     /// </summary>
-    public List<(Subject, AcademicLoad)> Subjects { get; }
+    public List<(Subject Subject, AcademicLoad AcademicLoad)> Subjects { get; }
 
     /// <summary>
     /// Создает новый экземпляр класса <see cref="Semester"/> с указанным идентификатором, номером, группой и списком учебных дисциплин.

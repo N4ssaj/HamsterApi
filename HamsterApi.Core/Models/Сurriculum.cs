@@ -31,12 +31,12 @@ public class Curriculum
     /// <summary>
     /// Получает словарь, содержащий списки дисциплин по семестрам.
     /// </summary>
-    public Dictionary<uint, List<(Subject, AcademicLoad)>> SemestersSubjects { get; }
+    public Dictionary<uint, List<(Subject Subject, AcademicLoad AcademicLoad)>> SemestersSubjects { get; }
 
     /// <summary>
     /// Получает словарь, содержащий списки выборочных дисциплин по семестрам.
     /// </summary>
-    public Dictionary<uint, List<(Subject, AcademicLoad)>> SemestersElectiveSubjects { get; }
+    public Dictionary<uint, List<(Subject Subject, AcademicLoad AcademicLoad)>> SemestersElectiveSubjects { get; }
 
     /// <summary>
     /// Создает новый учебный план с указанным идентификатором, группой, списком дисциплин по семестрам и списком выборочных дисциплин по семестрам.

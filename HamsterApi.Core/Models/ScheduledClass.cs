@@ -20,14 +20,18 @@ public class ScheduledClass
     /// <param name="subject">Предмет занятия.</param>
     /// <param name="teacher">Преподаватель, ведущий занятие.</param>
     /// <param name="auditorium">Аудитория, в которой проводится занятие.</param>
-    private ScheduledClass(Guid id, uint classNumber, Subject subject, Teacher teacher, Auditorium auditorium)
-        => (Id, ClassNumber, Subject, Teacher, Auditorium) = (id, classNumber, subject, teacher, auditorium);
+    private ScheduledClass(Guid id, uint classNumber, Subject subject, Teacher teacher, Auditorium auditorium,ClassType classType)
+        => (Id, ClassNumber, Subject, Teacher, Auditorium,ClassType) = (id, classNumber, subject, teacher, auditorium,classType);
 
     /// <summary>
     /// Получает уникальный идентификатор занятия.
     /// </summary>
     public Guid Id { get; }
 
+    /// <summary>
+    /// тип занятия 
+    /// </summary>
+    public ClassType ClassType { get; }
     /// <summary>
     /// Получает номер занятия в расписании.
     /// </summary>
@@ -57,12 +61,14 @@ public class ScheduledClass
     /// <param name="teacher">Преподаватель, ведущий занятие.</param>
     /// <param name="auditorium">Аудитория, в которой проводится занятие.</param>
     /// <returns>Результат, указывающий на успешность создания экземпляра класса <see cref="ScheduledClass"/> и содержащий созданный объект, если операция выполнена успешно.</returns>
-    public static Result<ScheduledClass> Create(Guid id, uint classNumber, Subject subject, Teacher teacher, Auditorium auditorium)
+    public static Result<ScheduledClass> Create(Guid id, uint classNumber, Subject subject, Teacher teacher, Auditorium auditorium,ClassType classType)
     {
         // Возможные дополнительные проверки
 
-        var scheduledClass = new ScheduledClass(id, classNumber, subject, teacher, auditorium);
+        var scheduledClass = new ScheduledClass(id, classNumber, subject, teacher, auditorium,classType);
         return Result.Success(scheduledClass);
     }
 }
+public enum ClassType
+{ lecture, practice, laboratory, exam }
 
