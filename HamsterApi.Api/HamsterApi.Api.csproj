@@ -13,4 +13,11 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HamsterApi.Application\HamsterApi.Application.csproj" />
+    <ProjectReference Include="..\HamsterApi.Core\HamsterApi.Core.csproj" />
+    <ProjectReference Include="..\HamsterApi.DataAccess\HamsterApi.DataAccess.csproj" />
+    <ProjectReference Include="..\HamsterApi.Infrastructure\HamsterApi.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
