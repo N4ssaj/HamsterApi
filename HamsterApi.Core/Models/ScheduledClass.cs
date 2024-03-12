@@ -1,9 +1,6 @@
-﻿using CSharpFunctionalExtensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HamsterApi.Core.Common;
+using HamsterApi.Core.Common.Enum;
+
 
 namespace HamsterApi.Core.Models;
 
@@ -20,13 +17,13 @@ public class ScheduledClass
     /// <param name="subject">Предмет занятия.</param>
     /// <param name="teacher">Преподаватель, ведущий занятие.</param>
     /// <param name="auditorium">Аудитория, в которой проводится занятие.</param>
-    private ScheduledClass(Guid id, uint classNumber, Subject subject, Teacher teacher, Auditorium auditorium,ClassType classType)
+    private ScheduledClass(string id , int classNumber, Subject subject, Teacher teacher, Auditorium auditorium,ClassType classType)
         => (Id, ClassNumber, Subject, Teacher, Auditorium,ClassType) = (id, classNumber, subject, teacher, auditorium,classType);
 
     /// <summary>
     /// Получает уникальный идентификатор занятия.
     /// </summary>
-    public Guid Id { get; }
+    public string Id { get; }
 
     /// <summary>
     /// тип занятия 
@@ -35,7 +32,7 @@ public class ScheduledClass
     /// <summary>
     /// Получает номер занятия в расписании.
     /// </summary>
-    public uint ClassNumber { get; }
+    public int ClassNumber { get; }
 
     /// <summary>
     /// Получает предмет занятия.
@@ -61,14 +58,12 @@ public class ScheduledClass
     /// <param name="teacher">Преподаватель, ведущий занятие.</param>
     /// <param name="auditorium">Аудитория, в которой проводится занятие.</param>
     /// <returns>Результат, указывающий на успешность создания экземпляра класса <see cref="ScheduledClass"/> и содержащий созданный объект, если операция выполнена успешно.</returns>
-    public static Result<ScheduledClass> Create(Guid id, uint classNumber, Subject subject, Teacher teacher, Auditorium auditorium,ClassType classType)
+    public static Result<ScheduledClass> Create(string id , int classNumber, Subject subject, Teacher teacher, Auditorium auditorium,ClassType classType)
     {
         // Возможные дополнительные проверки
 
         var scheduledClass = new ScheduledClass(id, classNumber, subject, teacher, auditorium,classType);
-        return Result.Success(scheduledClass);
+        return scheduledClass;
     }
 }
-public enum ClassType
-{ lecture, practice, laboratory, exam }
 

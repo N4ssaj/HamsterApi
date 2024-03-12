@@ -1,5 +1,6 @@
 ﻿
-using CSharpFunctionalExtensions;
+
+using HamsterApi.Core.Common;
 
 namespace HamsterApi.Core.Models;
 
@@ -15,13 +16,13 @@ public class ScheduleGroup
     /// <param name="group">Группа, для которой составлено расписание.</param>
     /// <param name="semesterNumber">Номер семестра, для которого составлено расписание.</param>
     /// <param name="weeks">Недельное расписание занятий, где ключ - номер недели, а значение - расписание по дням недели.</param>
-    private ScheduleGroup(Guid id, Group group, uint semesterNumber, Dictionary<int, Dictionary<DayOfWeek, List<ScheduledClass>>> weeks)
+    private ScheduleGroup(string id , Group group, int semesterNumber, ICollection<ScheduledClassOfWeeks> weeks)
         => (Id, Group, SemesterNumber, Weeks) = (id, group, semesterNumber, weeks);
 
     /// <summary>
     /// Получает уникальный идентификатор расписания группы.
     /// </summary>
-    public Guid Id { get; }
+    public string Id { get; }
 
     /// <summary>
     /// Получает группу, для которой составлено расписание.
@@ -31,12 +32,12 @@ public class ScheduleGroup
     /// <summary>
     /// Получает номер семестра, для которого составлено расписание.
     /// </summary>
-    public uint SemesterNumber { get; }
+    public int SemesterNumber { get; }
 
     /// <summary>
     /// Получает недельное расписание занятий, где ключ - номер недели, а значение - расписание по дням недели.
     /// </summary>
-    public Dictionary<int, Dictionary<DayOfWeek, List<ScheduledClass>>> Weeks { get; }
+    public ICollection<ScheduledClassOfWeeks> Weeks { get; }
 
     /// <summary>
     /// Создает новый экземпляр класса <see cref="ScheduleGroup"/> с указанным идентификатором, группой, номером семестра и недельным расписанием занятий.
@@ -46,12 +47,12 @@ public class ScheduleGroup
     /// <param name="semesterNumber">Номер семестра, для которого составлено расписание.</param>
     /// <param name="weeks">Недельное расписание занятий, где ключ - номер недели, а значение - расписание по дням недели.</param>
     /// <returns>Результат, указывающий на успешность создания экземпляра класса <see cref="ScheduleGroup"/> и содержащий созданный объект, если операция выполнена успешно.</returns>
-    public static Result<ScheduleGroup> Create(Guid id, Group group, uint semesterNumber, Dictionary<int, Dictionary<DayOfWeek, List<ScheduledClass>>> weeks)
+    public static Result<ScheduleGroup> Create(string id , Group group, int semesterNumber, ICollection<ScheduledClassOfWeeks> weeks)
     {
         // Дополнительные валидации, если необходимо
 
         var scheduleGroup = new ScheduleGroup(id, group, semesterNumber, weeks);
-        return Result.Success(scheduleGroup);
+        return scheduleGroup;
     }
 }
 

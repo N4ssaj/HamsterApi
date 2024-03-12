@@ -1,6 +1,6 @@
 ﻿
 
-using CSharpFunctionalExtensions;
+using HamsterApi.Core.Common;
 
 namespace HamsterApi.Core.Models;
 
@@ -16,7 +16,7 @@ public class Subject
     /// <param name="title">Название дисциплины.</param>
     /// <param name="index">Индекс дисциплины.</param>
     /// <param name="teachers">Список преподавателей, преподающих эту дисциплину.</param>
-    private Subject(Guid id, string title, string index, IReadOnlyCollection<Teacher> teachers)
+    private Subject(string id , string title, string index, IReadOnlyCollection<Teacher> teachers)
         => (Id, Title, Index, Teachers) = (id, title, index, teachers);
 
     /// <summary>
@@ -37,7 +37,7 @@ public class Subject
     /// <summary>
     /// Получает уникальный идентификатор дисциплины.
     /// </summary>
-    public Guid Id { get; }
+    public string Id { get; }
 
     /// <summary>
     /// Создает новый экземпляр класса <see cref="Subject"/> с указанным идентификатором, названием, индексом и списком преподавателей.
@@ -47,12 +47,12 @@ public class Subject
     /// <param name="index">Индекс дисциплины.</param>
     /// <param name="teachers">Список преподавателей, преподающих эту дисциплину.</param>
     /// <returns>Результат, указывающий на успешность создания экземпляра класса <see cref="Subject"/> и содержащий созданный объект, если операция выполнена успешно.</returns>
-    public static Result<Subject> Create(Guid id, string title, string index, IReadOnlyCollection<Teacher> teachers)
+    public static Result<Subject> Create(string id , string title, string index, IReadOnlyCollection<Teacher> teachers)
     {
         // Дополнительные валидации, если необходимо
 
         var subject = new Subject(id, title, index, teachers);
 
-        return Result.Success(subject);
+        return subject;
     }
 }

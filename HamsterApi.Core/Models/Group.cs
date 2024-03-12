@@ -1,4 +1,6 @@
-﻿using CSharpFunctionalExtensions;
+﻿
+
+using HamsterApi.Core.Common;
 
 namespace HamsterApi.Core.Models;
 
@@ -12,7 +14,7 @@ public class Group
     /// </summary>
     /// <param name="id">Уникальный идентификатор группы.</param>
     /// <param name="number">Номер/код, назначенный группе.</param>
-    private Group(Guid id, string number)
+    private Group(string id , string number)
         => (Id, Number) = (id, number);
 
     /// <summary>
@@ -23,7 +25,7 @@ public class Group
     /// <summary>
     /// Получает уникальный идентификатор группы.
     /// </summary>
-    public Guid Id { get; }
+    public string Id { get; }
 
     /// <summary>
     /// Создает новый экземпляр класса <see cref="Group"/> с указанным идентификатором и номером.
@@ -31,10 +33,10 @@ public class Group
     /// <param name="id">Уникальный идентификатор группы.</param>
     /// <param name="number">Номер/код, назначенный группе.</param>
     /// <returns>Результат, указывающий, было ли создание успешным, и содержащий созданную группу в случае успеха.</returns>
-    public static Result<Group> Create(Guid id, string number)
+    public static Result<Group> Create(string id , string number)
     {
         // валидация
         var group = new Group(id, number);
-        return Result.Success(group);
+        return group;
     }
 }

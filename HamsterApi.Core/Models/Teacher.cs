@@ -1,6 +1,6 @@
 ﻿
-using CSharpFunctionalExtensions;
-using System.Text.RegularExpressions;
+
+using HamsterApi.Core.Common;
 
 namespace HamsterApi.Core.Models;
 
@@ -18,7 +18,7 @@ public class Teacher
     /// <param name="patronymic">Отчество учителя.</param>
     /// <param name="fullName">Полное имя учителя.</param>
     /// <param name="subjects">Список преподаваемых дисциплин.</param>
-    public Teacher(Guid id, string name, string surname, string patronymic, string fullName, IReadOnlyCollection<Subject> subjects)
+    public Teacher(string id , string name, string surname, string patronymic, string fullName, IReadOnlyCollection<Subject> subjects)
         => (Id, Name, Surname, Patronymic, FullName, Subjects) = (id, name, surname, patronymic, fullName, subjects);
 
     /// <summary>
@@ -49,7 +49,7 @@ public class Teacher
     /// <summary>
     /// Получает уникальный идентификатор учителя.
     /// </summary>
-    public Guid Id { get; }
+    public string Id { get; }
 
     /// <summary>
     /// Создает нового учителя с указанным идентификатором, именем, фамилией, отчеством и списком преподаваемых дисциплин.
@@ -60,12 +60,12 @@ public class Teacher
     /// <param name="patronymic">Отчество учителя.</param>
     /// <param name="subjects">Список преподаваемых дисциплин.</param>
     /// <returns>Результат, указывающий на успешность создания экземпляра класса <see cref="Teacher"/> и содержащий созданный объект, если операция выполнена успешно.</returns>
-    public static Result<Teacher> Create(Guid id, string name, string surname, string patronymic, IReadOnlyCollection<Subject> subjects)
+    public static Result<Teacher> Create(string id , string name, string surname, string patronymic, IReadOnlyCollection<Subject> subjects)
     {
         string fullName = string.Join(" ", name, surname, patronymic);
 
         var teacher = new Teacher(id, name, surname, patronymic, fullName, subjects);
 
-        return Result.Success(teacher);
+        return teacher;
     }
 }
