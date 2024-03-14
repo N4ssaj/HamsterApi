@@ -19,7 +19,7 @@ public enum AcademicEvaluationType
     /// </summary>
     CreditWithAnAssessment,
     /// <summary>
-    /// РГР (реферативное изложение).
+    /// РГР + что-то.
     /// </summary>
     Rgr
 }

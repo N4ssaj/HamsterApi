@@ -21,9 +21,9 @@ public class AcademicLoad
     /// <param name="credits">Количество зачетных единиц.</param>
     /// <param name="total">Общее количество академической нагрузки.</param>
     /// <param name="academicEvaluationType">Тип оценивания академической нагрузки.</param>
-    private AcademicLoad(string id, int lectures, int laboratory, int practice, int controlWork, int independentWork, int credits, int total, AcademicEvaluationType academicEvaluationType)
-        => (Id, Lectures, Laboratory, Practice, ControlWork, IndependentWork, Credits, Total, AcademicEvaluationType)
-            = (id, lectures, laboratory, practice, controlWork, independentWork, credits, total, academicEvaluationType);
+    private AcademicLoad(string id, int lectures, int laboratory, int practice, int credits, int total, AcademicEvaluationType academicEvaluationType)
+        => (Id, Lectures, Laboratory, Practice,  Credits, Total, AcademicEvaluationType)
+            = (id, lectures, laboratory, practice,credits, total, academicEvaluationType);
 
     /// <summary>
     /// Получает уникальный идентификатор академической нагрузки.
@@ -44,16 +44,6 @@ public class AcademicLoad
     /// Получает количество практических занятий в неделю.
     /// </summary>
     public int Practice { get; }
-
-    /// <summary>
-    /// Получает количество контрольных работ в семестр.
-    /// </summary>
-    public int ControlWork { get; }
-
-    /// <summary>
-    /// Получает количество самостоятельной работы в неделю.
-    /// </summary>
-    public int IndependentWork { get; }
 
     /// <summary>
     /// Получает количество зачетных единиц.
@@ -77,16 +67,14 @@ public class AcademicLoad
     /// <param name="lectures">Количество лекционных занятий в неделю.</param>
     /// <param name="laboratory">Количество лабораторных занятий в неделю.</param>
     /// <param name="practice">Количество практических занятий в неделю.</param>
-    /// <param name="controlWork">Количество контрольных работ в семестр.</param>
-    /// <param name="independentWork">Количество самостоятельной работы в неделю.</param>
     /// <param name="credits">Количество зачетных единиц.</param>
     /// <param name="academicEvaluationType">Тип оценивания академической нагрузки.</param>
     /// <returns>Результат, указывающий на успешность создания экземпляра класса <see cref="AcademicLoad"/> и содержащий созданный объект, если операция выполнена успешно.</returns>
-    public static Result<AcademicLoad> Create(string id, int lectures, int laboratory, int practice, int controlWork, int independentWork, int credits, AcademicEvaluationType academicEvaluationType)
+    public static Result<AcademicLoad> Create(string id, int lectures, int laboratory, int practice,  int credits, AcademicEvaluationType academicEvaluationType)
     {
         // валидация
-        var total = lectures + laboratory + practice + controlWork + independentWork + credits;
-        var academicLoad = new AcademicLoad(id, lectures, laboratory, practice, controlWork, independentWork, credits, total, academicEvaluationType);
+        var total = lectures + laboratory + practice +  credits;
+        var academicLoad = new AcademicLoad(id, lectures, laboratory, practice, credits, total, academicEvaluationType);
         return academicLoad;
     }
 }
