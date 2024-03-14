@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HamsterApi.Core", "HamsterA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HamsterApi.DataAccess", "HamsterApi.DataAccess\HamsterApi.DataAccess.csproj", "{92002B9E-C2FB-49EF-AD5B-846BB190A2B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HamsterApi.Application", "HamsterApi.Application\HamsterApi.Application.csproj", "{21AF69F0-3565-4C12-AA62-750B3710A900}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HamsterApi.Application", "HamsterApi.Application\HamsterApi.Application.csproj", "{21AF69F0-3565-4C12-AA62-750B3710A900}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HamsterApi.Infrastructure", "HamsterApi.Infrastructure\HamsterApi.Infrastructure.csproj", "{E750F355-87D4-47F7-802B-ED10898A1F64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HamsterApi.Infrastructure", "HamsterApi.Infrastructure\HamsterApi.Infrastructure.csproj", "{E750F355-87D4-47F7-802B-ED10898A1F64}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
