@@ -8,11 +8,11 @@ namespace HamsterApi.Core.Stores.Base;
 
 public interface IBaseStore<T>
 {
-    public Task<Guid> Create(T item);
+    public Task<string> Create(T item);
 
-    public Task<T> Read(string id );
+    public Task<T?> Read(string id );
 
     public Task<List<T>> ReadAll();
 
-    public Task Delete(string id );
+    public Task<bool> Delete(string id );
 }
