@@ -27,7 +27,7 @@ public class AuditoriumRepository : IAuditoriumStore
     public async Task<bool> Delete(string id)
     {
         IAuditoriumEntity auditoriumEntity = null;
-        bool state;
+        bool state = false;
         await Task.Run(() =>
         {
             auditoriumEntity = _hamsterApiDbContext.AuditoriumEntities.FirstOrDefault(a => a.Id == id);
