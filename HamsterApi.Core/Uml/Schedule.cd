@@ -1,27 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
   <Class Name="HamsterApi.Core.Models.Curriculum">
-    <Position X="0.5" Y="1" Width="4.5" />
+    <Position X="0.75" Y="0.5" Width="4.5" />
     <TypeIdentifier>
-      <HashCode>AAACACAAAAAAAAAAACAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACACAAAAAAAAAABCAgAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Сurriculum.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Direction" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
-      <Property Name="SemestersElectiveSubjects" />
       <Property Name="SemestersSubjects" />
+      <Property Name="SemestersElectiveSubjects" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="HamsterApi.Core.Models.Group">
     <Position X="8.25" Y="0.75" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAAAEAAAAAAAAAAAEAAAAAAgAAAAAA=</HashCode>
+      <HashCode>AAACAAAAAAAAAAAAAEAAAAAAEAAAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Group.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="GroupType" />
+      <Property Name="LevelOfEducation" />
     </ShowAsAssociation>
   </Class>
   <Class Name="HamsterApi.Core.Models.SubjectWtihLoad">
@@ -31,8 +31,8 @@
       <FileName>Models\SubjectWtihLoad.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="AcademicLoad" />
       <Property Name="Subject" />
+      <Property Name="AcademicLoad" />
     </ShowAsAssociation>
   </Class>
   <Class Name="HamsterApi.Core.Models.Subject">
@@ -106,10 +106,10 @@
       <FileName>Models\ScheduledClass.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Auditorium" />
       <Property Name="ClassType" />
       <Property Name="Subject" />
       <Property Name="Teacher" />
+      <Property Name="Auditorium" />
     </ShowAsAssociation>
   </Class>
   <Class Name="HamsterApi.Core.Models.ScheduledClassOfWeeks">
@@ -138,9 +138,13 @@
   <Class Name="HamsterApi.Core.Models.Direction">
     <Position X="15.25" Y="0.5" Width="4.5" />
     <TypeIdentifier>
-      <HashCode>AAACAEAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <HashCode>ABACAEAAAAAAAEAAAAAAAAAAEAAAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Direction.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="FormOfEducation" />
+      <Property Name="LevelOfEducation" />
+    </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="Groups" />
     </ShowAsCollectionAssociation>
@@ -190,11 +194,18 @@
       <FileName>Common\Enum\ClassType.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="HamsterApi.Core.Common.Enum.GroupType">
-    <Position X="5.25" Y="1.25" Width="1.5" />
+  <Enum Name="HamsterApi.Core.Common.Enum.LevelOfEducation">
+    <Position X="6" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AgAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Common\Enum\GroupType.cs</FileName>
+      <HashCode>AgAAAAAAAAAAAACAAAAAAAAAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Enum\LevelOfEducation.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="HamsterApi.Core.Common.Enum.FormOfEducation">
+    <Position X="23.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAIACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Enum\FormOfEducation.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="9" />
