@@ -10,7 +10,7 @@ public interface IBaseStore<T>
 {
     public Task<string> Create(T item);
 
-    public Task<T?> Read(string id );
+    public Task<T?> Read(string id);
 
     public Task<List<T>?> ReadAll();
 

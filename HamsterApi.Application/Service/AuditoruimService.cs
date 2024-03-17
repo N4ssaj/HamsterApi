@@ -21,7 +21,7 @@ public class AuditoruimService : IAuditoriumService
     public async Task<Auditorium?> Read(string id)
         => await _auditoriumStore.Read(id);
 
-    public async Task<List<Auditorium>> ReadAll()
+    public async Task<List<Auditorium>?> ReadAll()
         => await _auditoriumStore.ReadAll();
 
     public async Task<Auditorium?> ReadByNumber(string number)

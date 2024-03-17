@@ -2,38 +2,103 @@
 using HamsterApi.Core.Common.Enum;
 using HamsterApi.Core.Models;
 using HamsterApi.Core.Stores;
+using HamsterApi.DataAccess.Entites.Interfaces;
 
 namespace HamsterApi.DataAccess.Repositories;
 
 public class GroupRepository : IGroupStore
 {
-    public Task<string> Create(Group item)
+    private readonly HamsterApiDbContext _hamsterApiDbContext;
+
+    public GroupRepository(HamsterApiDbContext hamsterApiDbContext)
+        => _hamsterApiDbContext = hamsterApiDbContext;
+
+    public async Task<string> Create(Group item)
     {
-        throw new NotImplementedException();
+        var groupEntity = new GroupEntity()
+        { Id = item.Id, Number = item.Number, LevelOfEducation=item.LevelOfEducation };
+        await Task.Run(() =>
+        {
+            _hamsterApiDbContext.GroupEntities.Add(groupEntity);
+            _hamsterApiDbContext.SaveChanges();
+        });
+        return groupEntity.Id;
     }
 
-    public Task<bool> Delete(string id)
+    public async Task<bool> Delete(string id)
     {
-        throw new NotImplementedException();
+        IGroupEntity groupEntity = null;
+        bool state = false;
+        await Task.Run(() =>
+        {
+            groupEntity = _hamsterApiDbContext.GroupEntities.FirstOrDefault(a => a.Id == id);
+            if (groupEntity is not null)
+            {
+                _hamsterApiDbContext.DeleteObject(groupEntity);
+                _hamsterApiDbContext.SaveChanges();
+                state = true;
+            }
+        });
+        return state;
     }
 
-    public Task<Group?> Read(string id)
+    public async Task<Group?> Read(string id)
     {
-        throw new NotImplementedException();
+        IGroupEntity groupEntity = null;
+        await Task.Run(() =>
+        {
+            groupEntity = _hamsterApiDbContext.GroupEntities.FirstOrDefault(a => a.Id == id);
+        });
+        if (groupEntity is null) return null;
+
+        var group = Group.Create(groupEntity.Id, groupEntity.Number,groupEntity.LevelOfEducation);
+
+        return group.Value;
     }
 
-    public Task<List<Group>?> ReadAll()
+    public async Task<List<Group>?> ReadAll()
     {
-        throw new NotImplementedException();
+        var groupEntityList = new List<IGroupEntity>();
+        await Task.Run(() =>
+        {
+            groupEntityList = _hamsterApiDbContext.GroupEntities.ToList();
+        }
+        );
+        var groupList = groupEntityList.Select(a => Group.Create(a.Id, a.Number, a.LevelOfEducation).Value).ToList();
+
+        return groupList;
     }
 
-    public Task<Group?> ReadByNumber(string number)
+    public async Task<Group?> ReadByNumber(string number)
     {
-        throw new NotImplementedException();
+        IGroupEntity groupEntity = null;
+        await Task.Run(() =>
+        {
+            groupEntity = _hamsterApiDbContext.GroupEntities.FirstOrDefault(a => a.Number == number);
+        });
+        if (groupEntity is null) return null;
+
+        var group = Group.Create(groupEntity.Id, groupEntity.Number, groupEntity.LevelOfEducation);
+
+        return group.Value;
     }
 
-    public Task<bool> Update(string id, string number, LevelOfEducation levelOfEducation)
+    public async Task<bool> Update(string id, string number, LevelOfEducation levelOfEducation)
     {
-        throw new NotImplementedException();
+        IGroupEntity groupEntity = null;
+        await Task.Run(() =>
+        {
+            groupEntity = _hamsterApiDbContext.GroupEntities.FirstOrDefault(a => a.Id == id);
+        });
+        if (groupEntity is null) return false;
+
+        groupEntity.Number = number;
+        groupEntity.LevelOfEducation= levelOfEducation;
+
+        await Task.Run(() =>
+        {
+            _hamsterApiDbContext.SaveChanges();
+        });
+        return true;
     }
 }
