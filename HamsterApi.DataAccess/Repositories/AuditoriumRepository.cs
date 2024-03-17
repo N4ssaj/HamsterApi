@@ -69,7 +69,7 @@ public class AuditoriumRepository : IAuditoriumStore
         return auditorium.Value;
     }
 
-    public async Task<List<Auditorium>> ReadAll()
+    public async Task<List<Auditorium>?> ReadAll()
     {
         var auditoriumEntityList = new List<IAuditoriumEntity>();
         await Task.Run(() =>

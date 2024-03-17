@@ -16,7 +16,7 @@ public class ScheduleGroup
     /// <param name="group">Группа, для которой составлено расписание.</param>
     /// <param name="semesterNumber">Номер семестра, для которого составлено расписание.</param>
     /// <param name="weeks">Недельное расписание занятий, где ключ - номер недели, а значение - расписание по дням недели.</param>
-    private ScheduleGroup(string id , Group group, int semesterNumber, ICollection<ScheduledClassOfWeeks> weeks)
+    private ScheduleGroup(string id , Group group, int semesterNumber, IReadOnlyCollection<ScheduledClassOfWeeks> weeks)
         => (Id, Group, SemesterNumber, Weeks) = (id, group, semesterNumber, weeks);
 
     /// <summary>
@@ -37,7 +37,7 @@ public class ScheduleGroup
     /// <summary>
     /// Получает недельное расписание занятий, где ключ - номер недели, а значение - расписание по дням недели.
     /// </summary>
-    public ICollection<ScheduledClassOfWeeks> Weeks { get; }
+    public IReadOnlyCollection<ScheduledClassOfWeeks> Weeks { get; }
 
     /// <summary>
     /// Создает новый экземпляр класса <see cref="ScheduleGroup"/> с указанным идентификатором, группой, номером семестра и недельным расписанием занятий.
@@ -47,7 +47,7 @@ public class ScheduleGroup
     /// <param name="semesterNumber">Номер семестра, для которого составлено расписание.</param>
     /// <param name="weeks">Недельное расписание занятий, где ключ - номер недели, а значение - расписание по дням недели.</param>
     /// <returns>Результат, указывающий на успешность создания экземпляра класса <see cref="ScheduleGroup"/> и содержащий созданный объект, если операция выполнена успешно.</returns>
-    public static Result<ScheduleGroup> Create(string id , Group group, int semesterNumber, ICollection<ScheduledClassOfWeeks> weeks)
+    public static Result<ScheduleGroup> Create(string id , Group group, int semesterNumber, IReadOnlyCollection<ScheduledClassOfWeeks> weeks)
     {
         // Дополнительные валидации, если необходимо
 

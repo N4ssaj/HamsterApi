@@ -1,4 +1,5 @@
 ﻿using BrightstarDB.EntityFramework;
+using HamsterApi.Core.Models;
 
 
 namespace HamsterApi.DataAccess.Entites.Interfaces;
@@ -10,7 +11,6 @@ internal interface ISubjectEntity
 
     public string Index { get; set; }
 
-    [InverseProperty("Subjects")]
     public ICollection<ITeacherEntity> Teachers { get; set; }
 
     public string Id { get; }

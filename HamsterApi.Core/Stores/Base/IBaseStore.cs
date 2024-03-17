@@ -12,7 +12,7 @@ public interface IBaseStore<T>
 
     public Task<T?> Read(string id );
 
-    public Task<List<T>> ReadAll();
+    public Task<List<T>?> ReadAll();
 
     public Task<bool> Delete(string id );
 }

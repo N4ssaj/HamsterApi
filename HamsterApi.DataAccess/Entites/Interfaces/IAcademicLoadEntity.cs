@@ -15,10 +15,6 @@ internal interface IAcademicLoadEntity
 
     public int Practice { get; set; }
 
-    public int ControlWork { get; set; }
-
-    public int IndependentWork { get; set; }
-
     public int Credits { get; set; }
 
     public int Total { get; set; }

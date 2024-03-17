@@ -2,6 +2,7 @@
 
 using BrightstarDB.EntityFramework;
 using HamsterApi.Core.Common.Enum;
+using HamsterApi.Core.Models;
 
 
 namespace HamsterApi.DataAccess.Entites.Interfaces;
@@ -9,6 +10,7 @@ namespace HamsterApi.DataAccess.Entites.Interfaces;
 [Entity]
 internal interface IScheduledClassEntity
 {
+
     public string Id { get; }
 
     public ClassType ClassType { get; set; }

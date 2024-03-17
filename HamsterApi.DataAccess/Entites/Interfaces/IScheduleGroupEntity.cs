@@ -1,6 +1,7 @@
 ﻿
 
 using BrightstarDB.EntityFramework;
+using HamsterApi.Core.Models;
 
 namespace HamsterApi.DataAccess.Entites.Interfaces;
 

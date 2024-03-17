@@ -7,8 +7,8 @@ namespace HamsterApi.Core.Models;
 
 public class Direction
 {
-    private Direction(string id, string title, IReadOnlyCollection<Group> groups,FormOfEducation formOfEducation,LevelOfEducation levelOfEducation)
-        => (Id, Title, Groups,FormOfEducation,LevelOfEducation) = (id, title, groups,formOfEducation,levelOfEducation);
+    private Direction(string id, string title, IReadOnlyCollection<Group> groups,FormOfEducation formOfEducation,LevelOfEducation levelOfEducation,Faculty faculty)
+        => (Id, Title, Groups,FormOfEducation,LevelOfEducation,Faculty) = (id, title, groups,formOfEducation,levelOfEducation,faculty);
 
     public string Title { get; }
 
@@ -20,9 +20,11 @@ public class Direction
 
     public FormOfEducation FormOfEducation { get; }
 
-    public static Result<Direction> Create(string id, string title, IReadOnlyCollection<Group> groups, FormOfEducation formOfEducation,LevelOfEducation levelOfEducation)
+    public Faculty Faculty { get; }
+
+    public static Result<Direction> Create(string id, string title, IReadOnlyCollection<Group> groups, FormOfEducation formOfEducation,LevelOfEducation levelOfEducation,Faculty faculty)
     {
-        var direction=new Direction(id, title, groups,formOfEducation,levelOfEducation);
+        var direction=new Direction(id, title, groups,formOfEducation,levelOfEducation,faculty);
         return direction;
     }
 }
