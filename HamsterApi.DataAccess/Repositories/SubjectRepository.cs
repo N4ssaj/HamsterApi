@@ -90,7 +90,7 @@ public class SubjectRepository : ISubjectStore
         return subject.Value;
     }
 
-    public async Task<bool> Update(string id, string title, string index, IReadOnlyCollection<Teacher> teachers)
+    public async Task<bool> Update(string id, string title, string index, ICollection<Teacher> teachers)
     {
         ISubjectEntity subjectEntity = null;
         await Task.Run(() =>

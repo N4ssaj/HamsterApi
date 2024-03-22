@@ -8,9 +8,10 @@ namespace HamsterApi.DataAccess.Entites.Interfaces;
 [Entity]
 internal interface ICurriculumEntity
 {
+
     public string Id { get; }
 
-    public IDirectionEntity Direction { get; set; }
+    public string DirectionId { get; set; }
 
     public int YearOfPreparation { get; set; }
 

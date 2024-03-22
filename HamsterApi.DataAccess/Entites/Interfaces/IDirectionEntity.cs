@@ -10,13 +10,13 @@ internal interface IDirectionEntity
 {
     public string Title { get; set; }
 
-    public string Id { get;}
+    public string Id { get; }
 
-    public ICollection<IGroupEntity> Groups { get; set; }
+    public ICollection<string> GroupsIds { get; set; }
 
     public LevelOfEducation LevelOfEducation { get; set; }
 
     public FormOfEducation FormOfEducation { get; set; }
 
-    public IFacultyEntity Faculty { get; set; }
+    public string DepartmentId { get; set; }
 }

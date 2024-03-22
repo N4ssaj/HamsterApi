@@ -13,7 +13,7 @@ internal interface ISemesterEntity
 
     public int Number { get; set; }
 
-    public IGroupEntity Group { get; set; }
+    public string GroupId { get; set; }
 
-    public ICollection<ISubjectWtihLoadEntity> Subjects { get; set;}
+    public ICollection<ISubjectWtihLoadEntity> Subjects { get; set; }
 }

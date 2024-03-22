@@ -11,7 +11,7 @@ internal interface ISubjectEntity
 
     public string Index { get; set; }
 
-    public ICollection<ITeacherEntity> Teachers { get; set; }
+    public ICollection<string> TeachersIds { get; set; }
 
     public string Id { get; }
 }

@@ -42,14 +42,14 @@ namespace HamsterApi.DataAccess
     		EntityMappingStore.Instance.SetImplMapping<HamsterApi.DataAccess.Entites.Interfaces.IAcademicLoadEntity, HamsterApi.DataAccess.Entites.Interfaces.AcademicLoadEntity>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(HamsterApi.DataAccess.Entites.Interfaces.IAuditoriumEntity));
     		EntityMappingStore.Instance.SetImplMapping<HamsterApi.DataAccess.Entites.Interfaces.IAuditoriumEntity, HamsterApi.DataAccess.Entites.Interfaces.AuditoriumEntity>();
+    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(HamsterApi.DataAccess.Entites.Interfaces.IChairEntity));
+    		EntityMappingStore.Instance.SetImplMapping<HamsterApi.DataAccess.Entites.Interfaces.IChairEntity, HamsterApi.DataAccess.Entites.Interfaces.ChairEntity>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(HamsterApi.DataAccess.Entites.Interfaces.ICurriculumEntity));
     		EntityMappingStore.Instance.SetImplMapping<HamsterApi.DataAccess.Entites.Interfaces.ICurriculumEntity, HamsterApi.DataAccess.Entites.Interfaces.CurriculumEntity>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(HamsterApi.DataAccess.Entites.Interfaces.IDepartmentEntity));
     		EntityMappingStore.Instance.SetImplMapping<HamsterApi.DataAccess.Entites.Interfaces.IDepartmentEntity, HamsterApi.DataAccess.Entites.Interfaces.DepartmentEntity>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(HamsterApi.DataAccess.Entites.Interfaces.IDirectionEntity));
     		EntityMappingStore.Instance.SetImplMapping<HamsterApi.DataAccess.Entites.Interfaces.IDirectionEntity, HamsterApi.DataAccess.Entites.Interfaces.DirectionEntity>();
-    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(HamsterApi.DataAccess.Entites.Interfaces.IFacultyEntity));
-    		EntityMappingStore.Instance.SetImplMapping<HamsterApi.DataAccess.Entites.Interfaces.IFacultyEntity, HamsterApi.DataAccess.Entites.Interfaces.FacultyEntity>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(HamsterApi.DataAccess.Entites.Interfaces.IGroupEntity));
     		EntityMappingStore.Instance.SetImplMapping<HamsterApi.DataAccess.Entites.Interfaces.IGroupEntity, HamsterApi.DataAccess.Entites.Interfaces.GroupEntity>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(HamsterApi.DataAccess.Entites.Interfaces.IScheduledClassEntity));
@@ -137,10 +137,10 @@ namespace HamsterApi.DataAccess
     	{
     		AcademicLoadEntities = 	new BrightstarEntitySet<HamsterApi.DataAccess.Entites.Interfaces.IAcademicLoadEntity>(this);
     		AuditoriumEntities = 	new BrightstarEntitySet<HamsterApi.DataAccess.Entites.Interfaces.IAuditoriumEntity>(this);
+    		ChairEntities = 	new BrightstarEntitySet<HamsterApi.DataAccess.Entites.Interfaces.IChairEntity>(this);
     		CurriculumEntities = 	new BrightstarEntitySet<HamsterApi.DataAccess.Entites.Interfaces.ICurriculumEntity>(this);
     		DepartmentEntities = 	new BrightstarEntitySet<HamsterApi.DataAccess.Entites.Interfaces.IDepartmentEntity>(this);
     		DirectionEntities = 	new BrightstarEntitySet<HamsterApi.DataAccess.Entites.Interfaces.IDirectionEntity>(this);
-    		FacultyEntities = 	new BrightstarEntitySet<HamsterApi.DataAccess.Entites.Interfaces.IFacultyEntity>(this);
     		GroupEntities = 	new BrightstarEntitySet<HamsterApi.DataAccess.Entites.Interfaces.IGroupEntity>(this);
     		ScheduledClassEntities = 	new BrightstarEntitySet<HamsterApi.DataAccess.Entites.Interfaces.IScheduledClassEntity>(this);
     		ScheduledClassOfWeeksEntities = 	new BrightstarEntitySet<HamsterApi.DataAccess.Entites.Interfaces.IScheduledClassOfWeeksEntity>(this);
@@ -163,6 +163,11 @@ namespace HamsterApi.DataAccess
     		get; private set;
     	}
     	
+    	internal IEntitySet<HamsterApi.DataAccess.Entites.Interfaces.IChairEntity> ChairEntities
+    	{
+    		get; private set;
+    	}
+    	
     	internal IEntitySet<HamsterApi.DataAccess.Entites.Interfaces.ICurriculumEntity> CurriculumEntities
     	{
     		get; private set;
@@ -174,11 +179,6 @@ namespace HamsterApi.DataAccess
     	}
     	
     	internal IEntitySet<HamsterApi.DataAccess.Entites.Interfaces.IDirectionEntity> DirectionEntities
-    	{
-    		get; private set;
-    	}
-    	
-    	internal IEntitySet<HamsterApi.DataAccess.Entites.Interfaces.IFacultyEntity> FacultyEntities
     	{
     		get; private set;
     	}
@@ -241,6 +241,9 @@ namespace HamsterApi.DataAccess
             if (typeof(T).Equals(typeof(HamsterApi.DataAccess.Entites.Interfaces.IAuditoriumEntity))) {
                 return (IEntitySet<T>)this.AuditoriumEntities;
             }
+            if (typeof(T).Equals(typeof(HamsterApi.DataAccess.Entites.Interfaces.IChairEntity))) {
+                return (IEntitySet<T>)this.ChairEntities;
+            }
             if (typeof(T).Equals(typeof(HamsterApi.DataAccess.Entites.Interfaces.ICurriculumEntity))) {
                 return (IEntitySet<T>)this.CurriculumEntities;
             }
@@ -249,9 +252,6 @@ namespace HamsterApi.DataAccess
             }
             if (typeof(T).Equals(typeof(HamsterApi.DataAccess.Entites.Interfaces.IDirectionEntity))) {
                 return (IEntitySet<T>)this.DirectionEntities;
-            }
-            if (typeof(T).Equals(typeof(HamsterApi.DataAccess.Entites.Interfaces.IFacultyEntity))) {
-                return (IEntitySet<T>)this.FacultyEntities;
             }
             if (typeof(T).Equals(typeof(HamsterApi.DataAccess.Entites.Interfaces.IGroupEntity))) {
                 return (IEntitySet<T>)this.GroupEntities;
@@ -360,6 +360,36 @@ namespace HamsterApi.DataAccess.Entites.Interfaces
 namespace HamsterApi.DataAccess.Entites.Interfaces 
 {
     
+    internal partial class ChairEntity : BrightstarEntityObject, IChairEntity 
+    {
+    	public ChairEntity(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
+        public ChairEntity(BrightstarEntityContext context) : base(context, typeof(ChairEntity)) { }
+    	public ChairEntity() : base() { }
+    	public System.String Id { get {return GetKey(); } set { SetKey(value); } }
+    	#region Implementation of HamsterApi.DataAccess.Entites.Interfaces.IChairEntity
+    
+    	public System.String Title
+    	{
+            		get { return GetRelatedProperty<System.String>("Title"); }
+            		set { SetRelatedProperty("Title", value); }
+    	}
+    	public System.Collections.Generic.ICollection<System.String> TeachersIds
+    	{
+    		get { return GetRelatedLiteralPropertiesCollection<System.String>("TeachersIds"); }
+    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedLiteralPropertiesCollection<System.String>("TeachersIds", value); }
+    	}
+    
+    	public System.String DepartmentId
+    	{
+            		get { return GetRelatedProperty<System.String>("DepartmentId"); }
+            		set { SetRelatedProperty("DepartmentId", value); }
+    	}
+    	#endregion
+    }
+}
+namespace HamsterApi.DataAccess.Entites.Interfaces 
+{
+    
     internal partial class CurriculumEntity : BrightstarEntityObject, ICurriculumEntity 
     {
     	public CurriculumEntity(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
@@ -368,10 +398,10 @@ namespace HamsterApi.DataAccess.Entites.Interfaces
     	public System.String Id { get {return GetKey(); } set { SetKey(value); } }
     	#region Implementation of HamsterApi.DataAccess.Entites.Interfaces.ICurriculumEntity
     
-    	public HamsterApi.DataAccess.Entites.Interfaces.IDirectionEntity Direction
+    	public System.String DirectionId
     	{
-            get { return GetRelatedObject<HamsterApi.DataAccess.Entites.Interfaces.IDirectionEntity>("Direction"); }
-            set { SetRelatedObject<HamsterApi.DataAccess.Entites.Interfaces.IDirectionEntity>("Direction", value); }
+            		get { return GetRelatedProperty<System.String>("DirectionId"); }
+            		set { SetRelatedProperty("DirectionId", value); }
     	}
     
     	public System.Int32 YearOfPreparation
@@ -414,16 +444,15 @@ namespace HamsterApi.DataAccess.Entites.Interfaces
             		get { return GetRelatedProperty<System.String>("Title"); }
             		set { SetRelatedProperty("Title", value); }
     	}
-    	public System.Collections.Generic.ICollection<HamsterApi.DataAccess.Entites.Interfaces.ITeacherEntity> Teachers
+    	public System.Collections.Generic.ICollection<System.String> ChairsIds
     	{
-    		get { return GetRelatedObjects<HamsterApi.DataAccess.Entites.Interfaces.ITeacherEntity>("Teachers"); }
-    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Teachers", value); }
-    								}
-    
-    	public HamsterApi.DataAccess.Entites.Interfaces.IFacultyEntity Faculty
+    		get { return GetRelatedLiteralPropertiesCollection<System.String>("ChairsIds"); }
+    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedLiteralPropertiesCollection<System.String>("ChairsIds", value); }
+    	}
+    	public System.Collections.Generic.ICollection<System.String> DirectionsIds
     	{
-            get { return GetRelatedObject<HamsterApi.DataAccess.Entites.Interfaces.IFacultyEntity>("Faculty"); }
-            set { SetRelatedObject<HamsterApi.DataAccess.Entites.Interfaces.IFacultyEntity>("Faculty", value); }
+    		get { return GetRelatedLiteralPropertiesCollection<System.String>("DirectionsIds"); }
+    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedLiteralPropertiesCollection<System.String>("DirectionsIds", value); }
     	}
     	#endregion
     }
@@ -444,11 +473,11 @@ namespace HamsterApi.DataAccess.Entites.Interfaces
             		get { return GetRelatedProperty<System.String>("Title"); }
             		set { SetRelatedProperty("Title", value); }
     	}
-    	public System.Collections.Generic.ICollection<HamsterApi.DataAccess.Entites.Interfaces.IGroupEntity> Groups
+    	public System.Collections.Generic.ICollection<System.String> GroupsIds
     	{
-    		get { return GetRelatedObjects<HamsterApi.DataAccess.Entites.Interfaces.IGroupEntity>("Groups"); }
-    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Groups", value); }
-    								}
+    		get { return GetRelatedLiteralPropertiesCollection<System.String>("GroupsIds"); }
+    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedLiteralPropertiesCollection<System.String>("GroupsIds", value); }
+    	}
     
     	public HamsterApi.Core.Common.Enum.LevelOfEducation LevelOfEducation
     	{
@@ -462,40 +491,11 @@ namespace HamsterApi.DataAccess.Entites.Interfaces
             		set { SetRelatedProperty("FormOfEducation", value); }
     	}
     
-    	public HamsterApi.DataAccess.Entites.Interfaces.IFacultyEntity Faculty
+    	public System.String DepartmentId
     	{
-            get { return GetRelatedObject<HamsterApi.DataAccess.Entites.Interfaces.IFacultyEntity>("Faculty"); }
-            set { SetRelatedObject<HamsterApi.DataAccess.Entites.Interfaces.IFacultyEntity>("Faculty", value); }
+            		get { return GetRelatedProperty<System.String>("DepartmentId"); }
+            		set { SetRelatedProperty("DepartmentId", value); }
     	}
-    	#endregion
-    }
-}
-namespace HamsterApi.DataAccess.Entites.Interfaces 
-{
-    
-    internal partial class FacultyEntity : BrightstarEntityObject, IFacultyEntity 
-    {
-    	public FacultyEntity(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
-        public FacultyEntity(BrightstarEntityContext context) : base(context, typeof(FacultyEntity)) { }
-    	public FacultyEntity() : base() { }
-    	public System.String Id { get {return GetKey(); } set { SetKey(value); } }
-    	#region Implementation of HamsterApi.DataAccess.Entites.Interfaces.IFacultyEntity
-    
-    	public System.String Title
-    	{
-            		get { return GetRelatedProperty<System.String>("Title"); }
-            		set { SetRelatedProperty("Title", value); }
-    	}
-    	public System.Collections.Generic.ICollection<HamsterApi.DataAccess.Entites.Interfaces.IDepartmentEntity> Departments
-    	{
-    		get { return GetRelatedObjects<HamsterApi.DataAccess.Entites.Interfaces.IDepartmentEntity>("Departments"); }
-    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Departments", value); }
-    								}
-    	public System.Collections.Generic.ICollection<HamsterApi.DataAccess.Entites.Interfaces.IDirectionEntity> Directions
-    	{
-    		get { return GetRelatedObjects<HamsterApi.DataAccess.Entites.Interfaces.IDirectionEntity>("Directions"); }
-    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Directions", value); }
-    								}
     	#endregion
     }
 }
@@ -514,6 +514,12 @@ namespace HamsterApi.DataAccess.Entites.Interfaces
     	{
             		get { return GetRelatedProperty<System.String>("Number"); }
             		set { SetRelatedProperty("Number", value); }
+    	}
+    
+    	public System.String DirectionId
+    	{
+            		get { return GetRelatedProperty<System.String>("DirectionId"); }
+            		set { SetRelatedProperty("DirectionId", value); }
     	}
     
     	public HamsterApi.Core.Common.Enum.LevelOfEducation LevelOfEducation
@@ -668,10 +674,10 @@ namespace HamsterApi.DataAccess.Entites.Interfaces
             		set { SetRelatedProperty("Number", value); }
     	}
     
-    	public HamsterApi.DataAccess.Entites.Interfaces.IGroupEntity Group
+    	public System.String GroupId
     	{
-            get { return GetRelatedObject<HamsterApi.DataAccess.Entites.Interfaces.IGroupEntity>("Group"); }
-            set { SetRelatedObject<HamsterApi.DataAccess.Entites.Interfaces.IGroupEntity>("Group", value); }
+            		get { return GetRelatedProperty<System.String>("GroupId"); }
+            		set { SetRelatedProperty("GroupId", value); }
     	}
     	public System.Collections.Generic.ICollection<HamsterApi.DataAccess.Entites.Interfaces.ISubjectWtihLoadEntity> Subjects
     	{
@@ -703,11 +709,11 @@ namespace HamsterApi.DataAccess.Entites.Interfaces
             		get { return GetRelatedProperty<System.String>("Index"); }
             		set { SetRelatedProperty("Index", value); }
     	}
-    	public System.Collections.Generic.ICollection<HamsterApi.DataAccess.Entites.Interfaces.ITeacherEntity> Teachers
+    	public System.Collections.Generic.ICollection<System.String> TeachersIds
     	{
-    		get { return GetRelatedObjects<HamsterApi.DataAccess.Entites.Interfaces.ITeacherEntity>("Teachers"); }
-    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Teachers", value); }
-    								}
+    		get { return GetRelatedLiteralPropertiesCollection<System.String>("TeachersIds"); }
+    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedLiteralPropertiesCollection<System.String>("TeachersIds", value); }
+    	}
     	#endregion
     }
 }
@@ -776,22 +782,22 @@ namespace HamsterApi.DataAccess.Entites.Interfaces
             		get { return GetRelatedProperty<System.String>("FullName"); }
             		set { SetRelatedProperty("FullName", value); }
     	}
-    	public System.Collections.Generic.ICollection<HamsterApi.DataAccess.Entites.Interfaces.ISubjectEntity> Subjects
+    	public System.Collections.Generic.ICollection<System.String> SubjectsIds
     	{
-    		get { return GetRelatedObjects<HamsterApi.DataAccess.Entites.Interfaces.ISubjectEntity>("Subjects"); }
-    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Subjects", value); }
-    								}
-    
-    	public HamsterApi.DataAccess.Entites.Interfaces.IDepartmentEntity Department
-    	{
-            get { return GetRelatedObject<HamsterApi.DataAccess.Entites.Interfaces.IDepartmentEntity>("Department"); }
-            set { SetRelatedObject<HamsterApi.DataAccess.Entites.Interfaces.IDepartmentEntity>("Department", value); }
+    		get { return GetRelatedLiteralPropertiesCollection<System.String>("SubjectsIds"); }
+    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedLiteralPropertiesCollection<System.String>("SubjectsIds", value); }
     	}
     
-    	public HamsterApi.DataAccess.Entites.Interfaces.ITeacherLoadEntity TeacherLoad
+    	public System.String ChairId
     	{
-            get { return GetRelatedObject<HamsterApi.DataAccess.Entites.Interfaces.ITeacherLoadEntity>("TeacherLoad"); }
-            set { SetRelatedObject<HamsterApi.DataAccess.Entites.Interfaces.ITeacherLoadEntity>("TeacherLoad", value); }
+            		get { return GetRelatedProperty<System.String>("ChairId"); }
+            		set { SetRelatedProperty("ChairId", value); }
+    	}
+    
+    	public System.String TeacherLoadId
+    	{
+            		get { return GetRelatedProperty<System.String>("TeacherLoadId"); }
+            		set { SetRelatedProperty("TeacherLoadId", value); }
     	}
     	#endregion
     }
