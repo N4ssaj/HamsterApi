@@ -17,10 +17,10 @@ public class Teacher
     /// <param name="surname">Фамилия учителя.</param>
     /// <param name="patronymic">Отчество учителя.</param>
     /// <param name="fullName">Полное имя учителя.</param>
-    /// <param name="subjects">Список преподаваемых дисциплин.</param>
-    public Teacher(string id , string name, string surname, string patronymic, string fullName, IReadOnlyCollection<Subject> subjects, Department department, TeacherLoad teacherLoad)
-        => (Id, Name, Surname, Patronymic, FullName, Subjects,Department,TeacherLoad) 
-        = (id, name, surname, patronymic, fullName, subjects,department, teacherLoad);
+    /// <param name="subjectsIds">Список преподаваемых дисциплин.</param>
+    public Teacher(string id , string name, string surname, string patronymic, string fullName, IReadOnlyCollection<string> subjectsIds, string chairId, string teacherLoadId)
+        => (Id, Name, Surname, Patronymic, FullName, SubjectsIds,ChairId,TeacherLoadId) 
+        = (id, name, surname, patronymic, fullName, subjectsIds,chairId, teacherLoadId);
 
     /// <summary>
     /// Получает имя учителя.
@@ -45,16 +45,16 @@ public class Teacher
     /// <summary>
     /// Получает список преподаваемых дисциплин.
     /// </summary>
-    public IReadOnlyCollection<Subject> Subjects { get; }
+    public IReadOnlyCollection<string> SubjectsIds { get; }
 
     /// <summary>
     /// Получает уникальный идентификатор учителя.
     /// </summary>
     public string Id { get; }
 
-    public Department Department { get; }
+    public string ChairId { get; }
 
-    public TeacherLoad TeacherLoad { get; }
+    public string TeacherLoadId { get; }
 
     /// <summary>
     /// Создает нового учителя с указанным идентификатором, именем, фамилией, отчеством и списком преподаваемых дисциплин.
@@ -63,13 +63,13 @@ public class Teacher
     /// <param name="name">Имя учителя.</param>
     /// <param name="surname">Фамилия учителя.</param>
     /// <param name="patronymic">Отчество учителя.</param>
-    /// <param name="subjects">Список преподаваемых дисциплин.</param>
+    /// <param name="subjectsIds">Список преподаваемых дисциплин.</param>
     /// <returns>Результат, указывающий на успешность создания экземпляра класса <see cref="Teacher"/> и содержащий созданный объект, если операция выполнена успешно.</returns>
-    public static Result<Teacher> Create(string id , string name, string surname, string patronymic, IReadOnlyCollection<Subject> subjects, Department department, TeacherLoad teacherLoad)
+    public static Result<Teacher> Create(string id , string name, string surname, string patronymic, IReadOnlyCollection<string> subjectsIds, string chairId, string teacherLoadId)
     {
         string fullName = string.Join(" ", surname,name, patronymic);
 
-        var teacher = new Teacher(id, name, surname, patronymic, fullName, subjects,department,teacherLoad);
+        var teacher = new Teacher(id, name, surname, patronymic, fullName, subjectsIds,chairId,teacherLoadId);
 
         return teacher;
     }

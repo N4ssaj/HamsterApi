@@ -15,8 +15,8 @@ public class Semester
     /// <param name="number">Номер семестра.</param>
     /// <param name="group">Группа, для которой проходит семестр.</param>
     /// <param name="subjects">Список учебных дисциплин в семестре вместе с их учебной нагрузкой.</param>
-    private Semester(string id , int number, Group group, IReadOnlyCollection<SubjectWtihLoad> subjects)
-        => (Id, Number, Group, Subjects) = (id, number, group, subjects);
+    private Semester(string id , int number, string groupId, IReadOnlyCollection<SubjectWtihLoad> subjects)
+        => (Id, Number, GroupId, Subjects) = (id, number, groupId, subjects);
 
     /// <summary>
     /// Получает уникальный идентификатор семестра.
@@ -31,7 +31,7 @@ public class Semester
     /// <summary>
     /// Получает группу, для которой проходит семестр.
     /// </summary>
-    public Group Group { get; }
+    public string GroupId { get; }
 
     /// <summary>
     /// Получает список учебных дисциплин в семестре вместе с их учебной нагрузкой.
@@ -46,11 +46,11 @@ public class Semester
     /// <param name="group">Группа, для которой проходит семестр.</param>
     /// <param name="subjects">Список учебных дисциплин в семестре вместе с их учебной нагрузкой.</param>
     /// <returns>Результат, указывающий на успешность создания экземпляра класса <see cref="Semester"/> и содержащий созданный объект, если операция выполнена успешно.</returns>
-    public static Result<Semester> Create(string id , int number, Group group, IReadOnlyCollection<SubjectWtihLoad> subjects)
+    public static Result<Semester> Create(string id , int number, string groupId, IReadOnlyCollection<SubjectWtihLoad> subjects)
     {
         // Дополнительные валидации, если необходимо
 
-        var semester = new Semester(id, number, group, subjects);
+        var semester = new Semester(id, number, groupId, subjects);
         return semester;
     }
 }

@@ -15,9 +15,9 @@ public class Subject
     /// <param name="id">Уникальный идентификатор дисциплины.</param>
     /// <param name="title">Название дисциплины.</param>
     /// <param name="index">Индекс дисциплины.</param>
-    /// <param name="teachers">Список преподавателей, преподающих эту дисциплину.</param>
-    private Subject(string id , string title, string index, IReadOnlyCollection<Teacher> teachers)
-        => (Id, Title, Index, Teachers) = (id, title, index, teachers);
+    /// <param name="teachersIds">Список преподавателей, преподающих эту дисциплину.</param>
+    private Subject(string id , string title, string index, IReadOnlyCollection<string> teachersIds)
+        => (Id, Title, Index, TeachersIds) = (id, title, index, teachersIds);
 
     /// <summary>
     /// Получает название дисциплины.
@@ -32,7 +32,7 @@ public class Subject
     /// <summary>
     /// Получает список преподавателей, преподающих эту дисциплину.
     /// </summary>
-    public IReadOnlyCollection<Teacher> Teachers { get; }
+    public IReadOnlyCollection<string> TeachersIds { get; }
 
     /// <summary>
     /// Получает уникальный идентификатор дисциплины.
@@ -45,13 +45,13 @@ public class Subject
     /// <param name="id">Уникальный идентификатор дисциплины.</param>
     /// <param name="title">Название дисциплины.</param>
     /// <param name="index">Индекс дисциплины.</param>
-    /// <param name="teachers">Список преподавателей, преподающих эту дисциплину.</param>
+    /// <param name="teachersIds">Список преподавателей, преподающих эту дисциплину.</param>
     /// <returns>Результат, указывающий на успешность создания экземпляра класса <see cref="Subject"/> и содержащий созданный объект, если операция выполнена успешно.</returns>
-    public static Result<Subject> Create(string id , string title, string index, IReadOnlyCollection<Teacher> teachers)
+    public static Result<Subject> Create(string id , string title, string index, IReadOnlyCollection<string> teachersIds)
     {
         // Дополнительные валидации, если необходимо
 
-        var subject = new Subject(id, title, index, teachers);
+        var subject = new Subject(id, title, index, teachersIds);
 
         return subject;
     }

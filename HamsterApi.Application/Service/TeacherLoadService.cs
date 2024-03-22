@@ -12,16 +12,16 @@ public class TeacherLoadService : ITeacherLoadService
     public TeacherLoadService(ITeacherLoadStore teacherLoadStore)
         =>_teacherLoadStore=teacherLoadStore;
 
-    public async Task<string> Create(TeacherLoad item)
+    public async Task<string> Create(TeachingLoad item)
         =>await _teacherLoadStore.Create(item);
 
     public async Task<bool> Delete(string id)
         =>await _teacherLoadStore.Delete(id);
 
-    public async Task<TeacherLoad?> Read(string id)
+    public async Task<TeachingLoad?> Read(string id)
         =>await _teacherLoadStore.Read(id);
 
-    public async Task<List<TeacherLoad>?> ReadAll()
+    public async Task<List<TeachingLoad>?> ReadAll()
         =>await _teacherLoadStore.ReadAll();
 
     public async Task<bool> Update(string id, int lecturesHours, int practiceHours, int laboratoryHours, int lecturesHoursMax, int practiceHoursMax, int laboratoryHoursMax)

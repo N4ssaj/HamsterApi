@@ -5,20 +5,20 @@ namespace HamsterApi.Core.Models;
 
 public class Department
 {
-    private Department(string id, string title, IReadOnlyCollection<Teacher> teachers, Faculty faculty)
-        => (Id, Title, Teachers,Faculty) = (id, title, teachers,faculty);
-
-    public string Id { get; }
+    private Department(string id,string title,IReadOnlyCollection<string> chairsIds, IReadOnlyCollection<string> directionsIds)
+        =>(Id,Title,ChairsIds,DirectionsIds)=(id,title,chairsIds,directionsIds);
 
     public string Title { get; }
 
-    public IReadOnlyCollection<Teacher> Teachers { get; }
+    public string Id { get; }
 
-    public Faculty Faculty { get; }
+    public IReadOnlyCollection<string> ChairsIds { get; }
 
-    public static Result<Department> Create(string id, string title, IReadOnlyCollection<Teacher> teachers, Faculty faculty)
+    public IReadOnlyCollection<string> DirectionsIds { get; }
+
+    public static Result<Department> Create(string id, string title, IReadOnlyCollection<string> chairsIds, IReadOnlyCollection<string> directionsIds)
     {
-        var department = new Department(id, title, teachers,faculty);
+        var department = new Department(id, title, chairsIds,directionsIds);
         return department;
     }
 }

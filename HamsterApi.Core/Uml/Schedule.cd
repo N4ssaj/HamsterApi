@@ -62,7 +62,7 @@
       <FileName>Models\Teacher.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Department" />
+      <Property Name="Chair" />
       <Property Name="TeacherLoad" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
@@ -149,27 +149,27 @@
       <Property Name="Groups" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="HamsterApi.Core.Models.Department">
+  <Class Name="HamsterApi.Core.Models.Chair">
     <Position X="20.75" Y="6.5" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAMAAAAAAAAAAAAAAAEAAAAAAAgAAAAA=</HashCode>
-      <FileName>Models\Department.cs</FileName>
+      <FileName>Models\Chair.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Faculty" />
+      <Property Name="Department" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="Teachers" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="HamsterApi.Core.Models.Faculty">
+  <Class Name="HamsterApi.Core.Models.Department">
     <Position X="19.75" Y="3.25" Width="3.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAEAAACAAAAAAAAAAAEAABAAAAAAAAAA=</HashCode>
-      <FileName>Models\Faculty.cs</FileName>
+      <FileName>Models\Department.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="Departments" />
+      <Property Name="Chairs" />
       <Property Name="Directions" />
     </ShowAsCollectionAssociation>
   </Class>

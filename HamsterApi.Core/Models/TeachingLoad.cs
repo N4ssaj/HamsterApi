@@ -4,9 +4,9 @@ using HamsterApi.Core.Common;
 
 namespace HamsterApi.Core.Models;
 
-public class TeacherLoad
+public class TeachingLoad
 {
-    private TeacherLoad(string id, int lecturesHours, int practiceHours, int laboratoryHours, int lecturesHoursMax, int practiceHoursMax, int laboratoryHoursMax)
+    private TeachingLoad(string id, int lecturesHours, int practiceHours, int laboratoryHours, int lecturesHoursMax, int practiceHoursMax, int laboratoryHoursMax)
         => (Id, LecturesHours, PracticeHours, LaboratoryHours, LecturesHoursMax, PracticeHoursMax, LaboratoryHoursMax)
         = (id, lecturesHours, practiceHours, laboratoryHours, lecturesHoursMax, practiceHoursMax, laboratoryHoursMax);
    
@@ -24,9 +24,9 @@ public class TeacherLoad
 
     public int LaboratoryHoursMax { get; }
 
-    public static Result<TeacherLoad> Create(string id, int lecturesHours, int practiceHours, int laboratoryHours, int lecturesHoursMax, int practiceHoursMax, int laboratoryHoursMax)
+    public static Result<TeachingLoad> Create(string id, int lecturesHours, int practiceHours, int laboratoryHours, int lecturesHoursMax, int practiceHoursMax, int laboratoryHoursMax)
     {
-        var teacherLoad = new TeacherLoad(id,lecturesHours,practiceHours,laboratoryHours,lecturesHoursMax,practiceHoursMax,laboratoryHoursMax);
+        var teacherLoad = new TeachingLoad(id,lecturesHours,practiceHours,laboratoryHours,lecturesHoursMax,practiceHoursMax,laboratoryHoursMax);
         return teacherLoad;
     }
 }

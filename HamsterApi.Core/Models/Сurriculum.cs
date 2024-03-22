@@ -15,9 +15,9 @@ public class Curriculum
     /// <param name="direction">Группа, для которой составлен учебный план.</param>
     /// <param name="semestersSubjects">Словарь, содержащий списки дисциплин по семестрам.</param>
     /// <param name="semestersElectiveSubjects">Словарь, содержащий списки выборочных дисциплин по семестрам.</param>
-    private Curriculum(string id , Direction direction,  IReadOnlyCollection<SubjectWtihLoad> semestersSubjects,  IReadOnlyCollection<SubjectWtihLoad> semestersElectiveSubjects, int yearOfPreparation,string fGOSNumber)
-        => (Id, Direction, SemestersSubjects, SemestersSubjects,YearOfPreparation,FGOSNumber) 
-        = (id, direction, semestersSubjects, semestersElectiveSubjects,yearOfPreparation,fGOSNumber);
+    private Curriculum(string id , string directionId,  IReadOnlyCollection<SubjectWtihLoad> semestersSubjects,  IReadOnlyCollection<SubjectWtihLoad> semestersElectiveSubjects, int yearOfPreparation,string fGOSNumber)
+        => (Id, DirectionId, SemestersSubjects, SemestersSubjects,YearOfPreparation,FGOSNumber) 
+        = (id, directionId, semestersSubjects, semestersElectiveSubjects,yearOfPreparation,fGOSNumber);
 
     /// <summary>
     /// Получает уникальный идентификатор учебного плана.
@@ -27,7 +27,7 @@ public class Curriculum
     /// <summary>
     /// Получает направление, для которой составлен учебный план.
     /// </summary>
-    public Direction Direction { get; }
+    public string DirectionId { get; }
 
     public int YearOfPreparation { get; }
 
@@ -50,11 +50,11 @@ public class Curriculum
     /// <param name="semestersSubjects">Словарь, содержащий списки дисциплин по семестрам.</param>
     /// <param name="semestersElectiveSubjects">Словарь, содержащий списки выборочных дисциплин по семестрам.</param>
     /// <returns>Результат, указывающий на успешность создания экземпляра класса <see cref="Curriculum"/> и содержащий созданный объект, если операция выполнена успешно.</returns>
-    public static Result<Curriculum> Create(string id , Direction direction,IReadOnlyCollection<SubjectWtihLoad> semestersSubjects,IReadOnlyCollection<SubjectWtihLoad> semestersElectiveSubjects, int yearOfPreparation, string fGOSNumber)
+    public static Result<Curriculum> Create(string id , string directionId,IReadOnlyCollection<SubjectWtihLoad> semestersSubjects,IReadOnlyCollection<SubjectWtihLoad> semestersElectiveSubjects, int yearOfPreparation, string fGOSNumber)
     {
         // Дополнительные валидации, если необходимо
 
-        var curriculum = new Curriculum(id, direction, semestersSubjects, semestersElectiveSubjects,yearOfPreparation,fGOSNumber);
+        var curriculum = new Curriculum(id, directionId, semestersSubjects, semestersElectiveSubjects,yearOfPreparation,fGOSNumber);
         return curriculum;
     }
 }

@@ -15,8 +15,8 @@ public class Group
     /// </summary>
     /// <param name="id">Уникальный идентификатор группы.</param>
     /// <param name="number">Номер/код, назначенный группе.</param>
-    private Group(string id , string number,LevelOfEducation levelOfEducation)
-        => (Id, Number, LevelOfEducation) = (id, number,levelOfEducation);
+    private Group(string id , string number,LevelOfEducation levelOfEducation,string directionId)
+        => (Id, Number, LevelOfEducation,DirectionId) = (id, number,levelOfEducation,directionId);
 
     /// <summary>
     /// Получает номер/код, назначенный группе.
@@ -28,6 +28,8 @@ public class Group
     /// </summary>
     public string Id { get; }
 
+    public string DirectionId { get; }
+
     public LevelOfEducation LevelOfEducation { get; }
 
     /// <summary>
@@ -36,10 +38,10 @@ public class Group
     /// <param name="id">Уникальный идентификатор группы.</param>
     /// <param name="number">Номер/код, назначенный группе.</param>
     /// <returns>Результат, указывающий, было ли создание успешным, и содержащий созданную группу в случае успеха.</returns>
-    public static Result<Group> Create(string id , string number,LevelOfEducation levelOfEducation)
+    public static Result<Group> Create(string id , string number,LevelOfEducation levelOfEducation,string directionId)
     {
         // валидация
-        var group = new Group(id, number,levelOfEducation);
+        var group = new Group(id, number,levelOfEducation,directionId);
         return group;
     }
 }

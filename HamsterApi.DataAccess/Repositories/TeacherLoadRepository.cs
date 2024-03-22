@@ -14,7 +14,7 @@ public class TeacherLoadRepository : ITeacherLoadStore
     public TeacherLoadRepository(HamsterApiDbContext hamsterApiDbContext)
         => _hamsterApiDbContext = hamsterApiDbContext;
 
-    public async Task<string> Create(TeacherLoad item)
+    public async Task<string> Create(TeachingLoad item)
     {
         var teacherLoadEntity = new TeacherLoadEntity()
         { Id = item.Id, 
@@ -50,7 +50,7 @@ public class TeacherLoadRepository : ITeacherLoadStore
         return state;
     }
 
-    public async Task<TeacherLoad?> Read(string id)
+    public async Task<TeachingLoad?> Read(string id)
     {
         ITeacherLoadEntity teacherLoadEntity = null;
         await Task.Run(() =>
@@ -59,14 +59,14 @@ public class TeacherLoadRepository : ITeacherLoadStore
         });
         if (teacherLoadEntity is null) return null;
 
-        var teacherLoad = TeacherLoad.Create(teacherLoadEntity.Id, 
+        var teacherLoad = TeachingLoad.Create(teacherLoadEntity.Id, 
             teacherLoadEntity.LecturesHours, teacherLoadEntity.PracticeHours, teacherLoadEntity.LaboratoryHours,
             teacherLoadEntity.LecturesHoursMax, teacherLoadEntity.PracticeHoursMax, teacherLoadEntity.LaboratoryHoursMax);
 
         return teacherLoad.Value;
     }
 
-    public async Task<List<TeacherLoad>?> ReadAll()
+    public async Task<List<TeachingLoad>?> ReadAll()
     {
         var teacherLoadEntityList = new List<ITeacherLoadEntity>();
         await Task.Run(() =>
@@ -74,7 +74,7 @@ public class TeacherLoadRepository : ITeacherLoadStore
             teacherLoadEntityList = _hamsterApiDbContext.TeacherLoadEntities.ToList();
         }
         );
-        var teacherLoadList = teacherLoadEntityList.Select(a => TeacherLoad.Create(a.Id, a.LecturesHours, a.PracticeHours, a.LaboratoryHours,
+        var teacherLoadList = teacherLoadEntityList.Select(a => TeachingLoad.Create(a.Id, a.LecturesHours, a.PracticeHours, a.LaboratoryHours,
             a.LecturesHoursMax, a.PracticeHoursMax, a.LaboratoryHoursMax).Value).ToList();
 
         return teacherLoadList;
