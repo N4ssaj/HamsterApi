@@ -1,4 +1,5 @@
 ﻿
+using AutoMapper;
 using HamsterApi.Core.Common.Enum;
 using HamsterApi.Core.Models;
 using HamsterApi.Core.Stores;
@@ -10,23 +11,15 @@ namespace HamsterApi.DataAccess.Repositories;
 public class AcademicLoadRepository : IAcademicLoadStore
 {
     private readonly HamsterApiDbContext _hamsterApiDbContext;
+    private readonly IMapper _mapper;
 
-    public AcademicLoadRepository(HamsterApiDbContext hamsterApiDbContext)
-    {
-        _hamsterApiDbContext = hamsterApiDbContext;
-    }
+    public AcademicLoadRepository(HamsterApiDbContext hamsterApiDbContext,IMapper mapper)
+        => (_hamsterApiDbContext,_mapper) = (hamsterApiDbContext, mapper);
+
 
     public async Task<string> Create(AcademicLoad item)
     {
-        var academicLoadEntity = new AcademicLoadEntity()
-        { Id = item.Id,
-         AcademicEvaluationType=item.AcademicEvaluationType,
-         Credits=item.Credits,
-         Laboratory=item.Laboratory,
-         Lectures = item.Lectures,
-         Practice = item.Practice,
-         Total = item.Total
-        };
+        var academicLoadEntity = _mapper.Map<AcademicLoadEntity>(item);
         await Task.Run(() =>
         {
             _hamsterApiDbContext.AcademicLoadEntities.Add(academicLoadEntity);
@@ -41,7 +34,7 @@ public class AcademicLoadRepository : IAcademicLoadStore
         bool state = false;
         await Task.Run(() =>
         {
-            academicLoadEntity = _hamsterApiDbContext.AcademicLoadEntities.FirstOrDefault(a => a.Id == id);
+            academicLoadEntity = _hamsterApiDbContext.AcademicLoadEntities.FirstOrDefault(a => a.Id == id)!;
             if (academicLoadEntity is not null)
             {
                 _hamsterApiDbContext.DeleteObject(academicLoadEntity);
@@ -57,14 +50,13 @@ public class AcademicLoadRepository : IAcademicLoadStore
         IAcademicLoadEntity academicLoadEntity = null;
         await Task.Run(() =>
         {
-            academicLoadEntity = _hamsterApiDbContext.AcademicLoadEntities.FirstOrDefault(a => a.Id == id);
+            academicLoadEntity = _hamsterApiDbContext.AcademicLoadEntities.FirstOrDefault(a => a.Id == id)!;
         });
         if (academicLoadEntity is null) return null;
 
-        var academicLoad = AcademicLoad.Create(academicLoadEntity.Id, academicLoadEntity.Lectures, academicLoadEntity.Laboratory,
-            academicLoadEntity.Practice, academicLoadEntity.Credits, academicLoadEntity.AcademicEvaluationType);
+        var academicLoad = _mapper.Map<AcademicLoad>(academicLoadEntity);
 
-        return academicLoad.Value;
+        return academicLoad;
     }
 
     public async Task<List<AcademicLoad>?> ReadAll()
@@ -75,8 +67,22 @@ public class AcademicLoadRepository : IAcademicLoadStore
             academicLoadEntityList = _hamsterApiDbContext.AcademicLoadEntities.ToList();
         }
         );
-        var academicLoadList = academicLoadEntityList.Select(a => AcademicLoad.Create(a.Id, a.Lectures, a.Laboratory,
-            a.Practice, a.Credits, a.AcademicEvaluationType).Value).ToList();
+        var academicLoadList = academicLoadEntityList.Select(a => _mapper.Map<AcademicLoad>(a))
+            .ToList();
+
+        return academicLoadList;
+    }
+
+    public async Task<List<AcademicLoad>?> ReadByIds(IEnumerable<string> ids)
+    {
+        var academicLoadEntityList = new List<IAcademicLoadEntity>();
+        await Task.Run(() =>
+        {
+            academicLoadEntityList = _hamsterApiDbContext.AcademicLoadEntities.Where(a=>ids.Contains(a.Id)).ToList();
+        }
+        );
+        var academicLoadList = academicLoadEntityList.Select(a => _mapper.Map<AcademicLoad>(a))
+            .ToList();
 
         return academicLoadList;
     }
@@ -86,7 +92,7 @@ public class AcademicLoadRepository : IAcademicLoadStore
         IAcademicLoadEntity academicLoadEntity = null;
         await Task.Run(() =>
         {
-            academicLoadEntity = _hamsterApiDbContext.AcademicLoadEntities.FirstOrDefault(a => a.Id == id);
+            academicLoadEntity = _hamsterApiDbContext.AcademicLoadEntities.FirstOrDefault(a => a.Id == id)!;
         });
         if (academicLoadEntity is null) return false;
 

@@ -68,8 +68,8 @@ namespace HamsterApi.DataAccess
     		EntityMappingStore.Instance.SetImplMapping<HamsterApi.DataAccess.Entites.Interfaces.ISubjectWtihLoadEntity, HamsterApi.DataAccess.Entites.Interfaces.SubjectWtihLoadEntity>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(HamsterApi.DataAccess.Entites.Interfaces.ITeacherEntity));
     		EntityMappingStore.Instance.SetImplMapping<HamsterApi.DataAccess.Entites.Interfaces.ITeacherEntity, HamsterApi.DataAccess.Entites.Interfaces.TeacherEntity>();
-    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(HamsterApi.DataAccess.Entites.Interfaces.ITeacherLoadEntity));
-    		EntityMappingStore.Instance.SetImplMapping<HamsterApi.DataAccess.Entites.Interfaces.ITeacherLoadEntity, HamsterApi.DataAccess.Entites.Interfaces.TeacherLoadEntity>();
+    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(HamsterApi.DataAccess.Entites.Interfaces.ITeachingLoadEntity));
+    		EntityMappingStore.Instance.SetImplMapping<HamsterApi.DataAccess.Entites.Interfaces.ITeachingLoadEntity, HamsterApi.DataAccess.Entites.Interfaces.TeachingLoadEntity>();
     	}
     	
     	/// <summary>
@@ -150,7 +150,7 @@ namespace HamsterApi.DataAccess
     		SubjectEntities = 	new BrightstarEntitySet<HamsterApi.DataAccess.Entites.Interfaces.ISubjectEntity>(this);
     		SubjectWtihLoadEntities = 	new BrightstarEntitySet<HamsterApi.DataAccess.Entites.Interfaces.ISubjectWtihLoadEntity>(this);
     		TeacherEntities = 	new BrightstarEntitySet<HamsterApi.DataAccess.Entites.Interfaces.ITeacherEntity>(this);
-    		TeacherLoadEntities = 	new BrightstarEntitySet<HamsterApi.DataAccess.Entites.Interfaces.ITeacherLoadEntity>(this);
+    		TeachingLoadEntities = 	new BrightstarEntitySet<HamsterApi.DataAccess.Entites.Interfaces.ITeachingLoadEntity>(this);
     	}
     	
     	internal IEntitySet<HamsterApi.DataAccess.Entites.Interfaces.IAcademicLoadEntity> AcademicLoadEntities
@@ -228,7 +228,7 @@ namespace HamsterApi.DataAccess
     		get; private set;
     	}
     	
-    	internal IEntitySet<HamsterApi.DataAccess.Entites.Interfaces.ITeacherLoadEntity> TeacherLoadEntities
+    	internal IEntitySet<HamsterApi.DataAccess.Entites.Interfaces.ITeachingLoadEntity> TeachingLoadEntities
     	{
     		get; private set;
     	}
@@ -280,8 +280,8 @@ namespace HamsterApi.DataAccess
             if (typeof(T).Equals(typeof(HamsterApi.DataAccess.Entites.Interfaces.ITeacherEntity))) {
                 return (IEntitySet<T>)this.TeacherEntities;
             }
-            if (typeof(T).Equals(typeof(HamsterApi.DataAccess.Entites.Interfaces.ITeacherLoadEntity))) {
-                return (IEntitySet<T>)this.TeacherLoadEntities;
+            if (typeof(T).Equals(typeof(HamsterApi.DataAccess.Entites.Interfaces.ITeachingLoadEntity))) {
+                return (IEntitySet<T>)this.TeachingLoadEntities;
             }
             throw new InvalidOperationException(typeof(T).FullName + " is not a recognized entity interface type.");
         }
@@ -805,13 +805,13 @@ namespace HamsterApi.DataAccess.Entites.Interfaces
 namespace HamsterApi.DataAccess.Entites.Interfaces 
 {
     
-    internal partial class TeacherLoadEntity : BrightstarEntityObject, ITeacherLoadEntity 
+    internal partial class TeachingLoadEntity : BrightstarEntityObject, ITeachingLoadEntity 
     {
-    	public TeacherLoadEntity(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
-        public TeacherLoadEntity(BrightstarEntityContext context) : base(context, typeof(TeacherLoadEntity)) { }
-    	public TeacherLoadEntity() : base() { }
+    	public TeachingLoadEntity(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
+        public TeachingLoadEntity(BrightstarEntityContext context) : base(context, typeof(TeachingLoadEntity)) { }
+    	public TeachingLoadEntity() : base() { }
     	public System.String Id { get {return GetKey(); } set { SetKey(value); } }
-    	#region Implementation of HamsterApi.DataAccess.Entites.Interfaces.ITeacherLoadEntity
+    	#region Implementation of HamsterApi.DataAccess.Entites.Interfaces.ITeachingLoadEntity
     
     	public System.Int32 LecturesHours
     	{

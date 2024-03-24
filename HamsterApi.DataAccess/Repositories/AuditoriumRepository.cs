@@ -1,4 +1,5 @@
-﻿using HamsterApi.Core.Models;
+﻿using AutoMapper;
+using HamsterApi.Core.Models;
 using HamsterApi.Core.Stores;
 using HamsterApi.DataAccess.Entites.Interfaces;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -9,13 +10,14 @@ public class AuditoriumRepository : IAuditoriumStore
 {
     private readonly HamsterApiDbContext _hamsterApiDbContext;
 
-    public AuditoriumRepository(HamsterApiDbContext hamsterApiDbContext)
-        => _hamsterApiDbContext = hamsterApiDbContext;
+    private readonly IMapper _mapper;
+
+    public AuditoriumRepository(HamsterApiDbContext hamsterApiDbContext, IMapper mapper)
+        => (_hamsterApiDbContext, _mapper) = (hamsterApiDbContext, mapper);
 
     public async Task<string> Create(Auditorium item)
     {
-        var auditoriumEntity=new AuditoriumEntity()
-        { Id = item.Id,Number=item.Number };
+        var auditoriumEntity=_mapper.Map<AuditoriumEntity>(item);
         await Task.Run(() =>
         {
             _hamsterApiDbContext.AuditoriumEntities.Add(auditoriumEntity);
@@ -30,7 +32,7 @@ public class AuditoriumRepository : IAuditoriumStore
         bool state = false;
         await Task.Run(() =>
         {
-            auditoriumEntity = _hamsterApiDbContext.AuditoriumEntities.FirstOrDefault(a => a.Id == id);
+            auditoriumEntity = _hamsterApiDbContext.AuditoriumEntities.FirstOrDefault(a => a.Id == id)!;
             if(auditoriumEntity is not null)
             {
                 _hamsterApiDbContext.DeleteObject(auditoriumEntity);
@@ -46,13 +48,13 @@ public class AuditoriumRepository : IAuditoriumStore
         IAuditoriumEntity auditoriumEntity = null;
         await Task.Run(() =>
         {
-            auditoriumEntity = _hamsterApiDbContext.AuditoriumEntities.FirstOrDefault(a => a.Id == id);
+            auditoriumEntity = _hamsterApiDbContext.AuditoriumEntities.FirstOrDefault(a => a.Id == id)!;
         });
         if (auditoriumEntity is null) return null;
 
-        var auditorium = Auditorium.Create(auditoriumEntity.Id, auditoriumEntity.Number);
+        var auditorium = _mapper.Map<Auditorium>(auditoriumEntity);
 
-        return auditorium.Value;
+        return auditorium;
     }
 
     public async Task<Auditorium?> ReadByNumber(string number)
@@ -60,13 +62,13 @@ public class AuditoriumRepository : IAuditoriumStore
         IAuditoriumEntity auditoriumEntity = null;
         await Task.Run(() =>
         {
-            auditoriumEntity = _hamsterApiDbContext.AuditoriumEntities.FirstOrDefault(a => a.Number == number);
+            auditoriumEntity = _hamsterApiDbContext.AuditoriumEntities.FirstOrDefault(a => a.Number == number)!;
         });
         if (auditoriumEntity is null) return null;
 
-        var auditorium = Auditorium.Create(auditoriumEntity.Id, auditoriumEntity.Number);
+        var auditorium = _mapper.Map<Auditorium>(auditoriumEntity);
 
-        return auditorium.Value;
+        return auditorium;
     }
 
     public async Task<List<Auditorium>?> ReadAll()
@@ -77,7 +79,7 @@ public class AuditoriumRepository : IAuditoriumStore
             auditoriumEntityList = _hamsterApiDbContext.AuditoriumEntities.ToList();
         }
         );
-        var auditoriumList = auditoriumEntityList.Select(a => Auditorium.Create(a.Id, a.Number).Value).ToList();
+        var auditoriumList = auditoriumEntityList.Select(a => _mapper.Map<Auditorium>(a)).ToList();
 
         return auditoriumList;
     }
@@ -87,7 +89,7 @@ public class AuditoriumRepository : IAuditoriumStore
         IAuditoriumEntity auditoriumEntity = null;
         await Task.Run(() =>
         {
-            auditoriumEntity = _hamsterApiDbContext.AuditoriumEntities.FirstOrDefault(a => a.Id == id);
+            auditoriumEntity = _hamsterApiDbContext.AuditoriumEntities.FirstOrDefault(a => a.Id == id)!;
         });
         if (auditoriumEntity is null) return false;
 
@@ -97,5 +99,20 @@ public class AuditoriumRepository : IAuditoriumStore
             _hamsterApiDbContext.SaveChanges();
         });
         return true;
+    }
+
+    public async Task<List<Auditorium>?> ReadByIds(IEnumerable<string> ids)
+    {
+        var auditoriumEntityList = new List<IAuditoriumEntity>();
+        await Task.Run(() =>
+        {
+            auditoriumEntityList = _hamsterApiDbContext.AuditoriumEntities
+            .Where(a=>ids.Contains(a.Id))
+            .ToList();
+        }
+        );
+        var auditoriumList = auditoriumEntityList.Select(a => _mapper.Map<Auditorium>(a)).ToList();
+
+        return auditoriumList;
     }
 }

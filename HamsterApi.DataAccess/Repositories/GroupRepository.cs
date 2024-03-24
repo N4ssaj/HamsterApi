@@ -1,4 +1,5 @@
 ﻿
+using AutoMapper;
 using HamsterApi.Core.Common.Enum;
 using HamsterApi.Core.Models;
 using HamsterApi.Core.Stores;
@@ -10,13 +11,14 @@ public class GroupRepository : IGroupStore
 {
     private readonly HamsterApiDbContext _hamsterApiDbContext;
 
-    public GroupRepository(HamsterApiDbContext hamsterApiDbContext)
-        => _hamsterApiDbContext = hamsterApiDbContext;
+    private readonly IMapper _mapper;
+
+    public GroupRepository(HamsterApiDbContext hamsterApiDbContext,IMapper mapper)
+        => (_hamsterApiDbContext,_mapper) = (hamsterApiDbContext,mapper);
 
     public async Task<string> Create(Group item)
     {
-        var groupEntity = new GroupEntity()
-        { Id = item.Id, Number = item.Number, LevelOfEducation=item.LevelOfEducation };
+        var groupEntity = _mapper.Map<GroupEntity>(item);
         await Task.Run(() =>
         {
             _hamsterApiDbContext.GroupEntities.Add(groupEntity);
@@ -31,7 +33,7 @@ public class GroupRepository : IGroupStore
         bool state = false;
         await Task.Run(() =>
         {
-            groupEntity = _hamsterApiDbContext.GroupEntities.FirstOrDefault(a => a.Id == id);
+            groupEntity = _hamsterApiDbContext.GroupEntities.FirstOrDefault(a => a.Id == id)!;
             if (groupEntity is not null)
             {
                 _hamsterApiDbContext.DeleteObject(groupEntity);
@@ -47,13 +49,13 @@ public class GroupRepository : IGroupStore
         IGroupEntity groupEntity = null;
         await Task.Run(() =>
         {
-            groupEntity = _hamsterApiDbContext.GroupEntities.FirstOrDefault(a => a.Id == id);
+            groupEntity = _hamsterApiDbContext.GroupEntities.FirstOrDefault(a => a.Id == id)!;
         });
         if (groupEntity is null) return null;
 
-        var group = Group.Create(groupEntity.Id, groupEntity.Number,groupEntity.LevelOfEducation);
+        var group = _mapper.Map<Group>(groupEntity);
 
-        return group.Value;
+        return group;
     }
 
     public async Task<List<Group>?> ReadAll()
@@ -64,7 +66,22 @@ public class GroupRepository : IGroupStore
             groupEntityList = _hamsterApiDbContext.GroupEntities.ToList();
         }
         );
-        var groupList = groupEntityList.Select(a => Group.Create(a.Id, a.Number, a.LevelOfEducation).Value).ToList();
+        var groupList = groupEntityList.Select(a => _mapper.Map<Group>(a)).ToList();
+
+        return groupList;
+    }
+
+    public async Task<List<Group>?> ReadByIds(IEnumerable<string> ids)
+    {
+        var groupEntityList = new List<IGroupEntity>();
+        await Task.Run(() =>
+        {
+            groupEntityList = _hamsterApiDbContext.GroupEntities
+            .Where(g=>ids.Contains(g.Id))
+            .ToList();
+        }
+        );
+        var groupList = groupEntityList.Select(a => _mapper.Map<Group>(a)).ToList();
 
         return groupList;
     }
@@ -74,27 +91,27 @@ public class GroupRepository : IGroupStore
         IGroupEntity groupEntity = null;
         await Task.Run(() =>
         {
-            groupEntity = _hamsterApiDbContext.GroupEntities.FirstOrDefault(a => a.Number == number);
+            groupEntity = _hamsterApiDbContext.GroupEntities.FirstOrDefault(a => a.Number == number)!;
         });
         if (groupEntity is null) return null;
 
-        var group = Group.Create(groupEntity.Id, groupEntity.Number, groupEntity.LevelOfEducation);
+        var group = _mapper.Map<Group>(groupEntity);
 
-        return group.Value;
+        return group;
     }
 
-    public async Task<bool> Update(string id, string number, LevelOfEducation levelOfEducation)
+    public async Task<bool> Update(string id, string number, LevelOfEducation levelOfEducation,string directionId)
     {
         IGroupEntity groupEntity = null;
         await Task.Run(() =>
         {
-            groupEntity = _hamsterApiDbContext.GroupEntities.FirstOrDefault(a => a.Id == id);
+            groupEntity = _hamsterApiDbContext.GroupEntities.FirstOrDefault(a => a.Id == id)!;
         });
         if (groupEntity is null) return false;
 
         groupEntity.Number = number;
         groupEntity.LevelOfEducation= levelOfEducation;
-
+        groupEntity.DirectionId = directionId;
         await Task.Run(() =>
         {
             _hamsterApiDbContext.SaveChanges();

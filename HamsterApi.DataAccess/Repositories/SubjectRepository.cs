@@ -2,28 +2,21 @@
 using HamsterApi.Core.Models;
 using HamsterApi.Core.Stores;
 using HamsterApi.DataAccess.Entites.Interfaces;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using AutoMapper;
 
 namespace HamsterApi.DataAccess.Repositories;
 
 public class SubjectRepository : ISubjectStore
 {
     private readonly HamsterApiDbContext _hamsterApiDbContext;
+    private readonly IMapper _mapper;
 
-    public SubjectRepository(HamsterApiDbContext hamsterApiDbContext)
-            => _hamsterApiDbContext = hamsterApiDbContext;
+    public SubjectRepository(HamsterApiDbContext hamsterApiDbContext, IMapper mapper)
+            => (_hamsterApiDbContext,_mapper) = (hamsterApiDbContext,mapper);
 
     public async Task<string> Create(Subject item)
     {
-        var teacherListId=item.Teachers.Select(t => t.Id).ToList();
-
-        var teacher = _hamsterApiDbContext.TeacherEntities.Where(t => teacherListId.Contains(t.Id)).ToList();
-
-        var subjectEntity = new SubjectEntity()
-        { Id = item.Id,
-         Index=item.Index,
-         Teachers=teacher,
-         Title=item.Title};
+        var subjectEntity = _mapper.Map<SubjectEntity>(item);
         await Task.Run(() =>
         {
             _hamsterApiDbContext.SubjectEntities.Add(subjectEntity);
@@ -38,7 +31,7 @@ public class SubjectRepository : ISubjectStore
         bool state = false;
         await Task.Run(() =>
         {
-            subjectEntity = _hamsterApiDbContext.SubjectEntities.FirstOrDefault(a => a.Id == id);
+            subjectEntity = _hamsterApiDbContext.SubjectEntities.FirstOrDefault(a => a.Id == id)!;
             if (subjectEntity is not null)
             {
                 _hamsterApiDbContext.DeleteObject(subjectEntity);
@@ -54,13 +47,13 @@ public class SubjectRepository : ISubjectStore
         ISubjectEntity subjectEntity = null;
         await Task.Run(() =>
         {
-            subjectEntity = _hamsterApiDbContext.SubjectEntities.FirstOrDefault(a => a.Id == id);
+            subjectEntity = _hamsterApiDbContext.SubjectEntities.FirstOrDefault(a => a.Id == id)!;
         });
         if (subjectEntity is null) return null;
 
-        var subject = Subject.Create(subjectEntity.Id, subjectEntity.Number);
+        var subject = _mapper.Map<Subject>(subjectEntity);
 
-        return subject.Value;
+        return subject;
     }
 
     public async Task<List<Subject>?> ReadAll()
@@ -71,41 +64,41 @@ public class SubjectRepository : ISubjectStore
             subjectEntityList = _hamsterApiDbContext.SubjectEntities.ToList();
         }
         );
-        var subjectList = subjectEntityList.Select(a => Subject.Create(a.Id, a.Number).Value).ToList();
+        var subjectList = subjectEntityList.Select(a =>_mapper.Map<Subject>(a)).ToList();
 
         return subjectList;
     }
 
-    public async Task<Group?> ReadByIndex(string index)
+    public Task<List<Subject>?> ReadByIds(IEnumerable<string> ids)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<Subject?> ReadByIndex(string index)
     {
         ISubjectEntity subjectEntity = null;
         await Task.Run(() =>
         {
-            subjectEntity = _hamsterApiDbContext.SubjectEntities.FirstOrDefault(a => a.Index == index);
+            subjectEntity = _hamsterApiDbContext.SubjectEntities.FirstOrDefault(a => a.Index == index)!;
         });
         if (subjectEntity is null) return null;
 
-        var subject = Subject.Create(subjectEntity.Id, subjectEntity.Number);
+        var subject = _mapper.Map<Subject>(subjectEntity);
 
-        return subject.Value;
+        return subject;
     }
-
-    public async Task<bool> Update(string id, string title, string index, ICollection<Teacher> teachers)
+    public async Task<bool> Update(string id, string title, string index, IReadOnlyCollection<string> teachersIds)
     {
         ISubjectEntity subjectEntity = null;
         await Task.Run(() =>
         {
-            subjectEntity = _hamsterApiDbContext.SubjectEntities.FirstOrDefault(a => a.Id == id);
+            subjectEntity = _hamsterApiDbContext.SubjectEntities.FirstOrDefault(a => a.Id == id)!;
         });
         if (subjectEntity is null) return false;
 
-        var teacherListId = teachers.Select(t => t.Id).ToList();
-
-        var teacher = _hamsterApiDbContext.TeacherEntities.Where(t => teacherListId.Contains(t.Id)).ToList();
-
         subjectEntity.Title = title;
         subjectEntity.Index = index;
-        subjectEntity.Teachers = teacher ;
+        subjectEntity.TeachersIds = teachersIds.ToList();
         await Task.Run(() =>
         {
             _hamsterApiDbContext.SaveChanges();

@@ -4,7 +4,7 @@ using BrightstarDB.EntityFramework;
 namespace HamsterApi.DataAccess.Entites.Interfaces;
 
 [Entity]
-internal interface ITeacherLoadEntity
+internal interface ITeachingLoadEntity
 {
     public string Id { get; }
 

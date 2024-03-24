@@ -1,5 +1,6 @@
 ﻿
 
+using AutoMapper;
 using HamsterApi.Core.Models;
 using HamsterApi.Core.Stores;
 using HamsterApi.DataAccess.Entites.Interfaces;
@@ -7,42 +8,36 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace HamsterApi.DataAccess.Repositories;
 
-public class TeacherLoadRepository : ITeacherLoadStore
+public class TeachingLoadRepository : ITeachingLoadStore
 {
     private readonly HamsterApiDbContext _hamsterApiDbContext;
 
-    public TeacherLoadRepository(HamsterApiDbContext hamsterApiDbContext)
-        => _hamsterApiDbContext = hamsterApiDbContext;
+    private readonly IMapper _mapper;
+
+    public TeachingLoadRepository(HamsterApiDbContext hamsterApiDbContext,IMapper mapper)
+        => (_hamsterApiDbContext,_mapper) = (hamsterApiDbContext,mapper);
 
     public async Task<string> Create(TeachingLoad item)
     {
-        var teacherLoadEntity = new TeacherLoadEntity()
-        { Id = item.Id, 
-            LaboratoryHours=item.LaboratoryHours, 
-            LaboratoryHoursMax=item.LaboratoryHoursMax, 
-            LecturesHours=item.LecturesHours, 
-            LecturesHoursMax=item.LecturesHoursMax,
-            PracticeHours=item.PracticeHours,
-            PracticeHoursMax = item.PracticeHoursMax
-        };
+        var teachingLoadEntity =_mapper.Map<TeachingLoadEntity>(item);
         await Task.Run(() =>
         {
-            _hamsterApiDbContext.TeacherLoadEntities.Add(teacherLoadEntity);
+            _hamsterApiDbContext.TeachingLoadEntities.Add(teachingLoadEntity);
             _hamsterApiDbContext.SaveChanges();
         });
-        return teacherLoadEntity.Id;
+        return teachingLoadEntity.Id;
     }
 
     public async Task<bool> Delete(string id)
     {
-        ITeacherLoadEntity teacherLoadEntity = null;
+        ITeachingLoadEntity teachingLoadEntity = null;
         bool state = false;
         await Task.Run(() =>
         {
-            teacherLoadEntity = _hamsterApiDbContext.TeacherLoadEntities.FirstOrDefault(a => a.Id == id);
-            if (teacherLoadEntity is not null)
+            teachingLoadEntity = _hamsterApiDbContext.TeachingLoadEntities.FirstOrDefault(a => a.Id == id)!;
+            if (teachingLoadEntity is not null)
             {
-                _hamsterApiDbContext.DeleteObject(teacherLoadEntity);
+                _hamsterApiDbContext.DeleteObject(teachingLoadEntity);
                 _hamsterApiDbContext.SaveChanges();
                 state = true;
             }
@@ -52,49 +47,61 @@ public class TeacherLoadRepository : ITeacherLoadStore
 
     public async Task<TeachingLoad?> Read(string id)
     {
-        ITeacherLoadEntity teacherLoadEntity = null;
+        ITeachingLoadEntity teachingLoadEntity = null;
         await Task.Run(() =>
         {
-            teacherLoadEntity = _hamsterApiDbContext.TeacherLoadEntities.FirstOrDefault(a => a.Id == id);
+            teachingLoadEntity = _hamsterApiDbContext.TeachingLoadEntities.FirstOrDefault(a => a.Id == id)!;
         });
-        if (teacherLoadEntity is null) return null;
+        if (teachingLoadEntity is null) return null;
 
-        var teacherLoad = TeachingLoad.Create(teacherLoadEntity.Id, 
-            teacherLoadEntity.LecturesHours, teacherLoadEntity.PracticeHours, teacherLoadEntity.LaboratoryHours,
-            teacherLoadEntity.LecturesHoursMax, teacherLoadEntity.PracticeHoursMax, teacherLoadEntity.LaboratoryHoursMax);
+        var teachingLoad = _mapper.Map<TeachingLoad>(teachingLoadEntity);
 
-        return teacherLoad.Value;
+        return teachingLoad;
     }
 
     public async Task<List<TeachingLoad>?> ReadAll()
     {
-        var teacherLoadEntityList = new List<ITeacherLoadEntity>();
+        var teachingLoadEntityList = new List<ITeachingLoadEntity>();
         await Task.Run(() =>
         {
-            teacherLoadEntityList = _hamsterApiDbContext.TeacherLoadEntities.ToList();
+            teachingLoadEntityList = _hamsterApiDbContext.TeachingLoadEntities.ToList();
         }
         );
-        var teacherLoadList = teacherLoadEntityList.Select(a => TeachingLoad.Create(a.Id, a.LecturesHours, a.PracticeHours, a.LaboratoryHours,
-            a.LecturesHoursMax, a.PracticeHoursMax, a.LaboratoryHoursMax).Value).ToList();
+        var teachingLoadList = teachingLoadEntityList.Select(a => _mapper.Map<TeachingLoad>(a)).ToList();
 
-        return teacherLoadList;
+        return teachingLoadList;
+    }
+
+    public async Task<List<TeachingLoad>?> ReadByIds(IEnumerable<string> ids)
+    {
+        var teachingLoadEntityList = new List<ITeachingLoadEntity>();
+        await Task.Run(() =>
+        {
+            teachingLoadEntityList = _hamsterApiDbContext.TeachingLoadEntities
+            .Where(t=>ids.Contains(t.Id))
+            .ToList();
+        }
+        );
+        var teachingLoadList = teachingLoadEntityList.Select(a => _mapper.Map<TeachingLoad>(a)).ToList();
+
+        return teachingLoadList;
     }
 
     public async Task<bool> Update(string id, int lecturesHours, int practiceHours, int laboratoryHours, int lecturesHoursMax, int practiceHoursMax, int laboratoryHoursMax)
     {
-        ITeacherLoadEntity teacherLoadEntity = null;
+        ITeachingLoadEntity teachingLoadEntity = null;
         await Task.Run(() =>
         {
-            teacherLoadEntity = _hamsterApiDbContext.TeacherLoadEntities.FirstOrDefault(a => a.Id == id);
+            teachingLoadEntity = _hamsterApiDbContext.TeachingLoadEntities.FirstOrDefault(a => a.Id == id)!;
         });
-        if (teacherLoadEntity is null) return false;
+        if (teachingLoadEntity is null) return false;
 
-        teacherLoadEntity.LecturesHours = lecturesHours;
-        teacherLoadEntity.PracticeHours = practiceHours;
-        teacherLoadEntity.LaboratoryHours = laboratoryHours;
-        teacherLoadEntity.LecturesHoursMax = lecturesHoursMax;
-        teacherLoadEntity.PracticeHoursMax = practiceHoursMax;
-        teacherLoadEntity.LaboratoryHoursMax = laboratoryHoursMax;
+        teachingLoadEntity.LecturesHours = lecturesHours;
+        teachingLoadEntity.PracticeHours = practiceHours;
+        teachingLoadEntity.LaboratoryHours = laboratoryHours;
+        teachingLoadEntity.LecturesHoursMax = lecturesHoursMax;
+        teachingLoadEntity.PracticeHoursMax = practiceHoursMax;
+        teachingLoadEntity.LaboratoryHoursMax = laboratoryHoursMax;
         await Task.Run(() =>
         {
             _hamsterApiDbContext.SaveChanges();

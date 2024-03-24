@@ -15,4 +15,6 @@ public interface IBaseStore<T>
     public Task<List<T>?> ReadAll();
 
     public Task<bool> Delete(string id );
+
+    public Task<List<T>?> ReadByIds(IEnumerable<string> ids);
 }

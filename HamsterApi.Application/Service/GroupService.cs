@@ -25,9 +25,13 @@ public class GroupService : IGroupService
     public async Task<List<Group>?> ReadAll()
         => await _groupStore.ReadAll();
 
+    public async Task<List<Group>?> ReadByIds(IEnumerable<string> ids)
+        =>await _groupStore.ReadByIds(ids);
+   
+
     public async Task<Group?> ReadByNumber(string number)
         =>await _groupStore.ReadByNumber(number);
 
-    public async Task<bool> Update(string id, string number, LevelOfEducation levelOfEducation)
-        =>await _groupStore.Update(id,number, levelOfEducation);
+    public async Task<bool> Update(string id, string number, LevelOfEducation levelOfEducation,string directionId)
+        =>await _groupStore.Update(id,number, levelOfEducation,directionId);
 }

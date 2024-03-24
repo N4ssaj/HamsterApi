@@ -5,11 +5,11 @@ using HamsterApi.Core.Stores;
 
 namespace HamsterApi.Application.Service;
 
-public class TeacherLoadService : ITeacherLoadService
+public class TeachingLoadService : ITeacherLoadService
 {
-    private readonly ITeacherLoadStore _teacherLoadStore;
+    private readonly ITeachingLoadStore _teacherLoadStore;
 
-    public TeacherLoadService(ITeacherLoadStore teacherLoadStore)
+    public TeachingLoadService(ITeachingLoadStore teacherLoadStore)
         =>_teacherLoadStore=teacherLoadStore;
 
     public async Task<string> Create(TeachingLoad item)
@@ -23,6 +23,9 @@ public class TeacherLoadService : ITeacherLoadService
 
     public async Task<List<TeachingLoad>?> ReadAll()
         =>await _teacherLoadStore.ReadAll();
+
+    public async Task<List<TeachingLoad>?> ReadByIds(IEnumerable<string> ids)
+        =>await _teacherLoadStore.ReadByIds(ids);
 
     public async Task<bool> Update(string id, int lecturesHours, int practiceHours, int laboratoryHours, int lecturesHoursMax, int practiceHoursMax, int laboratoryHoursMax)
         => await _teacherLoadStore.Update(id, lecturesHours, practiceHours, laboratoryHours, lecturesHoursMax, practiceHoursMax, laboratoryHoursMax);
