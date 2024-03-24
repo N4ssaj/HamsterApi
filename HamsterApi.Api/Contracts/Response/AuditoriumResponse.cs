@@ -1,3 +1,3 @@
 ﻿namespace HamsterApi.Api.Contracts.Responce;
 
-public record AuditoriumResponse(string id, string number);
+public record AuditoriumResponse(string Id, string Number);

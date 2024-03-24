@@ -47,7 +47,7 @@ public class AuditoriumController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<string>> CreateAuditorium([FromBody] AuditoriumRequest request)
     {
-        var item = Auditorium.Create(Guid.NewGuid().ToString(), request.number);
+        var item = Auditorium.Create(Guid.NewGuid().ToString(), request.Number);
         if(item.Failure)
         {
             return BadRequest(item.Error);
@@ -66,7 +66,7 @@ public class AuditoriumController : ControllerBase
     [HttpPut]
     public async Task<ActionResult<bool>> UpdateAuditorium(string id, [FromBody] AuditoriumRequest request)
     {
-        var isUpdatet=await _auditoruimService.Update(id, request.number);
+        var isUpdatet=await _auditoruimService.Update(id, request.Number);
 
         return Ok(isUpdatet);
     }
