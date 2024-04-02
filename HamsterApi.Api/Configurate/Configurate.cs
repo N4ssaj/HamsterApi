@@ -22,22 +22,24 @@ public static class Configurate
         var mapper = mapperConfig.CreateMapper();
         _services.AddSingleton(mapper);
     }
-    public static void RegisterStores(this IServiceCollection _services)
+    private static void RegisterStores(this IServiceCollection _services)
     {
         _services.AddSingleton<IAuditoriumStore, AuditoriumRepository>();
         _services.AddSingleton<IGroupStore, GroupRepository>();
         _services.AddSingleton<ISubjectStore, SubjectRepository>();
         _services.AddSingleton<ITeacherStore, TeacherRepository>();
+        _services.AddSingleton<IDirectionStore,DirectionRepository>();
     }
 
-    public static void RegisterService(this IServiceCollection _services)
+    private static void RegisterService(this IServiceCollection _services)
     {
         _services.AddSingleton<IAuditoriumService, AuditoruimService>();
         _services.AddSingleton<IGroupService, GroupService>();
         _services.AddSingleton<ISubjectService, SubjectService>();
         _services.AddSingleton<ITeacherService,TeacherService>();
+        _services.AddSingleton<IDirectionService, DirectionService>();
     }
-    public static void RegisterDb(this IServiceCollection _services,string connectionString)
+    private static void RegisterDb(this IServiceCollection _services,string connectionString)
     {
         var hamsterApiDbContext = new HamsterApiDbContext(connectionString);
         _services.AddSingleton(hamsterApiDbContext);
