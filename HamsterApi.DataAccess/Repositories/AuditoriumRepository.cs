@@ -71,7 +71,7 @@ public class AuditoriumRepository : IAuditoriumStore
         return auditorium;
     }
 
-    public async Task<List<Auditorium>?> ReadAll()
+    public async Task<List<Auditorium>> ReadAll()
     {
         var auditoriumEntityList = new List<IAuditoriumEntity>();
         await Task.Run(() =>
@@ -79,6 +79,7 @@ public class AuditoriumRepository : IAuditoriumStore
             auditoriumEntityList = _hamsterApiDbContext.AuditoriumEntities.ToList();
         }
         );
+        if (auditoriumEntityList is null) return [];
         var auditoriumList = auditoriumEntityList.Select(a => _mapper.Map<Auditorium>(a)).ToList();
 
         return auditoriumList;
@@ -101,7 +102,7 @@ public class AuditoriumRepository : IAuditoriumStore
         return true;
     }
 
-    public async Task<List<Auditorium>?> ReadByIds(IEnumerable<string> ids)
+    public async Task<List<Auditorium>> ReadByIds(IEnumerable<string> ids)
     {
         var auditoriumEntityList = new List<IAuditoriumEntity>();
         await Task.Run(() =>
@@ -111,6 +112,7 @@ public class AuditoriumRepository : IAuditoriumStore
             .ToList();
         }
         );
+        if (auditoriumEntityList is null) return [];
         var auditoriumList = auditoriumEntityList.Select(a => _mapper.Map<Auditorium>(a)).ToList();
 
         return auditoriumList;

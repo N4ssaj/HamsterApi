@@ -14,6 +14,24 @@ public class SubjectRepository : ISubjectStore
     public SubjectRepository(HamsterApiDbContext hamsterApiDbContext, IMapper mapper)
             => (_hamsterApiDbContext,_mapper) = (hamsterApiDbContext,mapper);
 
+    public async Task<bool> AddRangeTeacherById(string id, IEnumerable<string> teacherId)
+    {
+        var subjectCol = await ReadByIds([id]);
+        var subject = subjectCol[0];
+        foreach (var teacher in teacherId)
+            if(!subject.TeachersIds.Contains(teacher))
+                subject.AddTeacher(teacher);
+        return await Update(subject.Id, subject.Title, subject.Index, subject.TeachersIds);
+    }
+
+    public async Task<bool> AddTeacherById(string id, string teacherId)
+    {
+        var subjectCol = await ReadByIds([id]);
+        var subject = subjectCol[0];
+        subject.AddTeacher(teacherId);
+        return await Update(subject.Id, subject.Title, subject.Index, subject.TeachersIds);
+    }
+
     public async Task<string> Create(Subject item)
     {
         var subjectEntity = _mapper.Map<SubjectEntity>(item);
@@ -56,7 +74,7 @@ public class SubjectRepository : ISubjectStore
         return subject;
     }
 
-    public async Task<List<Subject>?> ReadAll()
+    public async Task<List<Subject>> ReadAll()
     {
         var subjectEntityList = new List<ISubjectEntity>();
         await Task.Run(() =>
@@ -64,14 +82,26 @@ public class SubjectRepository : ISubjectStore
             subjectEntityList = _hamsterApiDbContext.SubjectEntities.ToList();
         }
         );
+        if (subjectEntityList is null) return [];
         var subjectList = subjectEntityList.Select(a =>_mapper.Map<Subject>(a)).ToList();
 
         return subjectList;
     }
 
-    public Task<List<Subject>?> ReadByIds(IEnumerable<string> ids)
+    public async Task<List<Subject>> ReadByIds(IEnumerable<string> ids)
     {
-        throw new NotImplementedException();
+        var subjectEntityList = new List<ISubjectEntity>();
+        await Task.Run(() =>
+        {
+            subjectEntityList = _hamsterApiDbContext.SubjectEntities
+            .Where(g => ids.Contains(g.Id))
+            .ToList();
+        }
+        );
+        if (subjectEntityList is null) return [];
+        var subjectList = subjectEntityList.Select(a => _mapper.Map<Subject>(a)).ToList();
+
+        return subjectList;
     }
 
     public async Task<Subject?> ReadByIndex(string index)
@@ -87,6 +117,25 @@ public class SubjectRepository : ISubjectStore
 
         return subject;
     }
+
+    public async Task<bool> RemoveRangeTeacherById(string id, IEnumerable<string> teacherId)
+    {
+        var subjectCol = await ReadByIds([id]);
+        var subject = subjectCol[0];
+        foreach (var teacher in teacherId)
+            if (subject.TeachersIds.Contains(teacher))
+                subject.RemoveTeacher(teacher);
+        return await Update(subject.Id, subject.Title, subject.Index, subject.TeachersIds);
+    }
+
+    public async Task<bool> RemoveTeacherById(string id, string teacherId)
+    {
+        var subjectCol = await ReadByIds([id]);
+        var subject = subjectCol[0];
+        subject.RemoveTeacher(teacherId);
+        return await Update(subject.Id, subject.Title, subject.Index, subject.TeachersIds);
+    }
+
     public async Task<bool> Update(string id, string title, string index, IReadOnlyCollection<string> teachersIds)
     {
         ISubjectEntity subjectEntity = null;

@@ -22,10 +22,10 @@ public class AcademicLoadService:IAcademicLoadService
     public async Task<AcademicLoad?> Read(string id)
         =>await _academicLoadStore.Read(id);
 
-    public async Task<List<AcademicLoad>?> ReadAll()
+    public async Task<List<AcademicLoad>> ReadAll()
         =>await _academicLoadStore.ReadAll();
 
-    public async Task<List<AcademicLoad>?> ReadByIds(IEnumerable<string> ids)
+    public async Task<List<AcademicLoad>> ReadByIds(IEnumerable<string> ids)
         => await _academicLoadStore.ReadByIds(ids);
 
     public async Task<bool> Update(string id, int lectures, int laboratory, int practice, int credits, AcademicEvaluationType academicEvaluationType)

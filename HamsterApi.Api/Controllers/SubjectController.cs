@@ -12,8 +12,10 @@ public class SubjectController:ControllerBase
 {
     private readonly ISubjectService _subjectService;
 
-    public SubjectController(ISubjectService subjectService)
-        =>_subjectService =subjectService;
+    private readonly ITeacherService _teacherService;
+
+    public SubjectController(ISubjectService subjectService, ITeacherService teachreService)
+        =>(_subjectService, _teacherService) =(subjectService, teachreService);
 
     [HttpGet("{id}")]
     public async Task<ActionResult<Subject?>> ReadById(string id)
@@ -22,10 +24,10 @@ public class SubjectController:ControllerBase
         return subject is null ? NoContent() : Ok(new SubjectResponse(subject.Id,subject.Title,subject.Index,subject.TeachersIds));
     }
 
-    [HttpGet("number/{number}")]
-    public async Task<ActionResult<Subject?>> ReadByIndex(string number)
+    [HttpGet("index/{index}")]
+    public async Task<ActionResult<Subject?>> ReadByIndex(string index)
     {
-        var subject = await _subjectService.ReadByIndex(number);
+        var subject = await _subjectService.ReadByIndex(index);
         return subject is null ? NoContent() : Ok(new SubjectResponse(subject.Id, subject.Title, subject.Index, subject.TeachersIds));
     }
     [HttpGet("ids")]
@@ -46,18 +48,21 @@ public class SubjectController:ControllerBase
     [HttpPost]
     public async Task<ActionResult<string>> CreateSubject([FromBody] SubjectRequest request)
     {
-        var item = Subject.Create(Guid.NewGuid().ToString(), request.Title, request.Index, request.TeachersIds);
+        var item = Subject.Create(Guid.NewGuid().ToString(), request.Title, request.Index, []);
         if (item.Failure)
         {
             return BadRequest(item.Error);
         }
         await _subjectService.Create(item.Value);
-
+        await AddTeacher(item.Value.Id, request.TeachersIds);
         return Ok(item.Value.Id);
     }
     [HttpDelete]
     public async Task<ActionResult<bool>> DeleteSubject(string id)
     {
+        var item = await _subjectService.Read(id);
+        if (item is null) return BadRequest("item is null");
+        await RemoveTeacher(id, item.TeachersIds);
         var isSuccess = await _subjectService.Delete(id);
 
         return Ok(isSuccess);
@@ -65,8 +70,31 @@ public class SubjectController:ControllerBase
     [HttpPut]
     public async Task<ActionResult<bool>> UpdateSubject(string id, [FromBody] SubjectRequest request)
     {
+        var item = await _subjectService.Read(id);
+        if (item is null) return BadRequest("item is null");
+        await RemoveTeacher(id, item.TeachersIds);
+        await AddTeacher(id,request.TeachersIds);
         var isUpdatet = await _subjectService.Update(id, request.Title, request.Index, request.TeachersIds);
 
         return Ok(isUpdatet);
     }
+    [HttpPut("addteacher")]
+    public async Task<ActionResult<bool>> AddTeacher(string id, [FromBody] IEnumerable<string> teacherIds)
+    {
+        bool b = false;
+        b=await _subjectService.AddRangeTeacherById(id, teacherIds);
+        foreach (var i in teacherIds)
+            await _teacherService.AddSubjectById(i, id);
+       return Ok(b);
+    }
+    [HttpPut("removeteacher")]
+    public async Task<ActionResult<bool>> RemoveTeacher(string id, [FromBody] IEnumerable<string> teacherIds)
+    {
+        bool b = false;
+        b = await _subjectService.RemoveRangeTeacherById(id, teacherIds);
+        foreach (var i in teacherIds)
+            await _teacherService.RemoveSubjectById(i, id);
+        return Ok(b);
+    }
+
 }

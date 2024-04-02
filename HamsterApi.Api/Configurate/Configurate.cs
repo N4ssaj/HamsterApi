@@ -27,6 +27,7 @@ public static class Configurate
         _services.AddSingleton<IAuditoriumStore, AuditoriumRepository>();
         _services.AddSingleton<IGroupStore, GroupRepository>();
         _services.AddSingleton<ISubjectStore, SubjectRepository>();
+        _services.AddSingleton<ITeacherStore, TeacherRepository>();
     }
 
     public static void RegisterService(this IServiceCollection _services)
@@ -34,6 +35,7 @@ public static class Configurate
         _services.AddSingleton<IAuditoriumService, AuditoruimService>();
         _services.AddSingleton<IGroupService, GroupService>();
         _services.AddSingleton<ISubjectService, SubjectService>();
+        _services.AddSingleton<ITeacherService,TeacherService>();
     }
     public static void RegisterDb(this IServiceCollection _services,string connectionString)
     {

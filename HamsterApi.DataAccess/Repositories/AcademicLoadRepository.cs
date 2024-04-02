@@ -59,7 +59,7 @@ public class AcademicLoadRepository : IAcademicLoadStore
         return academicLoad;
     }
 
-    public async Task<List<AcademicLoad>?> ReadAll()
+    public async Task<List<AcademicLoad>> ReadAll()
     {
         var academicLoadEntityList = new List<IAcademicLoadEntity>();
         await Task.Run(() =>
@@ -67,13 +67,16 @@ public class AcademicLoadRepository : IAcademicLoadStore
             academicLoadEntityList = _hamsterApiDbContext.AcademicLoadEntities.ToList();
         }
         );
+        if (academicLoadEntityList is null)
+            return [];
         var academicLoadList = academicLoadEntityList.Select(a => _mapper.Map<AcademicLoad>(a))
             .ToList();
+
 
         return academicLoadList;
     }
 
-    public async Task<List<AcademicLoad>?> ReadByIds(IEnumerable<string> ids)
+    public async Task<List<AcademicLoad>> ReadByIds(IEnumerable<string> ids)
     {
         var academicLoadEntityList = new List<IAcademicLoadEntity>();
         await Task.Run(() =>
@@ -81,6 +84,8 @@ public class AcademicLoadRepository : IAcademicLoadStore
             academicLoadEntityList = _hamsterApiDbContext.AcademicLoadEntities.Where(a=>ids.Contains(a.Id)).ToList();
         }
         );
+        if (academicLoadEntityList is null)
+            return [];
         var academicLoadList = academicLoadEntityList.Select(a => _mapper.Map<AcademicLoad>(a))
             .ToList();
 

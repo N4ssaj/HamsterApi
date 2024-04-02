@@ -59,7 +59,7 @@ public class TeachingLoadRepository : ITeachingLoadStore
         return teachingLoad;
     }
 
-    public async Task<List<TeachingLoad>?> ReadAll()
+    public async Task<List<TeachingLoad>> ReadAll()
     {
         var teachingLoadEntityList = new List<ITeachingLoadEntity>();
         await Task.Run(() =>
@@ -67,12 +67,13 @@ public class TeachingLoadRepository : ITeachingLoadStore
             teachingLoadEntityList = _hamsterApiDbContext.TeachingLoadEntities.ToList();
         }
         );
+        if (teachingLoadEntityList is null) return [];
         var teachingLoadList = teachingLoadEntityList.Select(a => _mapper.Map<TeachingLoad>(a)).ToList();
 
         return teachingLoadList;
     }
 
-    public async Task<List<TeachingLoad>?> ReadByIds(IEnumerable<string> ids)
+    public async Task<List<TeachingLoad>> ReadByIds(IEnumerable<string> ids)
     {
         var teachingLoadEntityList = new List<ITeachingLoadEntity>();
         await Task.Run(() =>
@@ -82,6 +83,7 @@ public class TeachingLoadRepository : ITeachingLoadStore
             .ToList();
         }
         );
+        if (teachingLoadEntityList is null) return [];
         var teachingLoadList = teachingLoadEntityList.Select(a => _mapper.Map<TeachingLoad>(a)).ToList();
 
         return teachingLoadList;

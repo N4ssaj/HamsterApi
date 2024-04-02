@@ -22,10 +22,10 @@ public class GroupService : IGroupService
     public async Task<Group?> Read(string id)
         => await _groupStore.Read(id);
 
-    public async Task<List<Group>?> ReadAll()
+    public async Task<List<Group>> ReadAll()
         => await _groupStore.ReadAll();
 
-    public async Task<List<Group>?> ReadByIds(IEnumerable<string> ids)
+    public async Task<List<Group>> ReadByIds(IEnumerable<string> ids)
         =>await _groupStore.ReadByIds(ids);
    
 

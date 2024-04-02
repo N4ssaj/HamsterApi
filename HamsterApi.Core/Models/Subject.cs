@@ -4,50 +4,31 @@ using HamsterApi.Core.Common;
 
 namespace HamsterApi.Core.Models;
 
-/// <summary>
-/// Представляет учебную дисциплину.
-/// </summary>
+
 public class Subject
 {
-    /// <summary>
-    /// Инициализирует новый экземпляр класса <see cref="Subject"/> с указанным идентификатором, названием, индексом и списком преподавателей.
-    /// </summary>
-    /// <param name="id">Уникальный идентификатор дисциплины.</param>
-    /// <param name="title">Название дисциплины.</param>
-    /// <param name="index">Индекс дисциплины.</param>
-    /// <param name="teachersIds">Список преподавателей, преподающих эту дисциплину.</param>
-    private Subject(string id , string title, string index, IReadOnlyCollection<string> teachersIds)
-        => (Id, Title, Index, TeachersIds) = (id, title, index, teachersIds);
+    private Subject(string id , string title, string index, List<string> teachersIds)
+        => (Id, Title, Index, _teachersIds) = (id, title, index, teachersIds);
 
-    /// <summary>
-    /// Получает название дисциплины.
-    /// </summary>
-    public string Title { get; }
+    public string Title { get; }=string.Empty;
 
-    /// <summary>
-    /// Получает индекс дисциплины.
-    /// </summary>
-    public string Index { get; }
+    public string Index { get; } = string.Empty;
 
-    /// <summary>
-    /// Получает список преподавателей, преподающих эту дисциплину.
-    /// </summary>
-    public IReadOnlyCollection<string> TeachersIds { get; }
+    private List<string> _teachersIds=[];
 
-    /// <summary>
-    /// Получает уникальный идентификатор дисциплины.
-    /// </summary>
-    public string Id { get; }
+    public IReadOnlyCollection<string> TeachersIds => _teachersIds;
 
-    /// <summary>
-    /// Создает новый экземпляр класса <see cref="Subject"/> с указанным идентификатором, названием, индексом и списком преподавателей.
-    /// </summary>
-    /// <param name="id">Уникальный идентификатор дисциплины.</param>
-    /// <param name="title">Название дисциплины.</param>
-    /// <param name="index">Индекс дисциплины.</param>
-    /// <param name="teachersIds">Список преподавателей, преподающих эту дисциплину.</param>
-    /// <returns>Результат, указывающий на успешность создания экземпляра класса <see cref="Subject"/> и содержащий созданный объект, если операция выполнена успешно.</returns>
-    public static Result<Subject> Create(string id , string title, string index, IReadOnlyCollection<string> teachersIds)
+    public void AddTeacher(string id)
+        =>_teachersIds.Add(id);
+
+
+    public void RemoveTeacher(string id)
+        =>_teachersIds.Remove(id);
+
+
+    public string Id { get; } = string.Empty;
+
+    public static Result<Subject> Create(string id , string title, string index, List<string> teachersIds)
     {
         // Дополнительные валидации, если необходимо
 

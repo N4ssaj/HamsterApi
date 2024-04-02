@@ -21,10 +21,10 @@ public class TeachingLoadService : ITeacherLoadService
     public async Task<TeachingLoad?> Read(string id)
         =>await _teacherLoadStore.Read(id);
 
-    public async Task<List<TeachingLoad>?> ReadAll()
+    public async Task<List<TeachingLoad>> ReadAll()
         =>await _teacherLoadStore.ReadAll();
 
-    public async Task<List<TeachingLoad>?> ReadByIds(IEnumerable<string> ids)
+    public async Task<List<TeachingLoad>> ReadByIds(IEnumerable<string> ids)
         =>await _teacherLoadStore.ReadByIds(ids);
 
     public async Task<bool> Update(string id, int lecturesHours, int practiceHours, int laboratoryHours, int lecturesHoursMax, int practiceHoursMax, int laboratoryHoursMax)

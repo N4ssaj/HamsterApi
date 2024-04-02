@@ -58,7 +58,7 @@ public class GroupRepository : IGroupStore
         return group;
     }
 
-    public async Task<List<Group>?> ReadAll()
+    public async Task<List<Group>> ReadAll()
     {
         var groupEntityList = new List<IGroupEntity>();
         await Task.Run(() =>
@@ -66,12 +66,13 @@ public class GroupRepository : IGroupStore
             groupEntityList = _hamsterApiDbContext.GroupEntities.ToList();
         }
         );
+        if (groupEntityList is null) return [];
         var groupList = groupEntityList.Select(a => _mapper.Map<Group>(a)).ToList();
 
         return groupList;
     }
 
-    public async Task<List<Group>?> ReadByIds(IEnumerable<string> ids)
+    public async Task<List<Group>> ReadByIds(IEnumerable<string> ids)
     {
         var groupEntityList = new List<IGroupEntity>();
         await Task.Run(() =>
@@ -81,6 +82,7 @@ public class GroupRepository : IGroupStore
             .ToList();
         }
         );
+        if (groupEntityList is null) return [];
         var groupList = groupEntityList.Select(a => _mapper.Map<Group>(a)).ToList();
 
         return groupList;
