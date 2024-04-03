@@ -13,6 +13,9 @@ public class GroupService : IGroupService
     public GroupService(IGroupStore groupStore)
         => _groupStore=groupStore;
 
+    public async Task<bool> AddDirection(string id, string directionId)
+        =>await _groupStore.AddDirection(id, directionId);
+
     public async Task<string> Create(Group item)
         =>await _groupStore.Create(item);
 
@@ -31,6 +34,9 @@ public class GroupService : IGroupService
 
     public async Task<Group?> ReadByNumber(string number)
         =>await _groupStore.ReadByNumber(number);
+
+    public async Task<bool> RemoveDirection(string id)
+        =>await _groupStore.RemoveDirection(id);
 
     public async Task<bool> Update(string id, string number, LevelOfEducation levelOfEducation,string directionId)
         =>await _groupStore.Update(id,number, levelOfEducation,directionId);

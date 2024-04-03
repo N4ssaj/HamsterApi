@@ -13,8 +13,10 @@ public class GroupController:ControllerBase
 {
     private readonly IGroupService _groupService;
 
-    public GroupController(IGroupService groupService)
-    => _groupService = groupService;
+    private readonly IDirectionService _directionService;
+
+    public GroupController(IGroupService groupService, IDirectionService directionService)
+    => (_groupService, _directionService) = (groupService, directionService);
 
     [HttpGet("{id}")]
     public async Task<ActionResult<Group?>> ReadById(string id)
@@ -47,18 +49,21 @@ public class GroupController:ControllerBase
     [HttpPost]
     public async Task<ActionResult<string>> CreateGroup([FromBody] GroupRequest request)
     {
-        var item = Group.Create(Guid.NewGuid().ToString(), request.Number,request.LevelOfEducation,request.DirectionId);
+        var item = Group.Create(Guid.NewGuid().ToString(), request.Number,request.LevelOfEducation,string.Empty);
         if (item.Failure)
         {
             return BadRequest(item.Error);
         }
         await _groupService.Create(item.Value);
-
+        await AddDirection(item.Value.Id, request.DirectionId);
         return Ok(item.Value.Id);
     }
     [HttpDelete]
     public async Task<ActionResult<bool>> DeleteGroup(string id)
     {
+        var item = await _groupService.Read(id);
+        if (item is null) return BadRequest("item is null");
+        await RemoveDirection(id,item.DirectionId);
         var isSuccess = await _groupService.Delete(id);
 
         return Ok(isSuccess);
@@ -66,8 +71,30 @@ public class GroupController:ControllerBase
     [HttpPut]
     public async Task<ActionResult<bool>> UpdateGroup(string id, [FromBody] GroupRequest request)
     {
+        var item = await _groupService.Read(id);
+        if (item is null) return BadRequest("item is null");
+        await RemoveDirection(id, item.DirectionId);
+        await AddDirection(id, request.DirectionId);
         var isUpdatet = await _groupService.Update(id, request.Number,request.LevelOfEducation,request.DirectionId);
 
         return Ok(isUpdatet);
+    }
+    [HttpPut("setdirection")]
+    public async Task<ActionResult<bool>> AddDirection(string id,string directionId)
+    {
+        bool b = false;
+        b= await _groupService.AddDirection(id, directionId);
+        await _directionService.AddGroupById(directionId, id);
+        return Ok(b);
+    }
+    [HttpPut("removedirection")]
+    public async Task<ActionResult<bool>> RemoveDirection(string id,string directionId)
+    {
+        bool b = false;
+        b = await _groupService.RemoveDirection(id);
+
+        await _directionService.RemoveGroupById(directionId, id);
+
+        return Ok(b);
     }
 }

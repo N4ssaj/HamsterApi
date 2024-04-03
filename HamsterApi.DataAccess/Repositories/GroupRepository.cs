@@ -16,6 +16,13 @@ public class GroupRepository : IGroupStore
     public GroupRepository(HamsterApiDbContext hamsterApiDbContext,IMapper mapper)
         => (_hamsterApiDbContext,_mapper) = (hamsterApiDbContext,mapper);
 
+    public async Task<bool> AddDirection(string id, string directionId)
+    {
+        var group = await Read(id);
+        if (group is null) return false;
+        return await Update(id, group.Number, group.LevelOfEducation, directionId);
+    }
+
     public async Task<string> Create(Group item)
     {
         var groupEntity = _mapper.Map<GroupEntity>(item);
@@ -100,6 +107,13 @@ public class GroupRepository : IGroupStore
         var group = _mapper.Map<Group>(groupEntity);
 
         return group;
+    }
+
+    public async Task<bool> RemoveDirection(string id)
+    {
+        var group = await Read(id);
+        if (group is null) return false;
+        return await Update(id, group.Number, group.LevelOfEducation, string.Empty);
     }
 
     public async Task<bool> Update(string id, string number, LevelOfEducation levelOfEducation,string directionId)

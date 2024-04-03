@@ -21,16 +21,16 @@ public class DirectionRepository : IDirectionStore
 
     public async Task<bool> AddGroupById(string id, string groupId)
     {
-        var directionCol = await ReadByIds([id]);
-        var direction = directionCol[0];
+        var direction = await Read(id);
+        if (direction is null) return false;
         direction.AddGroup(groupId);
         return await Update(direction.Id, direction.Title, direction.GroupsIds, direction.FormOfEducation, direction.LevelOfEducation, direction.DepartmentId);
     }
 
     public async Task<bool> AddRangeGroupById(string id, IEnumerable<string> groupId)
     {
-        var directionCol = await ReadByIds([id]);
-        var direction = directionCol[0];
+        var direction = await Read(id);
+        if (direction is null) return false;
         foreach (var group in groupId)
             if (!direction.GroupsIds.Contains(group))
                 direction.AddGroup(group);
@@ -111,16 +111,16 @@ public class DirectionRepository : IDirectionStore
 
     public async Task<bool> RemoveGroupById(string id, string groupId)
     {
-        var directionCol = await ReadByIds([id]);
-        var direction = directionCol[0];
+        var direction = await Read(id);
+        if (direction is null) return false;
         direction.RemvoveGroup(groupId);
         return await Update(direction.Id, direction.Title, direction.GroupsIds, direction.FormOfEducation, direction.LevelOfEducation, direction.DepartmentId);
     }
 
     public async Task<bool> RemoveRangeGroupById(string id, IEnumerable<string> groupId)
     {
-        var directionCol = await ReadByIds([id]);
-        var direction = directionCol[0];
+        var direction = await Read(id);
+        if (direction is null) return false;
         foreach (var group in groupId)
             if (direction.GroupsIds.Contains(group))
                 direction.RemvoveGroup(group);
