@@ -16,6 +16,14 @@ public class GeneralProfile : Profile
             .ConstructUsing(src => (Subject.Create(src.Id, src.Title, src.Index, src.TeachersIds.ToList())).Value);
         CreateMap<Subject, SubjectEntity>()
             .ConvertUsing(src => new SubjectEntity { Id = src.Id, Title = src.Title, Index = src.Index, TeachersIds = src.TeachersIds.ToList() });
+
+        //Chair
+        CreateMap<ChairEntity, Chair>()
+            .ConstructUsing(src => (Chair.Create(src.Id, src.Title, src.TeachersIds.ToList(), src.DepartmentId).Value));
+        CreateMap<IChairEntity, Chair>()
+            .ConstructUsing(src => (Chair.Create(src.Id, src.Title, src.TeachersIds.ToList(), src.DepartmentId).Value));
+        CreateMap<Chair, ChairEntity>()
+            .ConstructUsing(src=>new ChairEntity { Id=src.Id,Title=src.Title,TeachersIds=src.TeachersIds.ToList(),DepartmentId=src.DepartmentId });
         //Direction
         CreateMap<DirectionEntity,Direction>()
             .ConstructUsing(src=>(Direction.Create(src.Id,src.Title,src.GroupsIds.ToList(),src.FormOfEducation,src.LevelOfEducation,src.DepartmentId)).Value);
@@ -23,6 +31,7 @@ public class GeneralProfile : Profile
             .ConstructUsing(src => (Direction.Create(src.Id, src.Title, src.GroupsIds.ToList(), src.FormOfEducation, src.LevelOfEducation, src.DepartmentId)).Value);
         CreateMap<Direction,DirectionEntity>()
             .ConstructUsing(src=>new DirectionEntity { Id = src.Id, Title = src.Title,GroupsIds = src.GroupsIds.ToList(),FormOfEducation = src.FormOfEducation, LevelOfEducation = src.LevelOfEducation,DepartmentId = src.DepartmentId });
+        
         //Teacher
         CreateMap<TeacherEntity,Teacher>()
             .ConstructUsing(src=>(Teacher.Create(src.Id, src.Name,src.Surname,src.Patronymic,src.SubjectsIds.ToList(),src.ChairId,src.TeacherLoadId)).Value);
@@ -30,6 +39,7 @@ public class GeneralProfile : Profile
             .ConstructUsing(src => (Teacher.Create(src.Id, src.Name, src.Surname, src.Patronymic, src.SubjectsIds.ToList(), src.ChairId, src.TeacherLoadId)).Value);
         CreateMap<Teacher, TeacherEntity>()
             .ConvertUsing(src => new TeacherEntity { Id = src.Id, Name = src.Name, Surname = src.Surname, Patronymic = src.Patronymic, SubjectsIds = src.SubjectsIds.ToList(), ChairId = src.ChairId, TeacherLoadId = src.TeacherLoadId });
+        
         //AcademicLoad
         CreateMap<AcademicLoadEntity, AcademicLoad>()
             .ConstructUsing(src => (AcademicLoad.Create(src.Id, src.Lectures, src.Laboratory, src.Practice, src.Credits,src.AcademicEvaluationType).Value));

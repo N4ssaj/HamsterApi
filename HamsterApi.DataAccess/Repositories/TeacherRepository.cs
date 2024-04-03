@@ -15,10 +15,17 @@ public class TeacherRepository : ITeacherStore
     public TeacherRepository(HamsterApiDbContext hamsterApiDbContext, IMapper mapper)
             => (_hamsterApiDbContext, _mapper) = (hamsterApiDbContext, mapper);
 
+    public async Task<bool> AddChair(string id, string chairId)
+    {
+        var teacher = await Read(id);
+        if (teacher is null) return false;
+        return await Update(id,teacher.Name,teacher.Surname,teacher.Patronymic,teacher.SubjectsIds,chairId,teacher.TeacherLoadId);
+    }
+
     public async Task<bool> AddRangeSubjectById(string id, IEnumerable<string> subjectId)
     {
-        var teacherCol = await ReadByIds([id]);
-        var teacher = teacherCol[0];
+        var teacher = await Read(id);
+        if (teacher is null) return false;
         foreach (var subject in subjectId)
             if (!teacher.SubjectsIds.Contains(subject))
                 teacher.AddSubject(subject);
@@ -28,8 +35,8 @@ public class TeacherRepository : ITeacherStore
 
     public async Task<bool> AddSubjectById(string id, string subjectId)
     {
-        var teacherCol = await ReadByIds([id]);
-        var teacher = teacherCol[0];
+        var teacher = await Read(id);
+        if (teacher is null) return false;
         teacher.AddSubject(subjectId);
         return await Update(teacher.Id, teacher.Name, teacher.Surname, teacher.Patronymic, teacher.SubjectsIds, teacher.ChairId, teacher.TeacherLoadId);
     }
@@ -64,7 +71,7 @@ public class TeacherRepository : ITeacherStore
 
     public async Task<Teacher?> Read(string id)
     {
-        ITeacherEntity teacherEntity = null;
+        ITeacherEntity teacherEntity=null!;
         await Task.Run(() =>
         {
             teacherEntity = _hamsterApiDbContext.TeacherEntities.FirstOrDefault(a => a.Id == id)!;
@@ -106,10 +113,18 @@ public class TeacherRepository : ITeacherStore
         return subjectList;
     }
 
+    public async Task<bool> RemoveChair(string id)
+    {
+        var teacher = await Read(id);
+        if (teacher is null) return false;
+
+        return await Update(id, teacher.Name, teacher.Surname, teacher.Patronymic, teacher.SubjectsIds, string.Empty, teacher.TeacherLoadId);
+    }
+
     public async Task<bool> RemoveRangeSubjectById(string id, IEnumerable<string> subjectId)
     {
-        var teacherCol = await ReadByIds([id]);
-        var teacher = teacherCol[0];
+        var teacher = await Read(id);
+        if (teacher is null) return false;
         foreach (var subject in subjectId)
             if (teacher.SubjectsIds.Contains(subject))
                 teacher.RemoveSubject(subject);
@@ -119,8 +134,8 @@ public class TeacherRepository : ITeacherStore
 
     public async Task<bool> RemoveSubjectById(string id, string subjectId)
     {
-        var teacherCol = await ReadByIds([id]);
-        var teacher = teacherCol[0];
+        var teacher = await Read(id);
+        if (teacher is null) return false;
         teacher.RemoveSubject(subjectId);
         return await Update(teacher.Id, teacher.Name, teacher.Surname, teacher.Patronymic, teacher.SubjectsIds, teacher.ChairId, teacher.TeacherLoadId);
     }

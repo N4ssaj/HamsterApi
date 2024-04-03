@@ -12,6 +12,9 @@ public class TeacherService : ITeacherService
     public TeacherService(ITeacherStore teacherStore)
         => _teacherStore = teacherStore;
 
+    public async Task<bool> AddChair(string id, string chairId)
+        =>await _teacherStore.AddChair(id, chairId);
+
     public async Task<bool> AddRangeSubjectById(string id, IEnumerable<string> subjectId)
         =>await _teacherStore.AddRangeSubjectById(id, subjectId);
 
@@ -32,6 +35,9 @@ public class TeacherService : ITeacherService
 
     public async Task<List<Teacher>> ReadByIds(IEnumerable<string> ids)
         =>await _teacherStore.ReadByIds(ids);
+
+    public async Task<bool> RemoveChair(string id)
+        =>await _teacherStore.RemoveChair(id);
 
     public async Task<bool> RemoveRangeSubjectById(string id, IEnumerable<string> subjectId)
         =>await _teacherStore.RemoveRangeSubjectById(id, subjectId);

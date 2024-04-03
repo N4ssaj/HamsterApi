@@ -5,8 +5,7 @@ using HamsterApi.Core.Stores;
 using HamsterApi.DataAccess;
 using HamsterApi.DataAccess.MappingProfile;
 using HamsterApi.DataAccess.Repositories;
-using System.Runtime.CompilerServices;
-using VDS.RDF.Query.Algebra;
+
 
 namespace HamsterApi.Api.Configurate;
 
@@ -29,6 +28,7 @@ public static class Configurate
         _services.AddSingleton<ISubjectStore, SubjectRepository>();
         _services.AddSingleton<ITeacherStore, TeacherRepository>();
         _services.AddSingleton<IDirectionStore,DirectionRepository>();
+        _services.AddSingleton<IChairStore,ChairRepository>();
     }
 
     private static void RegisterService(this IServiceCollection _services)
@@ -38,6 +38,7 @@ public static class Configurate
         _services.AddSingleton<ISubjectService, SubjectService>();
         _services.AddSingleton<ITeacherService,TeacherService>();
         _services.AddSingleton<IDirectionService, DirectionService>();
+        _services.AddSingleton<IChairService, ChairService>();
     }
     private static void RegisterDb(this IServiceCollection _services,string connectionString)
     {

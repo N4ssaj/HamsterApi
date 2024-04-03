@@ -14,6 +14,7 @@ namespace HamsterApi.DataAccess.Repositories;
 public class DirectionRepository : IDirectionStore
 {
     private readonly HamsterApiDbContext _hamsterApiDbContext;
+
     private readonly IMapper _mapper;
 
     public DirectionRepository(HamsterApiDbContext hamsterApiDbContext, IMapper mapper)

@@ -1,9 +1,11 @@
 ﻿using HamsterApi.Api.Contracts.Request;
 using HamsterApi.Api.Contracts.Response;
+using HamsterApi.Application.Service;
 using HamsterApi.Core.Models;
 using HamsterApi.Core.ServiceInterface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using System.ComponentModel;
 
 namespace HamsterApi.Api.Controllers;
 
@@ -15,8 +17,10 @@ public class TeacherController:ControllerBase
 
     private readonly ITeacherService _teacherService;
 
-    public TeacherController(ISubjectService subjectService, ITeacherService teachreService)
-        => (_subjectService, _teacherService) = (subjectService, teachreService);
+    private readonly IChairService _chairService;
+
+    public TeacherController(ISubjectService subjectService, ITeacherService teachreService, IChairService chairService)
+        => (_subjectService, _teacherService,_chairService) = (subjectService, teachreService,chairService);
 
     [HttpGet("ids")]
     public async Task<ActionResult<List<Teacher>?>> ReadByIds([FromQuery] IEnumerable<string> ids)
@@ -43,12 +47,13 @@ public class TeacherController:ControllerBase
     [HttpPost]
     public async Task<ActionResult<string>> CreateTeacher([FromBody] TeacherRequest request)
     {
-        var item = Teacher.Create(Guid.NewGuid().ToString(), request.Name, request.Surname, request.Patronymic,[],request.ChairId,request.TeacherLoadId);
+        var item = Teacher.Create(Guid.NewGuid().ToString(), request.Name, request.Surname, request.Patronymic,[],string.Empty,request.TeacherLoadId);
         if (item.Failure)
         {
             return BadRequest(item.Error);
         }
         await _teacherService.Create(item.Value);
+        await AddChair(item.Value.Id, request.ChairId);
         await AddSubject(item.Value.Id, request.SubjectsIds);
         return Ok(item.Value.Id);
     }
@@ -57,21 +62,21 @@ public class TeacherController:ControllerBase
     public async Task<ActionResult<bool>> DeleteTeacher(string id)
     {
         var item = await _teacherService.ReadByIds([id]);
-        //if (item.Count > 0) return BadRequest("item is not found");
         await RemoveSubject(id, item[0].SubjectsIds);
-        
+        await RemoveChair(id, item[0].ChairId);
         var isSuccess = await _teacherService.Delete(id);
 
         return Ok(isSuccess);
     }
 
     [HttpPut]
-    public async Task<ActionResult<bool>> UpdateSubject(string id, [FromBody] TeacherRequest request)
+    public async Task<ActionResult<bool>> UpdateTeacher(string id, [FromBody] TeacherRequest request)
     {
         var item = await _teacherService.ReadByIds([id]);
-        if (item.Count > 0 ) return BadRequest("item is null");
+        await RemoveChair(id, item[0].ChairId);
         await RemoveSubject(id, item[0].SubjectsIds);
         await AddSubject(id, request.SubjectsIds);
+        await AddChair(id, request.ChairId);
         var isUpdatet = await _teacherService.Update(id, request.Name,request.Surname,request.Patronymic,request.SubjectsIds,request.ChairId,request.TeacherLoadId);
 
         return Ok(isUpdatet);
@@ -92,6 +97,20 @@ public class TeacherController:ControllerBase
         b = await _teacherService.RemoveRangeSubjectById(id, subjectIds);
         foreach (var i in subjectIds)
             await _subjectService.RemoveTeacherById(i, id);
+        return Ok(b);
+    }
+    [HttpPut("setchair")]
+    public async Task<ActionResult<bool>> AddChair(string id, string chairId)
+    {
+        bool b = await _teacherService.AddChair(id, chairId);
+        await _chairService.AddRangeTeacherById(chairId, [id]);
+        return Ok(b);
+    }
+    [HttpPut("removechair")]
+    public async Task<ActionResult<bool>> RemoveChair(string id, string chairId)
+    {
+        bool b = await _teacherService.RemoveChair(id);
+        await _chairService.RemoveRangeTeacherById(chairId, [id]);
         return Ok(b);
     }
 }

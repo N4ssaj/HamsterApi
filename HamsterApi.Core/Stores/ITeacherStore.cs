@@ -11,4 +11,6 @@ public interface ITeacherStore:IBaseStore<Teacher>
     public Task<bool> RemoveSubjectById(string id, string subjectId);
     public Task<bool> AddRangeSubjectById(string id, IEnumerable<string> subjectId);
     public Task<bool> RemoveRangeSubjectById(string id, IEnumerable<string> subjectId);
+    public Task<bool> AddChair(string id, string chairId);
+    public Task<bool> RemoveChair(string id);
 }

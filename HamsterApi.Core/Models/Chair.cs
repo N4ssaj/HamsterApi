@@ -5,18 +5,26 @@ namespace HamsterApi.Core.Models;
 
 public class Chair
 {
-    private Chair(string id, string title, IReadOnlyCollection<string> teachersIds, string departmentId)
-        => (Id, Title, TeachersIds,DepartmentId) = (id, title, teachersIds,departmentId);
+    private Chair(string id, string title, List<string> teachersIds, string departmentId)
+        => (Id, Title, _teachersIds, DepartmentId) = (id, title, teachersIds,departmentId);
 
-    public string Id { get; }
+    public string Id { get; }=string.Empty;
 
-    public string Title { get; }
+    public string Title { get; } = string.Empty;
 
-    public IReadOnlyCollection<string> TeachersIds { get; }
+    private List<string> _teachersIds = [];
 
-    public string DepartmentId { get; }
+    public IReadOnlyCollection<string> TeachersIds => _teachersIds;
 
-    public static Result<Chair> Create(string id, string title, IReadOnlyCollection<string> teachersIds, string departmentId)
+    public string DepartmentId { get; } = string.Empty;
+
+    public void AddTeacher(string teacherId)
+        =>_teachersIds.Add(teacherId);
+
+    public void RemoveTeacher(string teacherId)
+        =>_teachersIds.Remove(teacherId);
+
+    public static Result<Chair> Create(string id, string title, List<string> teachersIds, string departmentId)
     {
         var chair = new Chair(id, title, teachersIds,departmentId);
         return chair;
