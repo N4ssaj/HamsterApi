@@ -23,7 +23,7 @@ public class TeacherController:ControllerBase
         => (_subjectService, _teacherService,_chairService) = (subjectService, teachreService,chairService);
 
     [HttpGet("ids")]
-    public async Task<ActionResult<List<Teacher>?>> ReadByIds([FromQuery] IEnumerable<string> ids)
+    public async Task<ActionResult<List<TeacherResponse>?>> ReadByIds([FromQuery] IEnumerable<string> ids)
     {
         var teachers = await _teacherService.ReadByIds(ids);
         var responce = teachers!.Select(teacher => new TeacherResponse(teacher.Id, teacher.Name, teacher.Surname, teacher.Patronymic, teacher.SubjectsIds, teacher.ChairId, teacher.TeacherLoadId));
@@ -31,14 +31,14 @@ public class TeacherController:ControllerBase
         return Ok(responce);
     }
     [HttpGet("all")]
-    public async Task<ActionResult<List<Teacher>>> ReadAll()
+    public async Task<ActionResult<List<TeacherResponse>>> ReadAll()
     {
         var teachers = await _teacherService.ReadAll();
         var responce = teachers!.Select(teacher => new TeacherResponse(teacher.Id, teacher.Name, teacher.Surname, teacher.Patronymic, teacher.SubjectsIds, teacher.ChairId, teacher.TeacherLoadId));
         return Ok(responce);
     }
     [HttpGet("{id}")]
-    public async Task<ActionResult<Teacher?>> ReadById(string id)
+    public async Task<ActionResult<TeacherResponse?>> ReadById(string id)
     {
         var teacher = await _teacherService.ReadByIds([id]);
         return teacher[0] is null ? NoContent() : Ok(new TeacherResponse(teacher[0].Id,teacher[0].Name,teacher[0].Surname,teacher[0].Patronymic,teacher[0].SubjectsIds,teacher[0].ChairId,teacher[0].TeacherLoadId));

@@ -21,13 +21,13 @@ public class DirectionController:ControllerBase
 
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Direction?>> ReadById(string id)
+    public async Task<ActionResult<DirectionResponse?>> ReadById(string id)
     {
         var direction = await _directionService.Read(id);
         return direction is null ? NoContent() : Ok(new DirectionResponse(direction.Id,direction.Title,direction.GroupsIds,direction.FormOfEducation,direction.LevelOfEducation,direction.DepartmentId));
     }
     [HttpGet("ids")]
-    public async Task<ActionResult<List<Direction>?>> ReadByIds([FromQuery] IEnumerable<string> ids)
+    public async Task<ActionResult<List<DirectionResponse>?>> ReadByIds([FromQuery] IEnumerable<string> ids)
     {
         var directions = await _directionService.ReadByIds(ids);
         var responce = directions!.Select(direction => new DirectionResponse(direction.Id, direction.Title, direction.GroupsIds, direction.FormOfEducation, direction.LevelOfEducation, direction.DepartmentId));
@@ -35,7 +35,7 @@ public class DirectionController:ControllerBase
         return Ok(responce);
     }
     [HttpGet("all")]
-    public async Task<ActionResult<List<Direction>?>> ReadAll()
+    public async Task<ActionResult<List<DirectionResponse>?>> ReadAll()
     {
         var directions = await _directionService.ReadAll();
         var responce = directions!.Select(direction => new DirectionResponse(direction.Id, direction.Title, direction.GroupsIds, direction.FormOfEducation, direction.LevelOfEducation, direction.DepartmentId));

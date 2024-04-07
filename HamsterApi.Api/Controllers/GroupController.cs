@@ -19,20 +19,20 @@ public class GroupController:ControllerBase
     => (_groupService, _directionService) = (groupService, directionService);
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Group?>> ReadById(string id)
+    public async Task<ActionResult<GroupResponse?>> ReadById(string id)
     {
         var group = await _groupService.Read(id);
         return group is null ? NoContent() : Ok(new GroupResponse(group.Id,group.Number,group.LevelOfEducation,group.DirectionId));
     }
 
     [HttpGet("number/{number}")]
-    public async Task<ActionResult<Group?>> ReadByNumber(string number)
+    public async Task<ActionResult<GroupResponse?>> ReadByNumber(string number)
     {
         var group = await _groupService.ReadByNumber(number);
         return group is null ? NoContent() : Ok(new GroupResponse(group.Id, group.Number, group.LevelOfEducation, group.DirectionId));
     }
     [HttpGet("ids")]
-    public async Task<ActionResult<List<Group>?>> ReadByIds([FromQuery] IEnumerable<string> ids)
+    public async Task<ActionResult<List<GroupResponse>?>> ReadByIds([FromQuery] IEnumerable<string> ids)
     {
         var groups = await _groupService.ReadByIds(ids);
         var responce = groups!.Select(a => new GroupResponse(a.Id, a.Number, a.LevelOfEducation, a.DirectionId));
@@ -40,7 +40,7 @@ public class GroupController:ControllerBase
         return Ok(responce);
     }
     [HttpGet("all")]
-    public async Task<ActionResult<List<Group>?>> ReadAll()
+    public async Task<ActionResult<List<GroupResponse>?>> ReadAll()
     {
         var groups = await _groupService.ReadAll();
         var responce = groups!.Select(a => new GroupResponse(a.Id, a.Number, a.LevelOfEducation, a.DirectionId));

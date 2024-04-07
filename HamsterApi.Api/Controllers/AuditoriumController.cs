@@ -17,20 +17,20 @@ public class AuditoriumController : ControllerBase
         => _auditoruimService = auditoruimService;
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Auditorium?>> ReadById(string id)
+    public async Task<ActionResult<AuditoriumResponse?>> ReadById(string id)
     {
         var auditorium = await _auditoruimService.Read(id);
         return auditorium is null ? NoContent() : Ok(new AuditoriumResponse(auditorium.Id, auditorium.Number));
     }
 
     [HttpGet("number/{number}")]
-    public async Task<ActionResult<Auditorium?>> ReadByNumber(string number)
+    public async Task<ActionResult<AuditoriumResponse?>> ReadByNumber(string number)
     {
         var auditorium = await _auditoruimService.ReadByNumber(number);
         return auditorium is null ? NoContent() : Ok(new AuditoriumResponse(auditorium.Id, auditorium.Number));
     }
     [HttpGet("ids")]
-    public async Task<ActionResult<List<Auditorium>?>> ReadByIds([FromQuery]IEnumerable<string> ids)
+    public async Task<ActionResult<List<AuditoriumResponse>?>> ReadByIds([FromQuery]IEnumerable<string> ids)
     {
         var auditoriums = await _auditoruimService.ReadByIds(ids);
         var responce=auditoriums!.Select(a=>new AuditoriumResponse(a.Id, a.Number));
@@ -38,7 +38,7 @@ public class AuditoriumController : ControllerBase
         return Ok(responce);
     }
     [HttpGet("all")]
-    public async Task<ActionResult<List<Auditorium>?>> ReadAll()
+    public async Task<ActionResult<List<AuditoriumResponse>?>> ReadAll()
     {
         var auditoriums = await _auditoruimService.ReadAll();
         var responce = auditoriums!.Select(a => new AuditoriumResponse(a.Id, a.Number));

@@ -18,20 +18,20 @@ public class SubjectController:ControllerBase
         =>(_subjectService, _teacherService) =(subjectService, teachreService);
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Subject?>> ReadById(string id)
+    public async Task<ActionResult<SubjectResponse?>> ReadById(string id)
     {
         var subject = await _subjectService.Read(id);
         return subject is null ? NoContent() : Ok(new SubjectResponse(subject.Id,subject.Title,subject.Index,subject.TeachersIds));
     }
 
     [HttpGet("index/{index}")]
-    public async Task<ActionResult<Subject?>> ReadByIndex(string index)
+    public async Task<ActionResult<SubjectResponse?>> ReadByIndex(string index)
     {
         var subject = await _subjectService.ReadByIndex(index);
         return subject is null ? NoContent() : Ok(new SubjectResponse(subject.Id, subject.Title, subject.Index, subject.TeachersIds));
     }
     [HttpGet("ids")]
-    public async Task<ActionResult<List<Subject>?>> ReadByIds([FromQuery] IEnumerable<string> ids)
+    public async Task<ActionResult<List<SubjectResponse>?>> ReadByIds([FromQuery] IEnumerable<string> ids)
     {
         var subjects = await _subjectService.ReadByIds(ids);
         var responce = subjects!.Select(a => new SubjectResponse(a.Id, a.Title, a.Index, a.TeachersIds));
@@ -39,7 +39,7 @@ public class SubjectController:ControllerBase
         return Ok(responce);
     }
     [HttpGet("all")]
-    public async Task<ActionResult<List<Subject>?>> ReadAll()
+    public async Task<ActionResult<List<SubjectResponse>?>> ReadAll()
     {
         var subjects = await _subjectService.ReadAll();
         var responce = subjects!.Select(a => new SubjectResponse(a.Id, a.Title, a.Index, a.TeachersIds));

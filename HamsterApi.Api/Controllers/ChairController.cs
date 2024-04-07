@@ -20,7 +20,7 @@ public class ChairController:ControllerBase
         =>(_chairService,_teacherService, _departmentService) =(chairService, teacherService,departmentService);
 
     [HttpGet("ids")]
-    public async Task<ActionResult<List<Chair>?>> ReadByIds([FromQuery] IEnumerable<string> ids)
+    public async Task<ActionResult<List<ChairResponse>?>> ReadByIds([FromQuery] IEnumerable<string> ids)
     {
         var chairs = await _chairService.ReadByIds(ids);
         var responce = chairs!.Select(chair => new ChairResponse(chair.Id,chair.Title,chair.TeachersIds,chair.DepartmentId));
@@ -28,14 +28,14 @@ public class ChairController:ControllerBase
         return Ok(responce);
     }
     [HttpGet("all")]
-    public async Task<ActionResult<List<Chair>>> ReadAll()
+    public async Task<ActionResult<List<ChairResponse>>> ReadAll()
     {
         var chairs = await _chairService.ReadAll();
         var responce = chairs!.Select(chair => new ChairResponse(chair.Id, chair.Title, chair.TeachersIds, chair.DepartmentId));
         return Ok(responce);
     }
     [HttpGet("{id}")]
-    public async Task<ActionResult<Chair?>> ReadById(string id)
+    public async Task<ActionResult<ChairResponse?>> ReadById(string id)
     {
         var chair = await _chairService.Read(id);
         return chair is null ? NoContent() : Ok(new ChairResponse(chair.Id, chair.Title, chair.TeachersIds, chair.DepartmentId));

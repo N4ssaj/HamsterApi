@@ -20,13 +20,13 @@ public class DepartmentController:ControllerBase
         =>(_chairService, _directionService, _departmentService)=(chairService, directionService,departmentService);
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Department?>> ReadById(string id)
+    public async Task<ActionResult<DepartmentResponse?>> ReadById(string id)
     {
         var department = await _departmentService.Read(id);
         return department is null ? NoContent() : Ok(new DepartmentResponse(department.Id, department.Title,department.ChairsIds,department.DirectionsIds));
     }
     [HttpGet("ids")]
-    public async Task<ActionResult<List<Department>?>> ReadByIds([FromQuery] IEnumerable<string> ids)
+    public async Task<ActionResult<List<DepartmentResponse>?>> ReadByIds([FromQuery] IEnumerable<string> ids)
     {
         var departments = await _departmentService.ReadByIds(ids);
         var responce = departments!.Select(department => new DepartmentResponse(department.Id, department.Title, department.ChairsIds, department.DirectionsIds));
@@ -34,7 +34,7 @@ public class DepartmentController:ControllerBase
         return Ok(responce);
     }
     [HttpGet("all")]
-    public async Task<ActionResult<List<Department>?>> ReadAll()
+    public async Task<ActionResult<List<DepartmentResponse>?>> ReadAll()
     {
         var departments = await _departmentService.ReadAll();
         var responce = departments!.Select(department => new DepartmentResponse(department.Id, department.Title, department.ChairsIds, department.DirectionsIds));
