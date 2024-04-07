@@ -92,9 +92,9 @@ public class TeacherRepository : ITeacherStore
         }
         );
         if (teacherEntityList is null) return [];
-        var subjectList = teacherEntityList.Select(a => _mapper.Map<Teacher>(a)).ToList();
+        var teacherList = teacherEntityList.Select(a => _mapper.Map<Teacher>(a)).ToList();
 
-        return subjectList;
+        return teacherList;
     }
 
     public async Task<List<Teacher>> ReadByIds(IEnumerable<string> ids)
@@ -108,9 +108,9 @@ public class TeacherRepository : ITeacherStore
         }
         );
         if (teacherEntityList is null) return [];
-        var subjectList = teacherEntityList.Select(a => _mapper.Map<Teacher>(a)).ToList();
+        var teacherList = teacherEntityList.Select(a => _mapper.Map<Teacher>(a)).ToList();
 
-        return subjectList;
+        return teacherList;
     }
 
     public async Task<bool> RemoveChair(string id)

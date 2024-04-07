@@ -10,4 +10,6 @@ public interface IChairStore:IBaseStore<Chair>
     public Task<bool> RemoveTeacherById(string id, string teacherId);
     public Task<bool> AddRangeTeacherById(string id, IEnumerable<string> teacherId);
     public Task<bool> RemoveRangeTeacherById(string id, IEnumerable<string> teacherId);
+    public Task<bool> AddDepartment(string id,string departmentId);
+    public Task<bool> RemoveDepartment(string id);
 }

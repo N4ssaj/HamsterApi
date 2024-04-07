@@ -14,8 +14,10 @@ public class DirectionController:ControllerBase
 
     private readonly IGroupService _groupService;
 
-    public DirectionController(IDirectionService directionService, IGroupService groupService)
-        =>(_directionService, _groupService)=(directionService, groupService);
+    private readonly IDepartmentService _departmentService;
+
+    public DirectionController(IDirectionService directionService, IGroupService groupService, IDepartmentService departmentService)
+        =>(_directionService, _groupService, _departmentService) =(directionService, groupService, departmentService);
 
 
     [HttpGet("{id}")]
@@ -49,6 +51,7 @@ public class DirectionController:ControllerBase
         }
         await _directionService.Create(item.Value);
         await AddGroup(item.Value.Id, request.GroupsIds);
+        await SetDepartment(item.Value.Id,request.DepartmentId);
         return Ok(item.Value.Id);
     }
     [HttpDelete]
@@ -57,6 +60,7 @@ public class DirectionController:ControllerBase
         var item = await _directionService.Read(id);
         if (item is null) return BadRequest("item is null");
         await RemoveGroup(id, item.GroupsIds);
+        await RemoveDepartment(id, item.DepartmentId);
         var isSuccess = await _directionService.Delete(id);
 
         return Ok(isSuccess);
@@ -68,6 +72,8 @@ public class DirectionController:ControllerBase
         if (item is null) return BadRequest("item is null");
         await RemoveGroup(id, item.GroupsIds);
         await AddGroup(id, request.GroupsIds);
+        await RemoveDepartment(id, item.DepartmentId);
+        await SetDepartment(id, request.DepartmentId);
         var isUpdatet = await _directionService.Update(id,request.Title,request.GroupsIds,request.FormOfEducation,request.LevelOfEducation,request.DepartmentId);
 
         return Ok(isUpdatet);
@@ -88,6 +94,20 @@ public class DirectionController:ControllerBase
         b = await _directionService.RemoveRangeGroupById(id, groupsIds);
         foreach (var i in groupsIds)
             await _groupService.RemoveDirection(i);
+        return Ok(b);
+    }
+    [HttpPut("setdepartment")]
+    public async Task<ActionResult<bool>> SetDepartment(string id, string departmentId)
+    {
+        bool b=await _directionService.AddDepartment(id, departmentId);
+        await _departmentService.AddRangeDirectionById(departmentId, [id]);
+        return Ok(b);
+    }
+    [HttpPut("removedepartment")]
+    public async Task<ActionResult<bool>> RemoveDepartment(string id, string departmentId)
+    {
+        bool b = await _directionService.RemoveDepartment(id);
+        await _departmentService.RemoveRangeDirectionById(departmentId, [id]);
         return Ok(b);
     }
 }

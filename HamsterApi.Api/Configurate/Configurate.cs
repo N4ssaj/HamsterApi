@@ -29,6 +29,7 @@ public static class Configurate
         _services.AddSingleton<ITeacherStore, TeacherRepository>();
         _services.AddSingleton<IDirectionStore,DirectionRepository>();
         _services.AddSingleton<IChairStore,ChairRepository>();
+        _services.AddSingleton<IDepartmentStore,DepartmentRepository>();
     }
 
     private static void RegisterService(this IServiceCollection _services)
@@ -39,6 +40,7 @@ public static class Configurate
         _services.AddSingleton<ITeacherService,TeacherService>();
         _services.AddSingleton<IDirectionService, DirectionService>();
         _services.AddSingleton<IChairService, ChairService>();
+        _services.AddSingleton<IDepartmentService, DepartmentService>();
     }
     private static void RegisterDb(this IServiceCollection _services,string connectionString)
     {

@@ -12,6 +12,9 @@ public class ChairService : IChairService
     public ChairService(IChairStore chairStore)
         => _chairStore = chairStore;
 
+    public async Task<bool> AddDepartment(string id, string departmentId)
+        =>await _chairStore.AddDepartment(id, departmentId);
+
     public async Task<bool> AddRangeTeacherById(string id, IEnumerable<string> teacherId)
         =>await _chairStore.AddRangeTeacherById(id, teacherId);
 
@@ -32,6 +35,9 @@ public class ChairService : IChairService
 
     public async Task<List<Chair>> ReadByIds(IEnumerable<string> ids)
         =>await _chairStore.ReadByIds(ids);
+
+    public async Task<bool> RemoveDepartment(string id)
+        =>await _chairStore.RemoveDepartment(id);
 
     public async Task<bool> RemoveRangeTeacherById(string id, IEnumerable<string> teacherId)
         =>await _chairStore.RemoveRangeTeacherById(id,teacherId);

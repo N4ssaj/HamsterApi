@@ -16,6 +16,13 @@ public class ChairRepository : IChairStore
     public ChairRepository(HamsterApiDbContext hamsterApiDbContext, IMapper mapper)
             => (_hamsterApiDbContext, _mapper) = (hamsterApiDbContext, mapper);
 
+    public async Task<bool> AddDepartment(string id, string departmentId)
+    {
+        var chair = await Read(id);
+        if (chair is null) return false;
+        return await Update(id,chair.Title,chair.TeachersIds,departmentId);
+    }
+
     public async Task<bool> AddRangeTeacherById(string id, IEnumerable<string> teacherId)
     {
         var chair = await Read(id);
@@ -105,6 +112,13 @@ public class ChairRepository : IChairStore
         var chairList = chairEntityList.Select(a => _mapper.Map<Chair>(a)).ToList();
 
         return chairList;
+    }
+
+    public async Task<bool> RemoveDepartment(string id)
+    {
+        var chair = await Read(id);
+        if (chair is null) return false;
+        return await Update(id, chair.Title, chair.TeachersIds,string.Empty);
     }
 
     public async Task<bool> RemoveRangeTeacherById(string id, IEnumerable<string> teacherId)

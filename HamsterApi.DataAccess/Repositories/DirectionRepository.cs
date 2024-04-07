@@ -20,6 +20,13 @@ public class DirectionRepository : IDirectionStore
     public DirectionRepository(HamsterApiDbContext hamsterApiDbContext, IMapper mapper)
             => (_hamsterApiDbContext, _mapper) = (hamsterApiDbContext, mapper);
 
+    public async Task<bool> AddDepartment(string id, string departmentId)
+    {
+        var direction = await Read(id);
+        if (direction is null) return false;
+        return await Update(id,direction.Title,direction.GroupsIds,direction.FormOfEducation,direction.LevelOfEducation,departmentId);
+    }
+
     public async Task<bool> AddGroupById(string id, string groupId)
     {
         var direction = await Read(id);
@@ -108,6 +115,13 @@ public class DirectionRepository : IDirectionStore
         var directionList = directionEntityList.Select(a => _mapper.Map<Direction>(a)).ToList();
 
         return directionList;
+    }
+
+    public async Task<bool> RemoveDepartment(string id)
+    {
+        var direction = await Read(id);
+        if (direction is null) return false;
+        return await Update(id, direction.Title, direction.GroupsIds, direction.FormOfEducation, direction.LevelOfEducation,string.Empty);
     }
 
     public async Task<bool> RemoveGroupById(string id, string groupId)

@@ -14,8 +14,10 @@ public class ChairController:ControllerBase
 
     private readonly ITeacherService _teacherService;
 
-    public ChairController(IChairService chairService,ITeacherService teacherService)
-        =>(_chairService,_teacherService)=(chairService, teacherService);
+    private readonly IDepartmentService _departmentService;
+
+    public ChairController(IChairService chairService,ITeacherService teacherService,IDepartmentService departmentService)
+        =>(_chairService,_teacherService, _departmentService) =(chairService, teacherService,departmentService);
 
     [HttpGet("ids")]
     public async Task<ActionResult<List<Chair>?>> ReadByIds([FromQuery] IEnumerable<string> ids)
@@ -48,6 +50,7 @@ public class ChairController:ControllerBase
         }
         await _chairService.Create(item.Value);
         await AddTeacher(item.Value.Id, request.TeachersIds);
+        await SetDepartment(item.Value.Id, request.DepartmentId);
         return Ok(item.Value.Id);
     }
 
@@ -57,6 +60,7 @@ public class ChairController:ControllerBase
         var item = await _chairService.Read(id);
         if (item is null) return BadRequest("item is null");
         await RemoveTeacher(id, item.TeachersIds);
+        await RemoveDepartment(id, item.DepartmentId);
         var isSuccess = await _chairService.Delete(id);
 
         return Ok(isSuccess);
@@ -69,6 +73,8 @@ public class ChairController:ControllerBase
         if (item is null) return BadRequest("item is null");
         await RemoveTeacher(id, item.TeachersIds);
         await AddTeacher(id, request.TeachersIds);
+        await RemoveDepartment(id, item.DepartmentId);
+        await SetDepartment(id, request.DepartmentId);
         var isUpdatet = await _chairService.Update(id,request.Title,request.TeachersIds,request.DepartmentId);
 
         return Ok(isUpdatet);
@@ -89,6 +95,20 @@ public class ChairController:ControllerBase
         b = await _chairService.RemoveRangeTeacherById(id, teachersIds);
         foreach (var i in teachersIds)
             await _teacherService.RemoveChair(i);
+        return Ok(b);
+    }
+    [HttpPut("setdepartment")]
+    public async Task<ActionResult<bool>> SetDepartment(string id, string departmentId)
+    {
+        bool b = await _chairService.AddDepartment(id, departmentId);
+        await _departmentService.AddRangeChairById(departmentId, [id]);
+        return Ok(b);
+    }
+    [HttpPut("removedepartment")]
+    public async Task<ActionResult<bool>> RemoveDepartment(string id, string departmentId)
+    {
+        bool b = await _chairService.RemoveDepartment(id);
+        await _departmentService.RemoveRangeChairById(departmentId, [id]);
         return Ok(b);
     }
 }

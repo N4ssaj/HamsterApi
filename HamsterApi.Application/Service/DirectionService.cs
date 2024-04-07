@@ -12,7 +12,10 @@ public class DirectionService : IDirectionService
 
     public DirectionService(IDirectionStore directionStore)
         =>_directionStore = directionStore;
- 
+
+    public async Task<bool> AddDepartment(string id, string departmentId)
+        =>await _directionStore.AddDepartment(id, departmentId);
+
     public async Task<bool> AddGroupById(string id, string groupId)
         =>await _directionStore.AddGroupById(id, groupId);
 
@@ -33,6 +36,9 @@ public class DirectionService : IDirectionService
 
     public async Task<List<Direction>> ReadByIds(IEnumerable<string> ids)
         =>await _directionStore.ReadByIds(ids);
+
+    public async Task<bool> RemoveDepartment(string id)
+        =>await _directionStore.RemoveDepartment(id);
 
     public async Task<bool> RemoveGroupById(string id, string groupId)
         =>await _directionStore.RemoveGroupById(id, groupId);

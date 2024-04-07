@@ -12,4 +12,6 @@ public interface IDirectionService:IBaseService<Direction>
     public Task<bool> RemoveGroupById(string id, string groupId);
     public Task<bool> AddRangeGroupById(string id, IEnumerable<string> groupId);
     public Task<bool> RemoveRangeGroupById(string id, IEnumerable<string> groupId);
+    public Task<bool> AddDepartment(string id, string departmentId);
+    public Task<bool> RemoveDepartment(string id);
 }

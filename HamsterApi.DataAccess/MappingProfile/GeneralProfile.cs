@@ -16,7 +16,13 @@ public class GeneralProfile : Profile
             .ConstructUsing(src => (Subject.Create(src.Id, src.Title, src.Index, src.TeachersIds.ToList())).Value);
         CreateMap<Subject, SubjectEntity>()
             .ConvertUsing(src => new SubjectEntity { Id = src.Id, Title = src.Title, Index = src.Index, TeachersIds = src.TeachersIds.ToList() });
-
+        //Department
+        CreateMap<DepartmentEntity, Department>()
+            .ConstructUsing(src => (Department.Create(src.Id, src.Title, src.ChairsIds.ToList(), src.DirectionsIds.ToList()).Value));
+        CreateMap<IDepartmentEntity, Department>()
+            .ConstructUsing(src => (Department.Create(src.Id, src.Title, src.ChairsIds.ToList(), src.DirectionsIds.ToList()).Value));
+        CreateMap<Department, DepartmentEntity>()
+            .ConvertUsing(src => new DepartmentEntity { Id=src.Id,Title=src.Title,ChairsIds=src.ChairsIds.ToList(),DirectionsIds=src.DirectionsIds.ToList()});
         //Chair
         CreateMap<ChairEntity, Chair>()
             .ConstructUsing(src => (Chair.Create(src.Id, src.Title, src.TeachersIds.ToList(), src.DepartmentId).Value));
