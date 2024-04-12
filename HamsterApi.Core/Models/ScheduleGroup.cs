@@ -9,7 +9,7 @@ public class ScheduleGroup
 {
 
     private ScheduleGroup(string id ,string group, int semesterNumber, List<ScheduledClassOfWeeks> weeks)
-        => (Id, Group, SemesterNumber, _weeks) = (id, group, semesterNumber, weeks);
+        => (Id, GroupId, SemesterNumber, _weeks) = (id, group, semesterNumber, weeks);
 
     public string Id { get; } = string.Empty;
 
@@ -30,8 +30,6 @@ public class ScheduleGroup
 
     public static Result<ScheduleGroup> Create(string id , string group, int semesterNumber, List<ScheduledClassOfWeeks> weeks)
     {
-        // Дополнительные валидации, если необходимо
-
         var scheduleGroup = new ScheduleGroup(id, group, semesterNumber, weeks);
         return scheduleGroup;
     }

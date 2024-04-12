@@ -30,7 +30,6 @@ public class Subject
 
     public static Result<Subject> Create(string id , string title, string index, List<string> teachersIds)
     {
-        // Дополнительные валидации, если необходимо
 
         var subject = new Subject(id, title, index, teachersIds);
 
