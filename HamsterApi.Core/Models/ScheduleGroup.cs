@@ -4,50 +4,31 @@ using HamsterApi.Core.Common;
 
 namespace HamsterApi.Core.Models;
 
-/// <summary>
-/// Представляет расписание занятий для определенной группы.
-/// </summary>
+
 public class ScheduleGroup
 {
-    /// <summary>
-    /// Инициализирует новый экземпляр класса <see cref="ScheduleGroup"/> с указанным идентификатором, группой, номером семестра и недельным расписанием занятий.
-    /// </summary>
-    /// <param name="id">Уникальный идентификатор расписания группы.</param>
-    /// <param name="group">Группа, для которой составлено расписание.</param>
-    /// <param name="semesterNumber">Номер семестра, для которого составлено расписание.</param>
-    /// <param name="weeks">Недельное расписание занятий, где ключ - номер недели, а значение - расписание по дням недели.</param>
-    private ScheduleGroup(string id , Group group, int semesterNumber, IReadOnlyCollection<ScheduledClassOfWeeks> weeks)
-        => (Id, Group, SemesterNumber, Weeks) = (id, group, semesterNumber, weeks);
 
-    /// <summary>
-    /// Получает уникальный идентификатор расписания группы.
-    /// </summary>
-    public string Id { get; }
+    private ScheduleGroup(string id ,string group, int semesterNumber, List<ScheduledClassOfWeeks> weeks)
+        => (Id, Group, SemesterNumber, _weeks) = (id, group, semesterNumber, weeks);
 
-    /// <summary>
-    /// Получает группу, для которой составлено расписание.
-    /// </summary>
-    public Group Group { get; }
+    public string Id { get; } = string.Empty;
 
-    /// <summary>
-    /// Получает номер семестра, для которого составлено расписание.
-    /// </summary>
+    public string GroupId { get; }= string.Empty;
+
     public int SemesterNumber { get; }
 
-    /// <summary>
-    /// Получает недельное расписание занятий, где ключ - номер недели, а значение - расписание по дням недели.
-    /// </summary>
-    public IReadOnlyCollection<ScheduledClassOfWeeks> Weeks { get; }
+    public IReadOnlyCollection<ScheduledClassOfWeeks> Weeks
+        => _weeks;
 
-    /// <summary>
-    /// Создает новый экземпляр класса <see cref="ScheduleGroup"/> с указанным идентификатором, группой, номером семестра и недельным расписанием занятий.
-    /// </summary>
-    /// <param name="id">Уникальный идентификатор расписания группы.</param>
-    /// <param name="group">Группа, для которой составлено расписание.</param>
-    /// <param name="semesterNumber">Номер семестра, для которого составлено расписание.</param>
-    /// <param name="weeks">Недельное расписание занятий, где ключ - номер недели, а значение - расписание по дням недели.</param>
-    /// <returns>Результат, указывающий на успешность создания экземпляра класса <see cref="ScheduleGroup"/> и содержащий созданный объект, если операция выполнена успешно.</returns>
-    public static Result<ScheduleGroup> Create(string id , Group group, int semesterNumber, IReadOnlyCollection<ScheduledClassOfWeeks> weeks)
+    private List<ScheduledClassOfWeeks> _weeks=[];
+
+    public void Add(ScheduledClassOfWeeks week)
+        =>_weeks.Add(week);
+
+    public void Remove(ScheduledClassOfWeeks week)
+        =>_weeks.Remove(week);
+
+    public static Result<ScheduleGroup> Create(string id , string group, int semesterNumber, List<ScheduledClassOfWeeks> weeks)
     {
         // Дополнительные валидации, если необходимо
 

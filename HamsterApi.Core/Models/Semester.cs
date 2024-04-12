@@ -3,52 +3,34 @@ using HamsterApi.Core.Common;
 
 namespace HamsterApi.Core.Models;
 
-/// <summary>
-/// Представляет семестр учебного года.
-/// </summary>
+
 public class Semester
 {
-    /// <summary>
-    /// Инициализирует новый экземпляр класса <see cref="Semester"/> с указанным идентификатором, номером, группой и списком учебных дисциплин.
-    /// </summary>
-    /// <param name="id">Уникальный идентификатор семестра.</param>
-    /// <param name="number">Номер семестра.</param>
-    /// <param name="group">Группа, для которой проходит семестр.</param>
-    /// <param name="subjects">Список учебных дисциплин в семестре вместе с их учебной нагрузкой.</param>
-    private Semester(string id , int number, string groupId, IReadOnlyCollection<SubjectWtihLoad> subjects)
-        => (Id, Number, GroupId, Subjects) = (id, number, groupId, subjects);
+   
+    private Semester(string id , int number, string groupId, List<SubjectWtihLoad> subjects)
+        => (Id, Number, GroupId, _subjects) = (id, number, groupId, subjects);
 
-    /// <summary>
-    /// Получает уникальный идентификатор семестра.
-    /// </summary>
-    public string Id { get; }
+    public string Id { get; } = string.Empty;
 
-    /// <summary>
-    /// Получает номер семестра.
-    /// </summary>
     public int Number { get; }
 
-    /// <summary>
-    /// Получает группу, для которой проходит семестр.
-    /// </summary>
-    public string GroupId { get; }
+    public string GroupId { get; } = string.Empty;
 
-    /// <summary>
-    /// Получает список учебных дисциплин в семестре вместе с их учебной нагрузкой.
-    /// </summary>
-    public IReadOnlyCollection<SubjectWtihLoad> Subjects { get; }
 
-    /// <summary>
-    /// Создает новый экземпляр класса <see cref="Semester"/> с указанным идентификатором, номером, группой и списком учебных дисциплин.
-    /// </summary>
-    /// <param name="id">Уникальный идентификатор семестра.</param>
-    /// <param name="number">Номер семестра.</param>
-    /// <param name="group">Группа, для которой проходит семестр.</param>
-    /// <param name="subjects">Список учебных дисциплин в семестре вместе с их учебной нагрузкой.</param>
-    /// <returns>Результат, указывающий на успешность создания экземпляра класса <see cref="Semester"/> и содержащий созданный объект, если операция выполнена успешно.</returns>
-    public static Result<Semester> Create(string id , int number, string groupId, IReadOnlyCollection<SubjectWtihLoad> subjects)
+    public IReadOnlyCollection<SubjectWtihLoad> Subjects
+        => _subjects;
+
+    private List<SubjectWtihLoad> _subjects=[];
+
+    public void Add(SubjectWtihLoad subject)
+        =>_subjects.Add(subject);
+
+    public void Remove(SubjectWtihLoad subject)
+        =>_subjects.Remove(subject);
+
+
+    public static Result<Semester> Create(string id , int number, string groupId, List<SubjectWtihLoad> subjects)
     {
-        // Дополнительные валидации, если необходимо
 
         var semester = new Semester(id, number, groupId, subjects);
         return semester;
