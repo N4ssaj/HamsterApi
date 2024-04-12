@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BrightstarDB.Client;
 using HamsterApi.Application.Service;
 using HamsterApi.Core.ServiceInterface;
 using HamsterApi.Core.Stores;
@@ -42,14 +43,16 @@ public static class Configurate
         _services.AddSingleton<IChairService, ChairService>();
         _services.AddSingleton<IDepartmentService, DepartmentService>();
     }
-    private static void RegisterDb(this IServiceCollection _services,string connectionString)
+    private static void RegisterDb(this IServiceCollection _services,string connectionString,string dir)
     {
         var hamsterApiDbContext = new HamsterApiDbContext(connectionString);
         _services.AddSingleton(hamsterApiDbContext);
+        var client=BrightstarService.GetClient(dir);
+        _services.AddSingleton(client);
     }
-    public static void Register(this IServiceCollection _services, string connectionString)
+    public static void Register(this IServiceCollection _services, string connectionString,string dir)
     {
-        _services.RegisterDb(connectionString);
+        _services.RegisterDb(connectionString,dir);
         _services.RegisterMapper();
         _services.RegisterStores();
         _services.RegisterService();

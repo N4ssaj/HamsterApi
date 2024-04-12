@@ -11,8 +11,8 @@ using VDS.RDF.Query.Algebra;
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
-builder.Services.Register(connectionString!);
+var dir = builder.Configuration.GetConnectionString("Dir");
+builder.Services.Register(connectionString!,dir!);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
