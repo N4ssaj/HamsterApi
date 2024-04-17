@@ -7,7 +7,7 @@ namespace HamsterApi.Core.Models;
 
 public class Teacher
 {
-    public Teacher(string id , string name, string surname, string patronymic, string fullName, List<string> subjectsIds, string chairId, string teacherLoadId)
+    private Teacher(string id , string name, string surname, string patronymic, string fullName, List<string> subjectsIds, string chairId, string teacherLoadId)
         => (Id, Name, Surname, Patronymic, FullName, _subjectsIds,ChairId,TeacherLoadId) 
         = (id, name, surname, patronymic, fullName, subjectsIds,chairId, teacherLoadId);
 
