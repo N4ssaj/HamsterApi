@@ -22,6 +22,7 @@ public class Schedule
 
     public void Add(ScheduleGroup group)
         =>_groups.Add(group);
+
     public void Remove(ScheduleGroup group)
         => _groups.Remove(group);
 

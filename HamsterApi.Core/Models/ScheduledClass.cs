@@ -7,8 +7,8 @@ namespace HamsterApi.Core.Models;
 
 public class ScheduledClass
 {
-    private ScheduledClass(string id , int classNumber, string subject, string teacher, string auditorium,ClassType classType)
-        => (Id, ClassNumber, SubjectId, TeacherId, AuditoriumId,ClassType) = (id, classNumber, subject, teacher, auditorium,classType);
+    public ScheduledClass(string id ,int classNumber, string subjectId, string teacherId, string auditoriumId,ClassType classType)
+        => (Id, ClassNumber, SubjectId, TeacherId, AuditoriumId,ClassType) = (id, classNumber, subjectId, teacherId, auditoriumId,classType);
 
     public string Id { get; }
 
@@ -16,11 +16,11 @@ public class ScheduledClass
 
     public int ClassNumber { get; }
 
-    public string SubjectId { get; }=string.Empty;
+    public string SubjectId { get; }
 
-    public string TeacherId { get; } = string.Empty;
+    public string TeacherId { get; } 
 
-    public string AuditoriumId { get; } = string.Empty;
+    public string AuditoriumId { get; } 
 
     public static Result<ScheduledClass> Create(string id , int classNumber,string subject, string teacher, string auditorium,ClassType classType)
     {

@@ -31,6 +31,7 @@ public static class Configurate
         _services.AddSingleton<IDirectionStore,DirectionRepository>();
         _services.AddSingleton<IChairStore,ChairRepository>();
         _services.AddSingleton<IDepartmentStore,DepartmentRepository>();
+        _services.AddSingleton<IScheduleStore, ScheduleRepository>();
     }
 
     private static void RegisterService(this IServiceCollection _services)
@@ -42,6 +43,7 @@ public static class Configurate
         _services.AddSingleton<IDirectionService, DirectionService>();
         _services.AddSingleton<IChairService, ChairService>();
         _services.AddSingleton<IDepartmentService, DepartmentService>();
+        _services.AddSingleton<IScheduleService, ScheduleService>();
     }
     private static void RegisterDb(this IServiceCollection _services,string connectionString,string dir)
     {

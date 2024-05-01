@@ -17,9 +17,9 @@ internal interface IScheduledClassEntity
 
     public int ClassNumber { get; set; }
 
-    public ISubjectEntity Subject { get; set; }
+    public string SubjectId { get; set; }
 
-    public ITeacherEntity Teacher { get; set; }
+    public string TeacherId { get; set; }
 
-    public IAuditoriumEntity Auditorium { get; set; }
+    public string AuditoriumId { get; set; }
 }

@@ -10,7 +10,7 @@ internal interface IScheduleGroupEntity
 {
     public string Id { get; }
 
-    public IGroupEntity Group { get; set; }
+    public string GroupId { get; set; }
 
     public int SemesterNumber { get; set; }
 

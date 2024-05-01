@@ -553,22 +553,22 @@ namespace HamsterApi.DataAccess.Entites.Interfaces
             		set { SetRelatedProperty("ClassNumber", value); }
     	}
     
-    	public HamsterApi.DataAccess.Entites.Interfaces.ISubjectEntity Subject
+    	public System.String SubjectId
     	{
-            get { return GetRelatedObject<HamsterApi.DataAccess.Entites.Interfaces.ISubjectEntity>("Subject"); }
-            set { SetRelatedObject<HamsterApi.DataAccess.Entites.Interfaces.ISubjectEntity>("Subject", value); }
+            		get { return GetRelatedProperty<System.String>("SubjectId"); }
+            		set { SetRelatedProperty("SubjectId", value); }
     	}
     
-    	public HamsterApi.DataAccess.Entites.Interfaces.ITeacherEntity Teacher
+    	public System.String TeacherId
     	{
-            get { return GetRelatedObject<HamsterApi.DataAccess.Entites.Interfaces.ITeacherEntity>("Teacher"); }
-            set { SetRelatedObject<HamsterApi.DataAccess.Entites.Interfaces.ITeacherEntity>("Teacher", value); }
+            		get { return GetRelatedProperty<System.String>("TeacherId"); }
+            		set { SetRelatedProperty("TeacherId", value); }
     	}
     
-    	public HamsterApi.DataAccess.Entites.Interfaces.IAuditoriumEntity Auditorium
+    	public System.String AuditoriumId
     	{
-            get { return GetRelatedObject<HamsterApi.DataAccess.Entites.Interfaces.IAuditoriumEntity>("Auditorium"); }
-            set { SetRelatedObject<HamsterApi.DataAccess.Entites.Interfaces.IAuditoriumEntity>("Auditorium", value); }
+            		get { return GetRelatedProperty<System.String>("AuditoriumId"); }
+            		set { SetRelatedProperty("AuditoriumId", value); }
     	}
     	#endregion
     }
@@ -638,10 +638,10 @@ namespace HamsterApi.DataAccess.Entites.Interfaces
     	public System.String Id { get {return GetKey(); } set { SetKey(value); } }
     	#region Implementation of HamsterApi.DataAccess.Entites.Interfaces.IScheduleGroupEntity
     
-    	public HamsterApi.DataAccess.Entites.Interfaces.IGroupEntity Group
+    	public System.String GroupId
     	{
-            get { return GetRelatedObject<HamsterApi.DataAccess.Entites.Interfaces.IGroupEntity>("Group"); }
-            set { SetRelatedObject<HamsterApi.DataAccess.Entites.Interfaces.IGroupEntity>("Group", value); }
+            		get { return GetRelatedProperty<System.String>("GroupId"); }
+            		set { SetRelatedProperty("GroupId", value); }
     	}
     
     	public System.Int32 SemesterNumber
