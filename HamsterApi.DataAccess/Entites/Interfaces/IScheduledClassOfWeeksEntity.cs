@@ -11,7 +11,7 @@ internal interface IScheduledClassOfWeeksEntity
 
     public DayOfWeek DayOfWeek { get; set; }
 
-    public DateOnly Data { get; set; }
+    public string Data { get; set; }
 
     public ICollection<IScheduledClassEntity> ScheduledClasses { get; set; }
 }

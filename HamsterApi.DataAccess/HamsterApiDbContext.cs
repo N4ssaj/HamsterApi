@@ -56,6 +56,8 @@ namespace HamsterApi.DataAccess
     		EntityMappingStore.Instance.SetImplMapping<HamsterApi.DataAccess.Entites.Interfaces.IScheduledClassEntity, HamsterApi.DataAccess.Entites.Interfaces.ScheduledClassEntity>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(HamsterApi.DataAccess.Entites.Interfaces.IScheduledClassOfWeeksEntity));
     		EntityMappingStore.Instance.SetImplMapping<HamsterApi.DataAccess.Entites.Interfaces.IScheduledClassOfWeeksEntity, HamsterApi.DataAccess.Entites.Interfaces.ScheduledClassOfWeeksEntity>();
+    		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(HamsterApi.DataAccess.Entites.Interfaces.IScheduledWeekEntity));
+    		EntityMappingStore.Instance.SetImplMapping<HamsterApi.DataAccess.Entites.Interfaces.IScheduledWeekEntity, HamsterApi.DataAccess.Entites.Interfaces.ScheduledWeekEntity>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(HamsterApi.DataAccess.Entites.Interfaces.IScheduleEntity));
     		EntityMappingStore.Instance.SetImplMapping<HamsterApi.DataAccess.Entites.Interfaces.IScheduleEntity, HamsterApi.DataAccess.Entites.Interfaces.ScheduleEntity>();
     		provider.AddMappingsForType(EntityMappingStore.Instance, typeof(HamsterApi.DataAccess.Entites.Interfaces.IScheduleGroupEntity));
@@ -144,6 +146,7 @@ namespace HamsterApi.DataAccess
     		GroupEntities = 	new BrightstarEntitySet<HamsterApi.DataAccess.Entites.Interfaces.IGroupEntity>(this);
     		ScheduledClassEntities = 	new BrightstarEntitySet<HamsterApi.DataAccess.Entites.Interfaces.IScheduledClassEntity>(this);
     		ScheduledClassOfWeeksEntities = 	new BrightstarEntitySet<HamsterApi.DataAccess.Entites.Interfaces.IScheduledClassOfWeeksEntity>(this);
+    		ScheduledWeekEntities = 	new BrightstarEntitySet<HamsterApi.DataAccess.Entites.Interfaces.IScheduledWeekEntity>(this);
     		ScheduleEntities = 	new BrightstarEntitySet<HamsterApi.DataAccess.Entites.Interfaces.IScheduleEntity>(this);
     		ScheduleGroupEntities = 	new BrightstarEntitySet<HamsterApi.DataAccess.Entites.Interfaces.IScheduleGroupEntity>(this);
     		SemesterEntities = 	new BrightstarEntitySet<HamsterApi.DataAccess.Entites.Interfaces.ISemesterEntity>(this);
@@ -194,6 +197,11 @@ namespace HamsterApi.DataAccess
     	}
     	
     	internal IEntitySet<HamsterApi.DataAccess.Entites.Interfaces.IScheduledClassOfWeeksEntity> ScheduledClassOfWeeksEntities
+    	{
+    		get; private set;
+    	}
+    	
+    	internal IEntitySet<HamsterApi.DataAccess.Entites.Interfaces.IScheduledWeekEntity> ScheduledWeekEntities
     	{
     		get; private set;
     	}
@@ -261,6 +269,9 @@ namespace HamsterApi.DataAccess
             }
             if (typeof(T).Equals(typeof(HamsterApi.DataAccess.Entites.Interfaces.IScheduledClassOfWeeksEntity))) {
                 return (IEntitySet<T>)this.ScheduledClassOfWeeksEntities;
+            }
+            if (typeof(T).Equals(typeof(HamsterApi.DataAccess.Entites.Interfaces.IScheduledWeekEntity))) {
+                return (IEntitySet<T>)this.ScheduledWeekEntities;
             }
             if (typeof(T).Equals(typeof(HamsterApi.DataAccess.Entites.Interfaces.IScheduleEntity))) {
                 return (IEntitySet<T>)this.ScheduleEntities;
@@ -584,21 +595,45 @@ namespace HamsterApi.DataAccess.Entites.Interfaces
     	public System.String Id { get {return GetKey(); } set { SetKey(value); } }
     	#region Implementation of HamsterApi.DataAccess.Entites.Interfaces.IScheduledClassOfWeeksEntity
     
-    	public System.Int32 WeekNumber
-    	{
-            		get { return GetRelatedProperty<System.Int32>("WeekNumber"); }
-            		set { SetRelatedProperty("WeekNumber", value); }
-    	}
-    
     	public System.DayOfWeek DayOfWeek
     	{
             		get { return GetRelatedProperty<System.DayOfWeek>("DayOfWeek"); }
             		set { SetRelatedProperty("DayOfWeek", value); }
     	}
+    
+    	public System.String Data
+    	{
+            		get { return GetRelatedProperty<System.String>("Data"); }
+            		set { SetRelatedProperty("Data", value); }
+    	}
     	public System.Collections.Generic.ICollection<HamsterApi.DataAccess.Entites.Interfaces.IScheduledClassEntity> ScheduledClasses
     	{
     		get { return GetRelatedObjects<HamsterApi.DataAccess.Entites.Interfaces.IScheduledClassEntity>("ScheduledClasses"); }
     		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("ScheduledClasses", value); }
+    								}
+    	#endregion
+    }
+}
+namespace HamsterApi.DataAccess.Entites.Interfaces 
+{
+    
+    internal partial class ScheduledWeekEntity : BrightstarEntityObject, IScheduledWeekEntity 
+    {
+    	public ScheduledWeekEntity(BrightstarEntityContext context, BrightstarDB.Client.IDataObject dataObject) : base(context, dataObject) { }
+        public ScheduledWeekEntity(BrightstarEntityContext context) : base(context, typeof(ScheduledWeekEntity)) { }
+    	public ScheduledWeekEntity() : base() { }
+    	public System.String Id { get {return GetKey(); } set { SetKey(value); } }
+    	#region Implementation of HamsterApi.DataAccess.Entites.Interfaces.IScheduledWeekEntity
+    
+    	public System.Int32 WeekNumber
+    	{
+            		get { return GetRelatedProperty<System.Int32>("WeekNumber"); }
+            		set { SetRelatedProperty("WeekNumber", value); }
+    	}
+    	public System.Collections.Generic.ICollection<HamsterApi.DataAccess.Entites.Interfaces.IScheduledClassOfWeeksEntity> ClassOfWeeks
+    	{
+    		get { return GetRelatedObjects<HamsterApi.DataAccess.Entites.Interfaces.IScheduledClassOfWeeksEntity>("ClassOfWeeks"); }
+    		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("ClassOfWeeks", value); }
     								}
     	#endregion
     }
@@ -649,9 +684,9 @@ namespace HamsterApi.DataAccess.Entites.Interfaces
             		get { return GetRelatedProperty<System.Int32>("SemesterNumber"); }
             		set { SetRelatedProperty("SemesterNumber", value); }
     	}
-    	public System.Collections.Generic.ICollection<HamsterApi.DataAccess.Entites.Interfaces.IScheduledClassOfWeeksEntity> Weeks
+    	public System.Collections.Generic.ICollection<HamsterApi.DataAccess.Entites.Interfaces.IScheduledWeekEntity> Weeks
     	{
-    		get { return GetRelatedObjects<HamsterApi.DataAccess.Entites.Interfaces.IScheduledClassOfWeeksEntity>("Weeks"); }
+    		get { return GetRelatedObjects<HamsterApi.DataAccess.Entites.Interfaces.IScheduledWeekEntity>("Weeks"); }
     		set { if (value == null) throw new ArgumentNullException("value"); SetRelatedObjects("Weeks", value); }
     								}
     	#endregion
