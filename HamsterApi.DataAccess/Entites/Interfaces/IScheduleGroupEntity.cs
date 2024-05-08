@@ -14,5 +14,5 @@ internal interface IScheduleGroupEntity
 
     public int SemesterNumber { get; set; }
 
-    public ICollection<IScheduledClassOfWeeksEntity> Weeks { get; set; }
+    public ICollection<IScheduledWeekEntity> Weeks { get; set; }
 }

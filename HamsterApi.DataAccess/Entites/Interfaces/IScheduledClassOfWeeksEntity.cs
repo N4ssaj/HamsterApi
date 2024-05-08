@@ -9,9 +9,9 @@ internal interface IScheduledClassOfWeeksEntity
 {
     public string Id { get; }
 
-    public int WeekNumber { get; set; }
-
     public DayOfWeek DayOfWeek { get; set; }
+
+    public DateOnly Data { get; set; }
 
     public ICollection<IScheduledClassEntity> ScheduledClasses { get; set; }
 }

@@ -7,20 +7,29 @@ namespace HamsterApi.Core.Models;
 
 public class ScheduledClassOfWeeks
 {
-    public ScheduledClassOfWeeks(string id, int weekNumber, DayOfWeek dayOfWeek, List<ScheduledClass> scheduledClasses)
-        => (Id, WeekNumber, DayOfWeek, ScheduledClasses) = (id,weekNumber , dayOfWeek, scheduledClasses);
+    public ScheduledClassOfWeeks(string id, DayOfWeek dayOfWeek, List<ScheduledClass> scheduledClasses,DateOnly date)
+        => (Id,DayOfWeek, _scheduledClasses,Data) = (id,dayOfWeek, scheduledClasses,date);
 
     public string Id { get; }
 
-    public int WeekNumber { get; }
-
     public DayOfWeek DayOfWeek { get; }
 
-    public List<ScheduledClass> ScheduledClasses { get; }
+    private List<ScheduledClass> _scheduledClasses;
 
-    public static Result<ScheduledClassOfWeeks> Create(string id, int weekNumber, DayOfWeek dayOfWee, List<ScheduledClass> scheduledClasses)
+    public DateOnly Data { get; }
+
+    public IReadOnlyCollection<ScheduledClass> ScheduledClasses
+        => _scheduledClasses;
+
+    public void Add(ScheduledClass scheduledClass)
+        =>_scheduledClasses.Add(scheduledClass);
+
+    public void Remove(ScheduledClass scheduledClass)
+        =>_scheduledClasses.Remove(scheduledClass);
+
+    public static Result<ScheduledClassOfWeeks> Create(string id,DayOfWeek dayOfWee, List<ScheduledClass> scheduledClasses,DateOnly date)
     {
-        var scheduledClassOfWeeks = new ScheduledClassOfWeeks(id, weekNumber, dayOfWee, scheduledClasses);
+        var scheduledClassOfWeeks = new ScheduledClassOfWeeks(id, dayOfWee, scheduledClasses,date);
 
         return scheduledClassOfWeeks;
     }

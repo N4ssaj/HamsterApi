@@ -8,13 +8,13 @@ public class Department
     private Department(string id,string title,List<string> chairsIds, List<string> directionsIds)
         =>(Id,Title,_chairsIds,_directionsIds)=(id,title,chairsIds,directionsIds);
 
-    public string Title { get; }=string.Empty;
+    public string Title { get; }
 
-    public string Id { get; } = string.Empty;
+    public string Id { get; }
 
-    private List<string> _chairsIds = [];
+    private List<string> _chairsIds;
 
-    private List<string> _directionsIds = [];
+    private List<string> _directionsIds;
 
     public IReadOnlyCollection<string> ChairsIds=> _chairsIds;
 

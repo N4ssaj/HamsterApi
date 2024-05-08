@@ -11,14 +11,14 @@ public class Schedule
     private Schedule(string id , int semesterNumber, List<ScheduleGroup> groupsSchedule)
         => (Id, SemesterNumber, _groups) = (id, semesterNumber, groupsSchedule);
 
-    public string Id { get; }=string.Empty;
+    public string Id { get; }
 
     public int SemesterNumber { get; }
 
     public IReadOnlyCollection<ScheduleGroup> GroupsSchedule
         => _groups;
 
-    private List<ScheduleGroup> _groups=[];
+    private List<ScheduleGroup> _groups;
 
     public void Add(ScheduleGroup group)
         =>_groups.Add(group);

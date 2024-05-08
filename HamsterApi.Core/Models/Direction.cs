@@ -10,11 +10,11 @@ public class Direction
     private Direction(string id, string title, List<string> groupsIds,FormOfEducation formOfEducation,LevelOfEducation levelOfEducation,string departmentId)
         => (Id, Title, _groupsIds, FormOfEducation,LevelOfEducation,DepartmentId) = (id, title, groupsIds,formOfEducation,levelOfEducation,departmentId);
 
-    public string Title { get; }=string.Empty;
+    public string Title { get; }
 
-    public string Id { get; } = string.Empty;
+    public string Id { get; }
 
-    private List<string> _groupsIds = [];
+    private List<string> _groupsIds;
 
     public IReadOnlyCollection<string> GroupsIds=> _groupsIds;
 
@@ -22,7 +22,7 @@ public class Direction
 
     public FormOfEducation FormOfEducation { get; }
 
-    public string DepartmentId { get; } = string.Empty;
+    public string DepartmentId { get; } 
 
     public void AddGroup(string groupName)
         =>_groupsIds.Add(groupName);

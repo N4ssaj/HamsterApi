@@ -6,23 +6,27 @@ namespace HamsterApi.Core.Models;
 public class Curriculum
 {
    
-    private Curriculum(string id , string directionId,  List<SubjectWtihLoad> semestersSubjects,List<SubjectWtihLoad> semestersElectiveSubjects, int yearOfPreparation,string fGOSNumber)
-        => (Id, DirectionId, _semestersSubject, _semestersElectiveSubject, YearOfPreparation,FGOSNumber) 
-        = (id, directionId, semestersSubjects, semestersElectiveSubjects,yearOfPreparation,fGOSNumber);
+    private Curriculum(string id , string directionId,string chairId,string departmentId,  List<SubjectWtihLoad> semestersSubjects,List<SubjectWtihLoad> semestersElectiveSubjects, int yearOfPreparation,string fGOSNumber)
+        => (Id, DirectionId,ChairId,DepartmentId, _semestersSubject, _semestersElectiveSubject, YearOfPreparation,FGOSNumber) 
+        = (id, directionId,chairId,departmentId, semestersSubjects, semestersElectiveSubjects,yearOfPreparation,fGOSNumber);
 
 
-    public string Id { get; } = string.Empty;
+    public string Id { get; } 
 
-    public string DirectionId { get; } = string.Empty;
+    public string ChairId { get; }
+    
+    public string DepartmentId { get; }
+
+    public string DirectionId { get; } 
 
     public int YearOfPreparation { get; }
 
-    public string FGOSNumber { get; } = string.Empty;
+    public string FGOSNumber { get; } 
 
     public IReadOnlyCollection<SubjectWtihLoad> SemestersSubjects
         => _semestersSubject;
 
-    private List<SubjectWtihLoad> _semestersSubject = [];
+    private List<SubjectWtihLoad> _semestersSubject;
 
     public void Add(SubjectWtihLoad semester)
         =>_semestersSubject.Add(semester);
@@ -33,7 +37,7 @@ public class Curriculum
     public IReadOnlyCollection<SubjectWtihLoad> SemestersElectiveSubjects
         => _semestersElectiveSubject;
 
-    private List<SubjectWtihLoad> _semestersElectiveSubject = [];
+    private List<SubjectWtihLoad> _semestersElectiveSubject;
 
     public void AddElective(SubjectWtihLoad semester)
         =>_semestersElectiveSubject.Add(semester);
@@ -41,9 +45,9 @@ public class Curriculum
     public void RemoveElective(SubjectWtihLoad semester)
         =>_semestersElectiveSubject.Remove(semester);
 
-    public static Result<Curriculum> Create(string id , string directionId,List<SubjectWtihLoad> semestersSubjects,List<SubjectWtihLoad> semestersElectiveSubjects, int yearOfPreparation, string fGOSNumber)
+    public static Result<Curriculum> Create(string id ,string chairId,string departmentId,string directionId,List<SubjectWtihLoad> semestersSubjects,List<SubjectWtihLoad> semestersElectiveSubjects, int yearOfPreparation, string fGOSNumber)
     {
-        var curriculum = new Curriculum(id, directionId, semestersSubjects, semestersElectiveSubjects,yearOfPreparation,fGOSNumber);
+        var curriculum = new Curriculum(id, directionId,chairId,departmentId, semestersSubjects, semestersElectiveSubjects,yearOfPreparation,fGOSNumber);
         return curriculum;
     }
 }
