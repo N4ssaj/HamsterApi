@@ -1,5 +1,5 @@
-﻿using HamsterApi.Core.Models;
+﻿using HamsterApi.Domain.Models;
 
 namespace HamsterApi.Api.Controllers;
 
-public record ScheduleResponse(string Id, int SemesterNumber, IReadOnlyCollection<ScheduleGroup> GroupsSchedule);
+public record ScheduleResponse(string Id, int SemesterNumber, IReadOnlyCollection<string> GroupsScheduleIds);

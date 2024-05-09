@@ -1,50 +1,49 @@
-﻿
-using HamsterApi.Core.Models;
-using HamsterApi.Core.ServiceInterface;
-using HamsterApi.Core.Stores;
+﻿using HamsterApi.Domain.Models;
+using HamsterApi.Domain.RepositoriesInterfaces;
+using HamsterApi.Domain.ServiceInterface;
 
 namespace HamsterApi.Application.Service;
 
-public class ChairService : IChairService
+internal class ChairService : IChairService
 {
-    private readonly IChairStore _chairStore;
+    private readonly IChairRepository _chairRepository;
 
-    public ChairService(IChairStore chairStore)
-        => _chairStore = chairStore;
+    public ChairService(IChairRepository chairRepository)
+        => _chairRepository = chairRepository;
 
     public async Task<bool> AddDepartment(string id, string departmentId)
-        =>await _chairStore.AddDepartment(id, departmentId);
+        =>await _chairRepository.AddDepartment(id, departmentId);
 
     public async Task<bool> AddRangeTeacherById(string id, IEnumerable<string> teacherId)
-        =>await _chairStore.AddRangeTeacherById(id, teacherId);
+        =>await _chairRepository.AddRangeTeacherById(id, teacherId);
 
     public async Task<bool> AddTeacherById(string id, string teacherId)
         =>await AddTeacherById(id, teacherId);
 
     public async Task<string> Create(Chair item)
-        =>await _chairStore.Create(item);
+        =>await _chairRepository.Create(item);
 
     public async Task<bool> Delete(string id)
-        =>await _chairStore.Delete(id);
+        =>await _chairRepository.Delete(id);
 
     public async Task<Chair?> Read(string id)
-        =>await _chairStore.Read(id);
+        =>await _chairRepository.Read(id);
 
     public async Task<List<Chair>> ReadAll()
-        =>await _chairStore.ReadAll();
+        =>await _chairRepository.ReadAll();
 
     public async Task<List<Chair>> ReadByIds(IEnumerable<string> ids)
-        =>await _chairStore.ReadByIds(ids);
+        =>await _chairRepository.ReadByIds(ids);
 
     public async Task<bool> RemoveDepartment(string id)
-        =>await _chairStore.RemoveDepartment(id);
+        =>await _chairRepository.RemoveDepartment(id);
 
     public async Task<bool> RemoveRangeTeacherById(string id, IEnumerable<string> teacherId)
-        =>await _chairStore.RemoveRangeTeacherById(id,teacherId);
+        =>await _chairRepository.RemoveRangeTeacherById(id,teacherId);
 
     public async Task<bool> RemoveTeacherById(string id, string teacherId)
-        => await _chairStore.RemoveTeacherById(id, teacherId);
+        => await _chairRepository.RemoveTeacherById(id, teacherId);
 
     public async Task<bool> Update(string id, string title, IReadOnlyCollection<string> teachersIds, string departmentId)
-        =>await _chairStore.Update(id,title, teachersIds, departmentId);
+        =>await _chairRepository.Update(id,title, teachersIds, departmentId);
 }

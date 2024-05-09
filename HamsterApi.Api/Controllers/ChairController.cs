@@ -1,8 +1,8 @@
 ﻿using HamsterApi.Api.Contracts.Request;
 using HamsterApi.Api.Contracts.Response;
 using HamsterApi.Application.Service;
-using HamsterApi.Core.Models;
-using HamsterApi.Core.ServiceInterface;
+using HamsterApi.Domain.Models;
+using HamsterApi.Domain.ServiceInterface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HamsterApi.Api.Controllers;

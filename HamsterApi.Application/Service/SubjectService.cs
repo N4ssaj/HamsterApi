@@ -1,47 +1,46 @@
-﻿
-using HamsterApi.Core.Models;
-using HamsterApi.Core.ServiceInterface;
-using HamsterApi.Core.Stores;
+﻿using HamsterApi.Domain.Models;
+using HamsterApi.Domain.ServiceInterface;
+using HamsterApi.Domain.RepositoriesInterfaces;
 
 namespace HamsterApi.Application.Service;
 
-public class SubjectService : ISubjectService
+internal class SubjectService : ISubjectService
 {
-    private readonly ISubjectStore _subjectStore;
+    private readonly ISubjectRepository _subjectRepository;
 
-    public SubjectService(ISubjectStore subjectStore)
-        =>_subjectStore =subjectStore;
+    public SubjectService(ISubjectRepository subjectRepository)
+        =>_subjectRepository =subjectRepository;
 
     public async Task<bool> AddRangeTeacherById(string id, IEnumerable<string> teacherId)
-        =>await _subjectStore.AddRangeTeacherById(id, teacherId);
+        =>await _subjectRepository.AddRangeTeacherById(id, teacherId);
 
     public async Task<bool> AddTeacherById(string id, string teacherId)
-        =>await _subjectStore.AddTeacherById(id,teacherId);
+        =>await _subjectRepository.AddTeacherById(id,teacherId);
 
     public async Task<string> Create(Subject item)
-        =>await _subjectStore.Create(item);
+        =>await _subjectRepository.Create(item);
 
     public async Task<bool> Delete(string id)
-        =>await (_subjectStore.Delete(id));
+        =>await (_subjectRepository.Delete(id));
 
     public async Task<Subject?> Read(string id)
-        =>await _subjectStore.Read(id);
+        =>await _subjectRepository.Read(id);
 
     public async Task<List<Subject>> ReadAll()
-        =>await _subjectStore.ReadAll();
+        =>await _subjectRepository.ReadAll();
 
     public async Task<List<Subject>> ReadByIds(IEnumerable<string> ids)
-        =>await _subjectStore.ReadByIds(ids);
+        =>await _subjectRepository.ReadByIds(ids);
 
     public async Task<Subject?> ReadByIndex(string index)
-        =>await _subjectStore.ReadByIndex(index);
+        =>await _subjectRepository.ReadByIndex(index);
 
     public async Task<bool> RemoveRangeTeacherById(string id, IEnumerable<string> teacherId)
-        => await _subjectStore.RemoveRangeTeacherById(id, teacherId);
+        => await _subjectRepository.RemoveRangeTeacherById(id, teacherId);
 
     public async Task<bool> RemoveTeacherById(string id, string teacherId)
-        => await _subjectStore.RemoveTeacherById(id, teacherId);
+        => await _subjectRepository.RemoveTeacherById(id, teacherId);
 
     public async Task<bool> Update(string id, string title, string index, IReadOnlyCollection<string> teachersIds)
-        =>await _subjectStore.Update(id,title,index, teachersIds);
+        =>await _subjectRepository.Update(id,title,index, teachersIds);
 }

@@ -1,45 +1,43 @@
-﻿
-using HamsterApi.Core.Models;
-using HamsterApi.Core.ServiceInterface;
-using HamsterApi.Core.Stores;
+﻿using HamsterApi.Domain.Models;
+using HamsterApi.Domain.ServiceInterface;
+using HamsterApi.Domain.RepositoriesInterfaces;
 
 namespace HamsterApi.Application.Service;
 
-public class DepartmentService : IDepartmentService
+internal class DepartmentService : IDepartmentService
 {
+    private readonly IDepartmentRepository _departmentRepository;
 
-    private readonly IDepartmentStore _departmentStore;
-
-    public DepartmentService(IDepartmentStore departmentStore)
-        => _departmentStore = departmentStore;
+    public DepartmentService(IDepartmentRepository departmentRepository)
+        => _departmentRepository = departmentRepository;
 
     public async Task<bool> AddRangeChairById(string id, IEnumerable<string> chairId)
-        =>await _departmentStore.AddRangeChairById(id, chairId);
+        =>await _departmentRepository.AddRangeChairById(id, chairId);
 
     public async Task<bool> AddRangeDirectionById(string id, IEnumerable<string> directionId)
-        =>await _departmentStore.AddRangeDirectionById(id, directionId);
+        =>await _departmentRepository.AddRangeDirectionById(id, directionId);
 
     public async Task<string> Create(Department item)
-        =>await _departmentStore.Create(item);
+        =>await _departmentRepository.Create(item);
 
     public async Task<bool> Delete(string id)
-        =>await _departmentStore.Delete(id);
+        =>await _departmentRepository.Delete(id);
 
     public async Task<Department?> Read(string id)
-        =>await _departmentStore.Read(id);
+        =>await _departmentRepository.Read(id);
 
     public async Task<List<Department>> ReadAll()
-        =>await _departmentStore.ReadAll();
+        =>await _departmentRepository.ReadAll();
 
     public async Task<List<Department>> ReadByIds(IEnumerable<string> ids)
-        =>await _departmentStore.ReadByIds(ids);
+        =>await _departmentRepository.ReadByIds(ids);
 
     public async Task<bool> RemoveRangeChairById(string id, IEnumerable<string> chairId)
-        =>await _departmentStore.RemoveRangeChairById(id, chairId);
+        =>await _departmentRepository.RemoveRangeChairById(id, chairId);
 
     public async Task<bool> RemoveRangeDirectionById(string id, IEnumerable<string> directionId)
-        =>await _departmentStore.RemoveRangeDirectionById(id, directionId);
+        =>await _departmentRepository.RemoveRangeDirectionById(id, directionId);
 
     public async Task<bool> Update(string id, string title, IReadOnlyCollection<string> chairsIds, IReadOnlyCollection<string> directionsIds)
-        =>await _departmentStore.Update(id,title, chairsIds, directionsIds);
+        =>await _departmentRepository.Update(id,title, chairsIds, directionsIds);
 }

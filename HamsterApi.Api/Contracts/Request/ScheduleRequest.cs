@@ -1,6 +1,6 @@
-﻿using HamsterApi.Core.Common.Enum;
-using HamsterApi.Core.Models;
+﻿using HamsterApi.Domain.Common.Enum;
+using HamsterApi.Domain.Models;
 
 namespace HamsterApi.Api.Contracts.Request;
 
-public record ScheduleRequest(int SemesterNumber, List<ScheduleGroup> GroupsSchedule);
+public record ScheduleRequest(int SemesterNumber, List<string> GroupsScheduleIds);
