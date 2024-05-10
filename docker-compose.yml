@@ -2,9 +2,13 @@ version: '3.4'
 
 services:
   hamsterapi.api:
+    container_name: hamster-api
     image: ${DOCKER_REGISTRY-}hamsterapiapi
 
   hamsterapi.seq:
     image: datalust/seq:latest
     container_name: hamster-seq
 
+  hamsterapi.redis:  
+    image: redis
+    container_name: hamster-redis
