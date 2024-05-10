@@ -1,8 +1,11 @@
-﻿using System;
+﻿ 
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using BrightstarDB.Client;
 using BrightstarDB.EntityFramework;
+
 using HamsterApi.Domain.Common.Enum;
 using HamsterApi.Domain.Models;
 
@@ -609,10 +612,16 @@ namespace HamsterApi.Persistence.Entites.Interfaces
     	public System.String Id { get {return GetKey(); } set { SetKey(value); } }
     	#region Implementation of HamsterApi.Persistence.Entites.Interfaces.IScheduleEntity
     
-    	public System.Int32 SemesterNumber
+    	public System.Int32 Year
     	{
-            		get { return GetRelatedProperty<System.Int32>("SemesterNumber"); }
-            		set { SetRelatedProperty("SemesterNumber", value); }
+            		get { return GetRelatedProperty<System.Int32>("Year"); }
+            		set { SetRelatedProperty("Year", value); }
+    	}
+    
+    	public HamsterApi.Domain.Common.Enum.SpringOrAutumn SpringOrAutumn
+    	{
+            		get { return GetRelatedProperty<HamsterApi.Domain.Common.Enum.SpringOrAutumn>("SpringOrAutumn"); }
+            		set { SetRelatedProperty("SpringOrAutumn", value); }
     	}
     	public System.Collections.Generic.ICollection<System.String> GroupsScheduleIds
     	{

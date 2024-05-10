@@ -3,4 +3,4 @@ using HamsterApi.Domain.Models;
 
 namespace HamsterApi.Api.Contracts.Request;
 
-public record ScheduleRequest(int SemesterNumber, List<string> GroupsScheduleIds);
+public record ScheduleRequest(int Year,SpringOrAutumn SpringOrAutumn,List<string> GroupsScheduleIds);

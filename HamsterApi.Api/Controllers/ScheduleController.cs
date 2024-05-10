@@ -1,9 +1,6 @@
 ﻿using HamsterApi.Api.Contracts.Request;
-using HamsterApi.Api.Contracts.Response;
-using HamsterApi.Application.Service;
 using HamsterApi.Domain.Models;
 using HamsterApi.Domain.ServiceInterface;
-using HamsterApi.Domain.RepositoriesInterfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HamsterApi.Api.Controllers;
@@ -21,27 +18,28 @@ public class ScheduleController:ControllerBase
     public async Task<ActionResult<List<ScheduleResponse>?>> ReadByIds([FromQuery] IEnumerable<string> ids)
     {
         var schedules = await _scheduleService.ReadByIds(ids);
-        var responce = schedules!.Select(schedule => new ScheduleResponse(schedule.Id,schedule.SemesterNumber,schedule.GroupsScheduleIds));
+        var responce = schedules!.Select(schedule => new ScheduleResponse(schedule.Id,schedule.Year,schedule.SpringOrAutumn,schedule.GroupsScheduleIds));
 
         return Ok(responce);
     }
     [HttpGet("all")]
     public async Task<ActionResult<List<ScheduleResponse>>> ReadAll()
     {
+        
         var schedules = await _scheduleService.ReadAll();
-        var responce = schedules!.Select(schedule => new ScheduleResponse(schedule.Id, schedule.SemesterNumber, schedule.GroupsScheduleIds));
+        var responce = schedules!.Select(schedule => new ScheduleResponse(schedule.Id, schedule.Year,schedule.SpringOrAutumn, schedule.GroupsScheduleIds));
         return Ok(responce);
     }
     [HttpGet("{id}")]
     public async Task<ActionResult<ScheduleResponse?>> ReadById(string id)
     {
-        var Schedule = await _scheduleService.Read(id);
-        return Schedule is null ? NoContent() : Ok(new ScheduleResponse(Schedule.Id,Schedule.SemesterNumber,Schedule.GroupsScheduleIds));
+        var schedule = await _scheduleService.Read(id);
+        return schedule is null ? NoContent() : Ok(new ScheduleResponse(schedule.Id,schedule.Year,schedule.SpringOrAutumn,schedule.GroupsScheduleIds));
     }
     [HttpPost]
     public async Task<ActionResult<string>> CreateSchedule([FromBody] ScheduleRequest request)
     {
-        var item = Schedule.Create(Guid.NewGuid().ToString(),request.SemesterNumber,request.GroupsScheduleIds);
+        var item = Schedule.Create(Guid.NewGuid().ToString(),request.Year,request.SpringOrAutumn,request.GroupsScheduleIds);
         if (item.Failure)
         {
             return BadRequest(item.Error);
@@ -63,7 +61,7 @@ public class ScheduleController:ControllerBase
     {
         var item = await _scheduleService.Read(id);
         if (item is null) return BadRequest("item is null");
-        var isUpdatet = await _scheduleService.Update(id, request.SemesterNumber,request.GroupsScheduleIds);
+        var isUpdatet = await _scheduleService.Update(id, request.Year,request.SpringOrAutumn,request.GroupsScheduleIds);
         return Ok(isUpdatet);
     }
     [HttpPost("addgroup")]

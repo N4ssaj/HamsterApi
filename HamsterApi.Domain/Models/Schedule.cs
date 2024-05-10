@@ -1,19 +1,19 @@
-﻿
-
-using HamsterApi.Domain.Common;
+﻿using HamsterApi.Domain.Common;
+using HamsterApi.Domain.Common.Enum;
 
 namespace HamsterApi.Domain.Models;
-
 
 public class Schedule
 {
 
-    private Schedule(string id, int semesterNumber, List<string> groupsScheduleIds)
-        => (Id, SemesterNumber, _groupsIds) = (id, semesterNumber, groupsScheduleIds);
+    private Schedule(string id, int year,SpringOrAutumn springOrAutumn,List<string> groupsScheduleIds)
+        => (Id, Year,springOrAutumn, _groupsIds) = (id, year,springOrAutumn, groupsScheduleIds);
 
     public string Id { get; }
 
-    public int SemesterNumber { get; }
+    public int Year { get; }
+
+    public SpringOrAutumn SpringOrAutumn { get; }
 
     public IReadOnlyCollection<string> GroupsScheduleIds
         => _groupsIds;
@@ -26,9 +26,9 @@ public class Schedule
     public void Remove(string group)
         => _groupsIds.Remove(group);
 
-    public static Result<Schedule> Create(string id, int semesterNumber, List<string> groupsScheduleIds)
+    public static Result<Schedule> Create(string id, int year, SpringOrAutumn springOrAutumn, List<string> groupsScheduleIds)
     {
-        var schedule = new Schedule(id, semesterNumber, groupsScheduleIds);
+        var schedule = new Schedule(id,year,springOrAutumn,groupsScheduleIds);
         return schedule;
     }
 }

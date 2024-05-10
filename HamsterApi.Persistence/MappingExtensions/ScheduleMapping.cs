@@ -10,8 +10,9 @@ internal static class ScheduleMapping
     {
         IScheduleEntity scheduleEntity = new ScheduleEntity 
         { 
-            Id = schedule.Id, 
-            SemesterNumber = schedule.SemesterNumber, 
+            Id = schedule.Id,
+            Year = schedule.Year,
+            SpringOrAutumn= schedule.SpringOrAutumn,
             GroupsScheduleIds = schedule.GroupsScheduleIds.ToList()
         };
 
@@ -20,7 +21,8 @@ internal static class ScheduleMapping
     public static Schedule ToModel(this IScheduleEntity scheduleEntity)
     {
         Schedule schedule = Schedule.Create(scheduleEntity.Id, 
-            scheduleEntity.SemesterNumber, 
+            scheduleEntity.Year,
+            scheduleEntity.SpringOrAutumn,
             scheduleEntity.GroupsScheduleIds.ToList()).Value;
 
         return schedule;

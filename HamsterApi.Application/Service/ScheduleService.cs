@@ -1,6 +1,7 @@
 ﻿using HamsterApi.Domain.Models;
 using HamsterApi.Domain.ServiceInterface;
 using HamsterApi.Domain.RepositoriesInterfaces;
+using HamsterApi.Domain.Common.Enum;
 
 namespace HamsterApi.Application.Service;
 
@@ -32,6 +33,6 @@ internal class ScheduleService:IScheduleService
     public async Task<bool> RemoveGroup(string id, IEnumerable<string> groupIds)
         =>await _scheduleRepository.RemoveGroup(id,groupIds);
 
-    public async Task<bool> Update(string id, int semesterNumber, IReadOnlyCollection<string> groupsScheduleIds)
-        =>await _scheduleRepository.Update(id, semesterNumber, groupsScheduleIds);
+    public async Task<bool> Update(string id, int year,SpringOrAutumn springOrAutumn,IReadOnlyCollection<string> groupsScheduleIds)
+        =>await _scheduleRepository.Update(id, year,springOrAutumn, groupsScheduleIds);
 }

@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  hamsterapi.api:
+    image: ${DOCKER_REGISTRY-}hamsterapiapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+    ports:
+      - "4201:80"
+    build:
+      context: .
+      dockerfile: HamsterApi.Api/Dockerfile
+
+  hamsterapi.seq:
+    image: datalust/seq:latest
+    container_name: hamster-seq
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - "5341:5341"
+      - "8081:80"

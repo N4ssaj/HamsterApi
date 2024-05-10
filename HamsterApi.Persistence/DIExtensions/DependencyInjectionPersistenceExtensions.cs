@@ -19,6 +19,7 @@ public static class DependencyInjectionPersistenceExtensions
         services.AddSingleton<IScheduleRepository, ScheduleRepository>();
         services.AddSingleton<ITeachingLoadRepository, TeachingLoadRepository>();
         services.AddSingleton<IAcademicLoadRepository, AcademicLoadRepository>();
+        services.AddSingleton<ISemesterRepository, SemesterRepository>();
 
         return services;
     }

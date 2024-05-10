@@ -13,8 +13,10 @@ public class AuditoriumController : ControllerBase
 {
     private readonly IAuditoriumService _auditoruimService;
 
-    public AuditoriumController(IAuditoriumService auditoruimService)
-        => _auditoruimService = auditoruimService;
+    private readonly Serilog.ILogger _logger;
+
+    public AuditoriumController(IAuditoriumService auditoruimService, Serilog.ILogger logger)
+        => (_auditoruimService,_logger) = (auditoruimService,logger);
 
     [HttpGet("{id}")]
     public async Task<ActionResult<AuditoriumResponse?>> ReadById(string id)

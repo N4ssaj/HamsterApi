@@ -1,5 +1,6 @@
 ﻿
 using BrightstarDB.EntityFramework;
+using HamsterApi.Domain.Common.Enum;
 using HamsterApi.Domain.Models;
 
 namespace HamsterApi.Persistence.Entites.Interfaces;
@@ -9,7 +10,9 @@ internal interface IScheduleEntity
 {
     public string Id { get; }
 
-    public int SemesterNumber { get; set; }
+    public int Year { get; set; }
+
+    public SpringOrAutumn SpringOrAutumn { get; set; }
 
     public ICollection<string> GroupsScheduleIds { get; set; }
 }

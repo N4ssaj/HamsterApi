@@ -1,4 +1,5 @@
-﻿using HamsterApi.Domain.Models;
+﻿using HamsterApi.Domain.Common.Enum;
+using HamsterApi.Domain.Models;
 using HamsterApi.Domain.RepositoriesInterfaces;
 using HamsterApi.Persistence.Entites.Interfaces;
 using HamsterApi.Persistence.MappingExtensions;
@@ -19,7 +20,7 @@ internal class ScheduleRepository : IScheduleRepository
         foreach (var i in groupId)
             if (!item.GroupsScheduleIds.Contains(i))
                 item.Add(i);
-        return await Update(id, item.SemesterNumber, item.GroupsScheduleIds);
+        return await Update(id, item.Year, item.SpringOrAutumn, item.GroupsScheduleIds);
     }
 
     public async Task<string> Create(Schedule item)
@@ -101,10 +102,10 @@ internal class ScheduleRepository : IScheduleRepository
         foreach (var i in groupId)
             if (item.GroupsScheduleIds.Contains(i))
                 item.Remove(i);
-        return await Update(id, item.SemesterNumber, item.GroupsScheduleIds);
+        return await Update(id, item.Year,item.SpringOrAutumn,item.GroupsScheduleIds);
     }
 
-    public async Task<bool> Update(string id, int semesterNumber, IReadOnlyCollection<string> groupsScheduleIds)
+    public async Task<bool> Update(string id, int year,SpringOrAutumn springOrAutumn,IReadOnlyCollection<string> groupsScheduleIds)
     {
         IScheduleEntity scheduleEntity = null;
         await Task.Run(() =>
@@ -112,7 +113,8 @@ internal class ScheduleRepository : IScheduleRepository
             scheduleEntity = _hamsterApiDbContext.ScheduleEntities.FirstOrDefault(a => a.Id == id)!;
         });
         if (scheduleEntity is null) return false;
-        scheduleEntity.SemesterNumber = semesterNumber;
+        scheduleEntity.Year = year;
+        scheduleEntity.SpringOrAutumn= springOrAutumn;
         scheduleEntity.GroupsScheduleIds = groupsScheduleIds.ToList();
         await Task.Run(() =>
         {

@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HamsterApi.Domain", "Hamste
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HamsterApi.Persistence", "HamsterApi.Persistence\HamsterApi.Persistence.csproj", "{57AC1E7C-D8B7-4B3F-9610-CE5E420948C7}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{749954EE-D98B-4EBF-A7C2-BB4324ED51E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{57AC1E7C-D8B7-4B3F-9610-CE5E420948C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57AC1E7C-D8B7-4B3F-9610-CE5E420948C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57AC1E7C-D8B7-4B3F-9610-CE5E420948C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{749954EE-D98B-4EBF-A7C2-BB4324ED51E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{749954EE-D98B-4EBF-A7C2-BB4324ED51E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{749954EE-D98B-4EBF-A7C2-BB4324ED51E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{749954EE-D98B-4EBF-A7C2-BB4324ED51E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
