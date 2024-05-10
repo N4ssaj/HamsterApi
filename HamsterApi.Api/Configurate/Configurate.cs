@@ -16,6 +16,9 @@ public static class Configurate
         services.AddCors();
         Log.Logger=new LoggerConfiguration()
             .Enrich.FromLogContext()
+            .WriteTo.File("log.txt",
+                rollingInterval: RollingInterval.Day,
+                rollOnFileSizeLimit: true)
             .WriteTo.Seq("http://hamster-seq:5340")
             .WriteTo.Console()
             .CreateLogger();
