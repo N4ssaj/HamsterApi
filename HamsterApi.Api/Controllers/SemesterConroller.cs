@@ -42,8 +42,7 @@ public class SemesterController:ControllerBase
     [HttpPost]
     public async Task<ActionResult<string>> CreateSemester([FromBody] SemesterRequest request)
     {
-        var collection = request.Subjects ?? [];
-        var item = Semester.Create(Guid.NewGuid().ToString(), request.Number, request.GroupId, collection.Select(i=>i.Map()).ToList());
+        var item = Semester.Create(Guid.NewGuid().ToString(), request.Number, request.GroupId, request.Subjects.Select(i=>i.Map()).ToList());
         if (item.Failure)
         {
             return BadRequest(item.Error);

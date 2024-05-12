@@ -10,17 +10,19 @@ public static  class DependencyInjectionApplicationExtensions
 {
    public static IServiceCollection RegisterServices(this IServiceCollection services)
     {
-        services.AddSingleton<IAcademicLoadService,AcademicLoadService>();
-        services.AddSingleton<IAuditoriumService,AuditoruimService>();
-        services.AddSingleton<IChairService, ChairService>();
-        services.AddSingleton<IDepartmentService, DepartmentService>();
-        services.AddSingleton<IDirectionService, DirectionService>();
-        services.AddSingleton<IGroupService, GroupService>();
-        services.AddSingleton<IScheduleService, ScheduleService>();
-        services.AddSingleton<ISubjectService, SubjectService>();
-        services.AddSingleton<ITeacherService, TeacherService>();
-        services.AddSingleton<ITeacherLoadService, TeacherLoadService>();
-        services.AddSingleton<ISemesterService, SemesterService>();
+        services.AddScoped<IAcademicLoadService,AcademicLoadService>();
+        services.AddScoped<IAuditoriumService,AuditoruimService>();
+        services.AddScoped<IChairService, ChairService>();
+        services.AddScoped<IDepartmentService, DepartmentService>();
+        services.AddScoped<IDirectionService, DirectionService>();
+        services.AddScoped<IGroupService, GroupService>();
+        services.AddScoped<IScheduleService, ScheduleService>();
+        services.AddScoped<ISubjectService, SubjectService>();
+        services.AddScoped<ITeacherService, TeacherService>();
+        services.AddScoped<ITeacherLoadService, TeacherLoadService>();
+        services.AddScoped<ISemesterService, SemesterService>();
+        services.AddScoped<ICurriculumService, CurriculumService>();
+
         return services;
     }
 }

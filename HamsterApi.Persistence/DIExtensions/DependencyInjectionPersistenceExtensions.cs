@@ -9,17 +9,18 @@ public static class DependencyInjectionPersistenceExtensions
 {
     public static IServiceCollection RegisterRepositories(this IServiceCollection services)
     {
-        services.AddSingleton<IAuditoriumRepository, AuditoriumRepository>();
-        services.AddSingleton<IGroupRepository, GroupRepository>();
-        services.AddSingleton<ISubjectRepository, SubjectRepository>();
-        services.AddSingleton<ITeacherRepository, TeacherRepository>();
-        services.AddSingleton<IDirectionRepository, DirectionRepository>();
-        services.AddSingleton<IChairRepository, ChairRepository>();
-        services.AddSingleton<IDepartmentRepository, DepartmentRepository>();
-        services.AddSingleton<IScheduleRepository, ScheduleRepository>();
-        services.AddSingleton<ITeachingLoadRepository, TeachingLoadRepository>();
-        services.AddSingleton<IAcademicLoadRepository, AcademicLoadRepository>();
-        services.AddSingleton<ISemesterRepository, SemesterRepository>();
+        services.AddScoped<IAuditoriumRepository, AuditoriumRepository>();
+        services.AddScoped<IGroupRepository, GroupRepository>();
+        services.AddScoped<ISubjectRepository, SubjectRepository>();
+        services.AddScoped<ITeacherRepository, TeacherRepository>();
+        services.AddScoped<IDirectionRepository, DirectionRepository>();
+        services.AddScoped<IChairRepository, ChairRepository>();
+        services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+        services.AddScoped<IScheduleRepository, ScheduleRepository>();
+        services.AddScoped<ITeachingLoadRepository, TeachingLoadRepository>();
+        services.AddScoped<IAcademicLoadRepository, AcademicLoadRepository>();
+        services.AddScoped<ISemesterRepository, SemesterRepository>();
+        services.AddScoped<ICurriculumRepository, CurriculumRepository>();
 
         return services;
     }
