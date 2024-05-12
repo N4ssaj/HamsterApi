@@ -20,7 +20,7 @@ public static  class DependencyInjectionApplicationExtensions
         services.AddSingleton<ISubjectService, SubjectService>();
         services.AddSingleton<ITeacherService, TeacherService>();
         services.AddSingleton<ITeacherLoadService, TeacherLoadService>();
-
+        services.AddSingleton<ISemesterService, SemesterService>();
         return services;
     }
 }

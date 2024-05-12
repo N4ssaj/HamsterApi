@@ -12,7 +12,6 @@ internal static class SubjectWithLoadMapping
         {
             Id = subjectWtihLoad.Id,
             AcademicLoad = subjectWtihLoad.AcademicLoad.ToEntity(),
-            SemesterNumber = subjectWtihLoad.SemesterNumber,
             Subject = subjectWtihLoad.Subject.ToEntity()
         };
 
@@ -23,8 +22,7 @@ internal static class SubjectWithLoadMapping
     {
         SubjectWtihLoad subjectWtihLoad = SubjectWtihLoad.Create(subjectWtihLoadEntity.Id,
             subjectWtihLoadEntity.Subject.ToModel(),
-            subjectWtihLoadEntity.AcademicLoad.ToModel(),
-            subjectWtihLoadEntity.SemesterNumber).Value;
+            subjectWtihLoadEntity.AcademicLoad.ToModel()).Value;
 
         return subjectWtihLoad;
     }

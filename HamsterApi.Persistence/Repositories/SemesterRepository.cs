@@ -15,8 +15,8 @@ internal class SemesterRepository : ISemesterRepository
 
     public async Task<bool> AddSubjects(string id, IEnumerable<SubjectWtihLoad> subjects)
     {
-        var item=await Read(id);
-        if (item != null) return false;
+        var item= await Read(id);
+        if (item is null) return false;
         foreach (var subject in subjects)
             item.Add(subject);
         return await Update(id, item.Number,item.GroupId, item.Subjects.ToList());
@@ -94,13 +94,17 @@ internal class SemesterRepository : ISemesterRepository
         return semesterList;
     }
 
-    public async Task<bool> RemoveSubjects(string id, IEnumerable<SubjectWtihLoad> subjects)
+    public async Task<bool> RemoveSubjects(string id, IEnumerable<string> subjectsIds)
     {
         var item = await Read(id);
-        if (item != null) return false;
-        foreach (var subject in subjects)
-            item.Remove(subject);
-        return await Update(id, item.Number, item.GroupId, item.Subjects.ToList());
+        if (item is null) return false;
+        var list=item.Subjects.ToList();
+        foreach (var idSubject in subjectsIds)
+           for(int i=0;i<list.Count;i++)
+                if (idSubject == list[i].Id)
+                    list.Remove(list[i]);
+
+        return await Update(id, item.Number, item.GroupId, list);
     }
 
     public async Task<bool> Update(string id, int number, string groupId, List<SubjectWtihLoad> subjects)
@@ -111,12 +115,11 @@ internal class SemesterRepository : ISemesterRepository
             semesterEntity = _hamsterApiDbContext.SemesterEntities.FirstOrDefault(a => a.Id == id)!;
         });
         if (semesterEntity is null) return false;
-
-        semesterEntity.Number = number;
-        semesterEntity.GroupId = groupId;
-        semesterEntity.Subjects = subjects.Select(i => i.ToEntity()).ToList();
         await Task.Run(() =>
         {
+            _hamsterApiDbContext.DeleteObject(semesterEntity);
+            var item = Semester.Create(id, number, groupId, subjects).Value;
+            _hamsterApiDbContext.SemesterEntities.Add(item.ToEntity());
             _hamsterApiDbContext.SaveChanges();
         });
         return true;

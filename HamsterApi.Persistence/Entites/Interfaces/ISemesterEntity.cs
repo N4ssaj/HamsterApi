@@ -15,5 +15,5 @@ internal interface ISemesterEntity
 
     public string GroupId { get; set; }
 
-    public ICollection<ISubjectWtihLoadEntity> Subjects { get; set; }
+    public ICollection<ISubjectWtihLoadEntity> Subjects { get; set; } 
 }

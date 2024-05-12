@@ -738,12 +738,6 @@ namespace HamsterApi.Persistence.Entites.Interfaces
     	public System.String Id { get {return GetKey(); } set { SetKey(value); } }
     	#region Implementation of HamsterApi.Persistence.Entites.Interfaces.ISubjectWtihLoadEntity
     
-    	public System.Int32 SemesterNumber
-    	{
-            		get { return GetRelatedProperty<System.Int32>("SemesterNumber"); }
-            		set { SetRelatedProperty("SemesterNumber", value); }
-    	}
-    
     	public HamsterApi.Persistence.Entites.Interfaces.ISubjectEntity Subject
     	{
             get { return GetRelatedObject<HamsterApi.Persistence.Entites.Interfaces.ISubjectEntity>("Subject"); }

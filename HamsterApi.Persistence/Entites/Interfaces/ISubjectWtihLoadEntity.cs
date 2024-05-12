@@ -10,8 +10,6 @@ internal interface ISubjectWtihLoadEntity
 {
     public string Id { get; }
 
-    public int SemesterNumber { get; set; }
-
     public ISubjectEntity Subject { get; set; }
 
     public IAcademicLoadEntity AcademicLoad { get; set;}
