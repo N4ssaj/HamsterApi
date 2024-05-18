@@ -117,11 +117,9 @@ internal class SemesterRepository : ISemesterRepository
         if (semesterEntity is null) return false;
         await Task.Run(() =>
         {
-            semesterEntity.Number = number;
-            semesterEntity.GroupId = groupId;
-            semesterEntity.Subjects.Clear();
-            foreach (var subject in subjects)
-                semesterEntity.Subjects.Add(subject.ToEntity());
+            _hamsterApiDbContext.DeleteObject(semesterEntity);
+            var item = Semester.Create(id,number,groupId,subjects).Value;
+            _hamsterApiDbContext.SemesterEntities.Add(item.ToEntity());
             _hamsterApiDbContext.SaveChanges();
         });
         return true;
