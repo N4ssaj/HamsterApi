@@ -2,7 +2,7 @@
 using HamsterApi.Domain.RepositoriesInterfaces;
 using HamsterApi.Persistence.Entites.Interfaces;
 using HamsterApi.Persistence.MappingExtensions;
-
+using System.Text.Json;
 
 namespace HamsterApi.Persistence.Repositories;
 
@@ -31,7 +31,7 @@ internal class AuditoriumRepository : IAuditoriumRepository
         await Task.Run(() =>
         {
             auditoriumEntity = _hamsterApiDbContext.AuditoriumEntities.FirstOrDefault(a => a.Id == id)!;
-            if(auditoriumEntity is not null)
+            if (auditoriumEntity is not null)
             {
                 _hamsterApiDbContext.DeleteObject(auditoriumEntity);
                 _hamsterApiDbContext.SaveChanges();
@@ -106,7 +106,7 @@ internal class AuditoriumRepository : IAuditoriumRepository
         await Task.Run(() =>
         {
             auditoriumEntityList = _hamsterApiDbContext.AuditoriumEntities
-            .Where(a=>ids.Contains(a.Id))
+            .Where(a => ids.Contains(a.Id))
             .ToList();
         }
         );

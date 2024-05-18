@@ -24,13 +24,6 @@ public class AuditoriumController : ControllerBase
         var auditorium = await _auditoruimService.Read(id);
         return auditorium is null ? NoContent() : Ok(new AuditoriumResponse(auditorium.Id, auditorium.Number));
     }
-
-    [HttpGet("number/{number}")]
-    public async Task<ActionResult<AuditoriumResponse?>> ReadByNumber(string number)
-    {
-        var auditorium = await _auditoruimService.ReadByNumber(number);
-        return auditorium is null ? NoContent() : Ok(new AuditoriumResponse(auditorium.Id, auditorium.Number));
-    }
     [HttpGet("ids")]
     public async Task<ActionResult<List<AuditoriumResponse>?>> ReadByIds([FromQuery]IEnumerable<string> ids)
     {

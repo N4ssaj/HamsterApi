@@ -1,28 +1,40 @@
-﻿using HamsterApi.Application.DIExtensions;
-using HamsterApi.Persistence.DIExtension;
-using Microsoft.OpenApi.Validations;
-using Serilog;
-using Serilog.Events;
+﻿using Serilog;
+
 
 namespace HamsterApi.Api.Configurate;
 
 public static class Configurate
 {
-    public static void Register(this IServiceCollection services, string connectionString,string dir)
+    public static IServiceCollection RegisterService(this IServiceCollection services)
     {
-        services.RegisterDb(connectionString,dir);
-        services.RegisterRepositories();
-        services.RegisterServices();
         services.AddCors();
-        Log.Logger=new LoggerConfiguration()
+
+        return services;
+    }
+
+    public static IServiceCollection AddLogger(this IServiceCollection services)
+    {
+        var serilogLogger = new LoggerConfiguration()
             .Enrich.FromLogContext()
             .WriteTo.File("log.txt",
                 rollingInterval: RollingInterval.Day,
                 rollOnFileSizeLimit: true)
-            .WriteTo.Seq("http://hamster-seq:5340")
+            .WriteTo.Seq("http://hamster-seq:5341")
             .WriteTo.Console()
             .CreateLogger();
 
-        services.AddSingleton<Serilog.ILogger>(Log.Logger);
+        services.AddLogging(configure=>configure.AddSerilog(serilogLogger,true));
+
+        return services;
+    }
+    public static IServiceCollection AddRedis(this IServiceCollection services)
+    {
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = "hamster-redis:6379,abortConnect=False";
+            options.InstanceName = "hamster-redis";
+        });
+
+        return services;
     }
 }

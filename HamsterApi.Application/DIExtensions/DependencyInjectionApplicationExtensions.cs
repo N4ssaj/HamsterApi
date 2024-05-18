@@ -8,10 +8,10 @@ namespace HamsterApi.Application.DIExtensions;
 
 public static  class DependencyInjectionApplicationExtensions
 {
-   public static IServiceCollection RegisterServices(this IServiceCollection services)
+   public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddScoped<IAcademicLoadService,AcademicLoadService>();
-        services.AddScoped<IAuditoriumService,AuditoruimService>();
+        services.AddScoped<IAuditoriumService,AuditoriumService>();
         services.AddScoped<IChairService, ChairService>();
         services.AddScoped<IDepartmentService, DepartmentService>();
         services.AddScoped<IDirectionService, DirectionService>();

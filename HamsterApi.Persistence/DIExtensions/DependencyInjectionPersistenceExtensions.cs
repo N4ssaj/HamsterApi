@@ -7,7 +7,7 @@ namespace HamsterApi.Persistence.DIExtension;
 
 public static class DependencyInjectionPersistenceExtensions
 {
-    public static IServiceCollection RegisterRepositories(this IServiceCollection services)
+    public static IServiceCollection AddPersistence(this IServiceCollection services, string connectionString, string dir)
     {
         services.AddScoped<IAuditoriumRepository, AuditoriumRepository>();
         services.AddScoped<IGroupRepository, GroupRepository>();
@@ -22,10 +22,6 @@ public static class DependencyInjectionPersistenceExtensions
         services.AddScoped<ISemesterRepository, SemesterRepository>();
         services.AddScoped<ICurriculumRepository, CurriculumRepository>();
 
-        return services;
-    }
-    public static IServiceCollection RegisterDb(this IServiceCollection services,string connectionString,string dir)
-    {
         var hamsterApiDbContext = new HamsterApiDbContext(connectionString);
         services.AddSingleton(hamsterApiDbContext);
         var client = BrightstarService.GetClient(dir);

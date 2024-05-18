@@ -1,4 +1,6 @@
 using HamsterApi.Api.Configurate;
+using HamsterApi.Application.DIExtensions;
+using HamsterApi.Persistence.DIExtension;
 using Serilog;
 using Serilog.Events;
 
@@ -7,7 +9,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 var dir = builder.Configuration.GetConnectionString("Dir");
-builder.Services.Register(connectionString!,dir!);
+
+builder.Services.AddPersistence(connectionString, dir);
+builder.Services.AddApplication();
+builder.Services.AddLogger();
+builder.Services.AddRedis();
+builder.Services.RegisterService();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -21,6 +29,7 @@ builder.Host.UseSerilog((ctx, lc) =>
     .WriteTo.Seq("http://hamster-seq:5341")
     .WriteTo.Console();
 });
+
 var app = builder.Build();
 
 
