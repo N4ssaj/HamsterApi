@@ -9,12 +9,10 @@ public class Auditorium
 
     public string Number { get; }
 
-
     public string Id { get; }
 
     public static Result<Auditorium> Create(string id, string number)
     {
-
         var auditorium = new Auditorium(id, number);
         return auditorium;
     }

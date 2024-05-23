@@ -2,4 +2,4 @@
 
 namespace HamsterApi.Api.Contracts.Request;
 
-public record ScheduledClassOfWeeksRequest(int WeekNumber,DateOnly Date, DayOfWeek DayOfWee, List<ScheduledClassOfWeeksRequest> ScheduledClasses);
+public record ScheduledClassOfWeeksRequest(string Id,int WeekNumber,DateOnly Date, DayOfWeek DayOfWee, List<ScheduledClassRequest> ScheduledClasses);

@@ -2,4 +2,4 @@
 
 namespace HamsterApi.Api.Contracts.Request;
 
-public record ScheduledClassRequest(int ClassNumber, string Subject, string Teacher, string Auditorium, ClassType ClassType);
+public record ScheduledClassRequest(string Id,int ClassNumber, string Subject, string Teacher, string Auditorium, ClassType ClassType);

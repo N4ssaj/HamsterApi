@@ -1,5 +1,9 @@
-﻿using HamsterApi.Domain.Models;
+﻿using HamsterApi.Domain.Common.Enum;
+using HamsterApi.Domain.Models;
 using HamsterApi.Domain.RepositoriesInterfaces;
+using HamsterApi.Persistence.Entites.Interfaces;
+using HamsterApi.Persistence.MappingExtensions;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 
@@ -14,31 +18,92 @@ internal class ScheduleGroupRepository:IScheduleGroupRepository
 
     public async Task<string> Create(ScheduleGroup item)
     {
-        throw new NotImplementedException();
+        var groupEntity = item.ToEntity();
+        await Task.Run(() =>
+        {
+            _hamsterApiDbContext.ScheduleGroupEntities.Add(groupEntity);
+            _hamsterApiDbContext.SaveChanges();
+        });
+        return groupEntity.Id;
     }
 
-    public Task<bool> Delete(string id)
+    public async Task<bool> Delete(string id)
     {
-        throw new NotImplementedException();
+        IScheduleGroupEntity scheduleGroupEntity = null;
+        bool state = false;
+        await Task.Run(() =>
+        {
+            scheduleGroupEntity = _hamsterApiDbContext.ScheduleGroupEntities.FirstOrDefault(a => a.Id == id)!;
+            if (scheduleGroupEntity is not null)
+            {
+                _hamsterApiDbContext.DeleteObject(scheduleGroupEntity);
+                _hamsterApiDbContext.SaveChanges();
+                state = true;
+            }
+        });
+        return state;
     }
 
-    public Task<ScheduleGroup?> Read(string id)
+    public async Task<ScheduleGroup?> Read(string id)
     {
-        throw new NotImplementedException();
+        IScheduleGroupEntity scheduleGroupEntity = null;
+        await Task.Run(() =>
+        {
+            scheduleGroupEntity = _hamsterApiDbContext.ScheduleGroupEntities.FirstOrDefault(a => a.Id == id)!;
+        });
+        if (scheduleGroupEntity is null) return null;
+
+        var group = scheduleGroupEntity.ToModel();
+
+        return group;
     }
 
-    public Task<List<ScheduleGroup>> ReadAll()
+    public async Task<List<ScheduleGroup>> ReadAll()
     {
-        throw new NotImplementedException();
+        var scheduleGroupEntityList = new List<IScheduleGroupEntity>();
+        await Task.Run(() =>
+        {
+            scheduleGroupEntityList = _hamsterApiDbContext.ScheduleGroupEntities.ToList();
+        }
+        );
+        if (scheduleGroupEntityList is null) return [];
+        var scheduleGroupList = scheduleGroupEntityList.Select(a => a.ToModel()).ToList();
+
+        return scheduleGroupList;
     }
 
-    public Task<List<ScheduleGroup>> ReadByIds(IEnumerable<string> ids)
+    public async Task<List<ScheduleGroup>> ReadByIds(IEnumerable<string> ids)
     {
-        throw new NotImplementedException();
+        var scheduleGroupEntityList = new List<IScheduleGroupEntity>();
+        await Task.Run(() =>
+        {
+            scheduleGroupEntityList = _hamsterApiDbContext.ScheduleGroupEntities
+            .Where(g => ids.Contains(g.Id))
+            .ToList();
+        }
+        );
+        if (scheduleGroupEntityList is null) return [];
+        var scheduleGroupList = scheduleGroupEntityList.Select(a => a.ToModel()).ToList();
+
+        return scheduleGroupList;
     }
 
-    public Task<bool> Update(string id, string scheduleId, string groupId, int semesterNumber, List<ScheduledWeek> weeks)
+    public async Task<bool> Update(string id, string scheduleId, string groupId, int semesterNumber, List<ScheduledWeek> weeks)
     {
-        throw new NotImplementedException();
+        IScheduleGroupEntity scheduleGroupEntity = null;
+        await Task.Run(() =>
+        {
+            scheduleGroupEntity = _hamsterApiDbContext.ScheduleGroupEntities.FirstOrDefault(a => a.Id == id)!;
+        });
+        if (scheduleGroupEntity is null) return false;
+
+        await Task.Run(() =>
+        {
+            _hamsterApiDbContext.DeleteObject(scheduleGroupEntity);
+            var item = ScheduleGroup.Create(id,scheduleId,groupId,semesterNumber,weeks).Value;
+            _hamsterApiDbContext.ScheduleGroupEntities.Add(item.ToEntity());
+            _hamsterApiDbContext.SaveChanges();
+        });
+        return true;
     }
 }

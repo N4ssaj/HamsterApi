@@ -21,6 +21,7 @@ public static class DependencyInjectionPersistenceExtensions
         services.AddScoped<IAcademicLoadRepository, AcademicLoadRepository>();
         services.AddScoped<ISemesterRepository, SemesterRepository>();
         services.AddScoped<ICurriculumRepository, CurriculumRepository>();
+        services.AddScoped<IScheduleGroupRepository, ScheduleGroupRepository>();
 
         var hamsterApiDbContext = new HamsterApiDbContext(connectionString);
         services.AddSingleton(hamsterApiDbContext);

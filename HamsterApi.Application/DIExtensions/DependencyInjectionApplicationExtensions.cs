@@ -22,7 +22,7 @@ public static  class DependencyInjectionApplicationExtensions
         services.AddScoped<ITeacherLoadService, TeacherLoadService>();
         services.AddScoped<ISemesterService, SemesterService>();
         services.AddScoped<ICurriculumService, CurriculumService>();
-
+        services.AddScoped<IScheduleGroupService, ScheduleGroupService>();
         return services;
     }
 }
